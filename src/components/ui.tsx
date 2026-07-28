@@ -17,20 +17,18 @@ export function Body({
   children,
   style,
   muted,
-  italic,
   size = 16,
 }: {
   children: React.ReactNode;
   style?: TextStyle | TextStyle[];
   muted?: boolean;
-  italic?: boolean;
   size?: number;
 }) {
   return (
     <Text
       style={[
         {
-          fontFamily: italic ? fonts.italic : fonts.regular,
+          fontFamily: fonts.regular,
           fontSize: size,
           lineHeight: size * typography.bodyLineHeight,
           color: muted ? colors.inkSoft : colors.ink,
@@ -68,6 +66,16 @@ export function Title({
     >
       {children}
     </Text>
+  );
+}
+
+/**
+ * The headline of a page. One per screen, always this size and always centred,
+ * with nothing above it — so every page opens the same way.
+ */
+export function PageTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <Text style={styles.pageTitle}>{children}</Text>
   );
 }
 
@@ -176,6 +184,16 @@ export function LanguageToggle() {
 }
 
 const styles = StyleSheet.create({
+  pageTitle: {
+    fontFamily: fonts.light,
+    fontSize: typography.pageTitle,
+    lineHeight: typography.pageTitle * 1.14,
+    letterSpacing: typography.displayTracking,
+    color: colors.ink,
+    textAlign: 'center',
+    marginTop: spacing(2),
+    marginBottom: spacing(3),
+  },
   card: {
     backgroundColor: colors.card,
     borderRadius: radii.lg,

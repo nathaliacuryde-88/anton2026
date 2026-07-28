@@ -2,13 +2,18 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
-import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import PageNav from '../components/PageNav';
+import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
+import { NavProps } from '../navigation';
 import { colors, fonts, spacing } from '../theme/theme';
 
-export default function PortraitScreen({ chart }: { chart: Chart }) {
+export default function PortraitScreen({
+  chart,
+  ...nav
+}: { chart: Chart } & NavProps) {
   const { t, b, lang } = useLang();
   const sections = useMemo(() => buildPortrait(chart, lang), [chart, lang]);
 
@@ -17,26 +22,19 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      {/* This is the opening screen of the app, so it introduces him first. */}
+      {/* The opening screen of the app, so it introduces him first. */}
+      <PageTitle>{chart.birth.name}</PageTitle>
       <View style={styles.hero}>
-        <Eyebrow color={colors.accent}>{t('subtitle')}</Eyebrow>
-        <Title size={38} style={styles.name}>
-          {chart.birth.name}
-        </Title>
-        <Body muted italic size={15} style={styles.birthLine}>
+        <Body muted size={15} style={styles.birthLine}>
           {formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year)}
           {'  ·  '}
           {String(chart.birth.hour).padStart(2, '0')}:
           {String(chart.birth.minute).padStart(2, '0')}
         </Body>
-        <Body muted italic size={15}>
+        <Body muted size={15}>
           {b(chart.birth.place)}
         </Body>
       </View>
-
-      <Body muted italic size={15} style={styles.intro}>
-        {t('portraitIntro')}
-      </Body>
 
       <Divider />
 
@@ -50,7 +48,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
           ))}
           {section.note && (
             <Card tint={colors.cardWarm} style={styles.note}>
-              <Body size={14} italic muted>
+              <Body size={14} muted>
                 {section.note}
               </Body>
             </Card>
@@ -86,11 +84,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
         ))}
       </View>
 
-      <Divider />
-
-      <Body size={13} muted italic style={styles.signature}>
-        {t('madeWith')}
-      </Body>
+      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -106,17 +100,8 @@ const styles = StyleSheet.create({
     gap: spacing(0.5),
     marginBottom: spacing(2),
   },
-  name: {
-    textAlign: 'center',
-    marginTop: spacing(1),
-  },
   birthLine: {
     marginTop: spacing(0.5),
-  },
-  intro: {
-    marginTop: spacing(1),
-    textAlign: 'center',
-    marginBottom: spacing(2),
   },
   section: {
     marginBottom: spacing(3.5),
@@ -144,8 +129,5 @@ const styles = StyleSheet.create({
   nextText: {
     flex: 1,
     lineHeight: 21,
-  },
-  signature: {
-    textAlign: 'center',
   },
 });

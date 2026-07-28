@@ -3,14 +3,19 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { BODIES, BODY_KEYS, SIGNS } from '../astro/constants';
 import { Chart, formatDegree } from '../astro/engine';
+import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
-import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
+import { NavProps } from '../navigation';
 import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
 
-export default function SkyScreen({ chart }: { chart: Chart }) {
+export default function SkyScreen({
+  chart,
+  ...nav
+}: { chart: Chart } & NavProps) {
   const { t, b, lang } = useLang();
 
   return (
@@ -18,10 +23,7 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Title size={30}>{t('navSky')}</Title>
-      <Body muted italic size={15} style={styles.intro}>
-        {t('skyIntro')}
-      </Body>
+      <PageTitle>{t('navSky')}</PageTitle>
 
       <View style={styles.explainers}>
         <Explainer titleKey="skyWhat" bodyKey="skyBody" />
@@ -99,14 +101,14 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
               </View>
 
               {p.retrograde && (
-                <Body size={12} muted italic style={styles.stateNote}>
+                <Body size={12} muted style={styles.stateNote}>
                   {lang === 'en'
                     ? 'Moving backwards from where we stand — turned inward, which is common and not a flaw.'
                     : 'Andando para trás visto daqui — voltado para dentro, o que é comum e não é defeito.'}
                 </Body>
               )}
               {p.stationary && (
-                <Body size={12} muted italic style={styles.stateNote}>
+                <Body size={12} muted style={styles.stateNote}>
                   {lang === 'en'
                     ? 'Almost motionless that day, on the turn — rare, and it gives this planet extra weight.'
                     : 'Quase imóvel naquele dia, virando de direção — raro, e dá um peso extra a este planeta.'}
@@ -129,6 +131,7 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
           {t('aboutBody')}
         </Body>
       </Card>
+      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -138,9 +141,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing(2),
     paddingBottom: spacing(5),
     paddingTop: spacing(1),
-  },
-  intro: {
-    marginTop: spacing(1),
   },
   explainers: {
     marginTop: spacing(2),

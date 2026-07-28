@@ -24,10 +24,7 @@ const OUT = process.argv[3] ?? 'anton-sky.html';
 const FRAGMENT = process.argv.includes('--fragment');
 
 // The faces App.tsx registers, mapped to their source directory.
-const FACES = [
-  ['InstrumentSerif', '400Regular'],
-  ['InstrumentSerifItalic', '400Regular_Italic'],
-];
+const FACES = [['InstrumentSerif', '400Regular']];
 
 // Latin plus the punctuation the copy actually uses. The astrological glyphs
 // are not in Instrument Serif and come from the platform's symbol font either way.

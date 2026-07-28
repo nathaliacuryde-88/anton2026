@@ -177,6 +177,16 @@ export const GUIDE = {
     pt: 'as conversas entre os planetas, das mais próximas às mais distantes',
   },
 
+  // --- family ------------------------------------------------------------
+  familyWhat: {
+    en: 'What a chart can say about parents',
+    pt: 'O que um mapa pode dizer sobre os pais',
+  },
+  familyBody: {
+    en: 'Honestly: not much about them. Anton\u2019s mother and father have charts of their own, and nothing here describes who they are. What this page reads is the shape of his need — what being looked after will have to feel like before it reaches him, what he will recognise as safety, and what he will read as authority. It is a page about him, written for the people who love him.',
+    pt: 'Honestamente: pouca coisa sobre eles. A m\u00e3e e o pai do Anton t\u00eam mapas pr\u00f3prios, e nada aqui descreve quem eles s\u00e3o. O que esta p\u00e1gina l\u00ea \u00e9 o formato da necessidade dele — como o cuidado vai precisar ser para chegar nele, o que ele vai reconhecer como seguran\u00e7a, e o que vai ler como autoridade. \u00c9 uma p\u00e1gina sobre ele, escrita para quem o ama.',
+  },
+
   // --- shared ------------------------------------------------------------
   tapToHide: { en: 'tap to hide', pt: 'toque para esconder' },
   tapToRead: { en: 'tap to read', pt: 'toque para ler' },

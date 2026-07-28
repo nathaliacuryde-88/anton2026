@@ -3,10 +3,6 @@ import { Bilingual } from '../astro/constants';
 /** Every fixed piece of UI copy, in English and Portuguese. */
 export const UI = {
   appTitle: { en: 'Anton’s Sky', pt: 'O Céu de Anton' },
-  subtitle: {
-    en: 'the sky on the day you arrived',
-    pt: 'o céu no dia em que você chegou',
-  },
 
   // navigation
   navChart: { en: 'Chart', pt: 'Mapa' },
@@ -14,6 +10,7 @@ export const UI = {
   navHouses: { en: 'Houses', pt: 'Casas' },
   navAspects: { en: 'Aspects', pt: 'Aspectos' },
   navPortrait: { en: 'Portrait', pt: 'Retrato' },
+  navFamily: { en: 'Family', pt: 'Família' },
 
   // chart screen
   bornOn: { en: 'Born', pt: 'Nasceu' },
@@ -32,39 +29,23 @@ export const UI = {
   nightChart: { en: 'A night chart — born under the Moon', pt: 'Mapa noturno — nascido sob a Lua' },
 
   // sky screen
-  skyIntro: {
-    en: 'Where every wandering light stood, at the minute of his first breath.',
-    pt: 'Onde cada luz errante estava, no minuto do seu primeiro sopro.',
-  },
   house: { en: 'House', pt: 'Casa' },
   retrograde: { en: 'retrograde', pt: 'retrógrado' },
   stationary: { en: 'standing still', pt: 'estacionário' },
   perDay: { en: '/day', pt: '/dia' },
 
   // houses screen
-  housesIntro: {
-    en: 'Twelve rooms of a life, measured from the eastern horizon of Filderstadt.',
-    pt: 'Doze cômodos de uma vida, medidos do horizonte leste de Filderstadt.',
-  },
   cusp: { en: 'Cusp', pt: 'Cúspide' },
   housesSystem: { en: 'Placidus houses', pt: 'Casas Placidus' },
   empty: { en: 'empty', pt: 'vazia' },
 
   // aspects screen
-  aspectsIntro: {
-    en: 'The conversations the planets were having with one another.',
-    pt: 'As conversas que os planetas tinham entre si.',
-  },
   orb: { en: 'orb', pt: 'orbe' },
   applying: { en: 'applying', pt: 'aplicativo' },
   separating: { en: 'separating', pt: 'separativo' },
   tightest: { en: 'Closest conversations', pt: 'Conversas mais próximas' },
 
   // portrait screen
-  portraitIntro: {
-    en: 'A letter for Anton, to be read when he is old enough to laugh at it.',
-    pt: 'Uma carta para Anton, para ser lida quando ele tiver idade de rir dela.',
-  },
 
   // shared
   ruler: { en: 'Ruler', pt: 'Regente' },

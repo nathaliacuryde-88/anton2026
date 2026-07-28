@@ -70,7 +70,7 @@ export default function Explainer({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: radii.md,
+    borderRadius: radii.lg,
     paddingHorizontal: spacing(2),
     paddingVertical: spacing(1.5),
   },

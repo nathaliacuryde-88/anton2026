@@ -3,13 +3,18 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ASPECTS, BODIES, BodyKey } from '../astro/constants';
 import { Aspect, Chart } from '../astro/engine';
+import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
-import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { ASPECT_MEANING, BODY_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
+import { NavProps } from '../navigation';
 import { aspectColors, colors, fonts, radii, spacing } from '../theme/theme';
 
-export default function AspectsScreen({ chart }: { chart: Chart }) {
+export default function AspectsScreen({
+  chart,
+  ...nav
+}: { chart: Chart } & NavProps) {
   const { t, b, lang } = useLang();
 
   const nameOf = (key: Aspect['a']) =>
@@ -43,10 +48,7 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Title size={30}>{t('navAspects')}</Title>
-      <Body muted italic size={15} style={styles.intro}>
-        {t('aspectsIntro')}
-      </Body>
+      <PageTitle>{t('navAspects')}</PageTitle>
 
       <View style={styles.explainers}>
         <Explainer titleKey="aspectsWhat" bodyKey="aspectsBody" />
@@ -95,12 +97,12 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
                     {b(def.name)}
                   </Body>
                 </View>
-                <Body size={11} muted italic>
+                <Body size={11} muted>
                   {aspect.applying ? t('applying') : t('separating')}
                 </Body>
               </View>
 
-              <Body size={13} muted italic style={styles.meaning}>
+              <Body size={13} muted style={styles.meaning}>
                 {b(ASPECT_MEANING[aspect.key])}
               </Body>
 
@@ -133,6 +135,7 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
         })}
       </View>
 
+      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -142,9 +145,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing(2),
     paddingBottom: spacing(5),
     paddingTop: spacing(1),
-  },
-  intro: {
-    marginTop: spacing(1),
   },
   explainers: {
     marginTop: spacing(2),

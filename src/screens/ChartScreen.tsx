@@ -12,13 +12,18 @@ import {
 } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
 import ChartWheel from '../components/ChartWheel';
+import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
-import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import { Body, Card, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
-import { formatBirthDate, useLang } from '../i18n/LanguageContext';
+import { useLang } from '../i18n/LanguageContext';
+import { NavProps } from '../navigation';
 import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
 
-export default function ChartScreen({ chart }: { chart: Chart }) {
+export default function ChartScreen({
+  chart,
+  ...nav
+}: { chart: Chart } & NavProps) {
   const { t, b, lang } = useLang();
   const { width } = useWindowDimensions();
   const [selected, setSelected] = useState<BodyKey | null>(null);
@@ -62,24 +67,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      {/* --- hero --- */}
-      <View style={styles.hero}>
-        <Eyebrow color={colors.accent}>{t('subtitle')}</Eyebrow>
-        <Title size={40} style={styles.name}>
-          {chart.birth.name}
-        </Title>
-        <Body muted italic size={15} style={styles.birthLine}>
-          {formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year)}
-          {'  ·  '}
-          {String(chart.birth.hour).padStart(2, '0')}:
-          {String(chart.birth.minute).padStart(2, '0')}
-        </Body>
-        <Body muted italic size={15}>
-          {b(chart.birth.place)}
-        </Body>
-      </View>
-
-      <Divider />
+      <PageTitle>{t('navChart')}</PageTitle>
 
       <Explainer titleKey="chartWhat" bodyKey="chartBody" />
 
@@ -103,13 +91,13 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
             {SIGNS[selectedPlacement.signIndex].glyph}{' '}
             {b(SIGNS[selectedPlacement.signIndex].name)}
           </Title>
-          <Body muted italic size={14} style={{ marginTop: spacing(0.5) }}>
+          <Body muted size={14} style={{ marginTop: spacing(0.5) }}>
             {b(BODY_MEANING[selectedPlacement.key])} · {t('house')}{' '}
             {selectedPlacement.house} — {b(HOUSE_MEANING[selectedPlacement.house - 1])}
           </Body>
         </Card>
       ) : (
-        <Body muted italic size={13} style={styles.hint}>
+        <Body muted size={13} style={styles.hint}>
           {lang === 'en'
             ? 'Tap a symbol in the wheel'
             : 'Toque em um símbolo na roda'}
@@ -140,7 +128,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
             <Body size={12} muted>
               {item.degree}
             </Body>
-            <Body size={11} muted italic style={styles.bigThreeCaption}>
+            <Body size={11} muted style={styles.bigThreeCaption}>
               {item.caption}
             </Body>
           </Card>
@@ -181,22 +169,19 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               label={b(MODALITY_NAMES[m])}
               value={chart.modalityCounts[m]}
               total={11}
-              color={[colors.salmonDeep, colors.greenDeep, colors.sandDeep][i]}
-              track={[colors.salmonSoft, colors.greenSoft, colors.sand + '66'][i]}
+              color={[colors.blue, colors.brown, colors.aquaDeep][i]}
+              track={[colors.blueSoft, colors.brownSoft, '#DCEFEE'][i]}
             />
           ))}
         </View>
 
         <View style={styles.innerDivider} />
-        <Body size={14} italic muted>
+        <Body size={14} muted>
           {chart.dayChart ? t('dayChart') : t('nightChart')}
         </Body>
       </Card>
 
-      <Divider />
-      <Body size={12} muted italic style={styles.footer}>
-        {t('madeWith')}
-      </Body>
+      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -241,18 +226,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2),
     paddingBottom: spacing(5),
-  },
-  hero: {
-    alignItems: 'center',
-    paddingTop: spacing(1),
-    gap: spacing(0.5),
-  },
-  name: {
-    textAlign: 'center',
-    marginTop: spacing(1),
-  },
-  birthLine: {
-    marginTop: spacing(0.5),
   },
   wheelWrap: {
     alignItems: 'center',
@@ -323,8 +296,5 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.hairline,
     marginVertical: spacing(2),
-  },
-  footer: {
-    textAlign: 'center',
   },
 });

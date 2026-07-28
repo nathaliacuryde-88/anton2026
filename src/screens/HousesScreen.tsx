@@ -3,18 +3,23 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { BODIES, BODY_KEYS, SIGNS, SIGN_RULER } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
+import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
-import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
+import { NavProps } from '../navigation';
 import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
 
 /** House numbers whose cusps are the four angles of the chart. */
 const ANGULAR = new Set([1, 4, 7, 10]);
 const ANGLE_TAG: Record<number, string> = { 1: 'ASC', 4: 'IC', 7: 'DSC', 10: 'MC' };
 
-export default function HousesScreen({ chart }: { chart: Chart }) {
+export default function HousesScreen({
+  chart,
+  ...nav
+}: { chart: Chart } & NavProps) {
   const { t, b, lang } = useLang();
 
   const emptyCount = chart.cusps.filter(
@@ -26,10 +31,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Title size={30}>{t('navHouses')}</Title>
-      <Body muted italic size={15} style={styles.intro}>
-        {t('housesIntro')}
-      </Body>
+      <PageTitle>{t('navHouses')}</PageTitle>
 
       <View style={styles.explainers}>
         <Explainer titleKey="housesWhat" bodyKey="housesBody" />
@@ -37,7 +39,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
         <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} />
       </View>
 
-      <Body size={13} muted italic style={styles.tally}>
+      <Body size={13} muted style={styles.tally}>
         {lang === 'en'
           ? `${emptyCount} of the twelve are quiet in this chart — an ordinary number.`
           : `${emptyCount} das doze estão tranquilas neste mapa — um número comum.`}
@@ -91,7 +93,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
                       </View>
                     )}
                   </View>
-                  <Body size={13} muted italic>
+                  <Body size={13} muted>
                     {b(HOUSE_MEANING[i])}
                   </Body>
                 </View>
@@ -140,6 +142,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
         <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} />
       </View>
 
+      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -149,9 +152,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing(2),
     paddingBottom: spacing(5),
     paddingTop: spacing(1),
-  },
-  intro: {
-    marginTop: spacing(1),
   },
   explainers: {
     marginTop: spacing(2),
