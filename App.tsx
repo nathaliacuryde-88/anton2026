@@ -36,18 +36,20 @@ import { colors, fonts, radii, spacing } from './src/theme/theme';
 
 type TabKey = 'chart' | 'sky' | 'houses' | 'aspects' | 'portrait';
 
+// The letter comes first: it is the whole chart in plain words, and it is the
+// way in for anyone who has never read one. The detail tabs follow.
 const TABS: Array<{ key: TabKey; label: UIKey; glyph: string }> = [
+  // U+2756 rather than a pencil: it has no emoji form to fall back to, and it
+  // stays legible at tab-bar size.
+  { key: 'portrait', label: 'navPortrait', glyph: '❖' },
   { key: 'chart', label: 'navChart', glyph: '✧' },
   { key: 'sky', label: 'navSky', glyph: '☾' },
   { key: 'houses', label: 'navHouses', glyph: '⌂' },
   { key: 'aspects', label: 'navAspects', glyph: '△' },
-  // U+2756 rather than a pencil: it has no emoji form to fall back to, and it
-  // stays legible at tab-bar size.
-  { key: 'portrait', label: 'navPortrait', glyph: '❖' },
 ];
 
 function Shell() {
-  const [tab, setTab] = useState<TabKey>('chart');
+  const [tab, setTab] = useState<TabKey>('portrait');
   const insets = useSafeAreaInsets();
   const { t } = useLang();
 

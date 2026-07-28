@@ -12,6 +12,7 @@ import {
 } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
 import ChartWheel from '../components/ChartWheel';
+import Explainer from '../components/Explainer';
 import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
@@ -80,6 +81,8 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
+      <Explainer titleKey="chartWhat" bodyKey="chartBody" />
+
       {/* --- wheel --- */}
       <View style={styles.wheelWrap}>
         <ChartWheel
@@ -115,6 +118,9 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
 
       {/* --- big three --- */}
       <Eyebrow style={styles.sectionLabel}>{t('theBigThree')}</Eyebrow>
+      <View style={styles.explainerGap}>
+        <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" />
+      </View>
       <View style={styles.bigThreeRow}>
         {bigThree.map((item) => (
           <Card
@@ -143,6 +149,9 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
 
       {/* --- balance --- */}
       <Eyebrow style={styles.sectionLabel}>{t('balance')}</Eyebrow>
+      <View style={styles.explainerGap}>
+        <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} />
+      </View>
       <Card>
         <Body size={12} muted style={{ letterSpacing: 1 }}>
           {t('elements')}
@@ -260,6 +269,9 @@ const styles = StyleSheet.create({
     marginTop: spacing(3),
     marginBottom: spacing(1.5),
     textAlign: 'center',
+  },
+  explainerGap: {
+    marginBottom: spacing(1.5),
   },
   bigThreeRow: {
     flexDirection: 'row',

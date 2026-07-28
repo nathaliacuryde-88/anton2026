@@ -19,6 +19,9 @@ import path from 'node:path';
 
 const WEB = process.argv[2] ?? 'dist';
 const OUT = process.argv[3] ?? 'anton-sky.html';
+// `--fragment` omits <html>/<head>/<body> for hosts that supply their own
+// document shell. The default is a complete, standalone page.
+const FRAGMENT = process.argv.includes('--fragment');
 
 // The six faces App.tsx registers, mapped to their source directory.
 const FACES = [
@@ -86,7 +89,28 @@ const js = fs
   .readFileSync(path.join(jsDir, jsName), 'utf8')
   .replace(/<\/script/gi, '<\\/script');
 
-const html = `<title>Anton's Sky · O Céu de Anton</title>
+const favicon = fs.existsSync('assets/favicon.png')
+  ? `<link rel="icon" href="data:image/png;base64,${fs.readFileSync('assets/favicon.png').toString('base64')}">`
+  : '';
+
+// Served straight from a static host, the page needs its own charset (the copy
+// is full of Portuguese accents) and a viewport meta, or phones render it at
+// desktop width and the whole app looks zoomed out.
+const head = FRAGMENT
+  ? ''
+  : `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF8F4">
+<meta name="description" content="The natal chart of Anton Duque Estrada — 26 July 2026, Filderstadt. EN/PT.">
+${favicon}
+`;
+
+const tail = FRAGMENT ? '' : '\n</body>\n</html>\n';
+
+const body = `<title>Anton's Sky · O Céu de Anton</title>
 <style id="anton-fonts">
 ${fontCss}
 
@@ -96,6 +120,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 body { overflow: hidden; background: #FDF8F4; -webkit-font-smoothing: antialiased; }
 #root { display: flex; height: 100%; flex: 1; min-height: 0; }
 </style>
+${FRAGMENT ? '' : '</head>\n<body>'}
 
 <div id="root"></div>
 
@@ -115,8 +140,11 @@ body { overflow: hidden; background: #FDF8F4; -webkit-font-smoothing: antialiase
 <script>${js}</script>
 `;
 
+const html = head + body + tail;
+
+fs.mkdirSync(path.dirname(path.resolve(OUT)), { recursive: true });
 fs.writeFileSync(OUT, html);
 const kb = (n) => `${Math.round(n / 1024)} KB`;
 console.log(`fonts  ${kb(fontCss.length)}`);
 console.log(`bundle ${kb(js.length)}`);
-console.log(`wrote  ${OUT} (${kb(html.length)})`);
+console.log(`wrote  ${OUT} (${kb(html.length)})${FRAGMENT ? ' [fragment]' : ''}`);

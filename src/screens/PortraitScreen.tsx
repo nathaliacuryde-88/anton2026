@@ -2,13 +2,15 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
+import Explainer from '../components/Explainer';
 import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
+import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
-import { useLang } from '../i18n/LanguageContext';
+import { formatBirthDate, useLang } from '../i18n/LanguageContext';
 import { colors, fonts, spacing } from '../theme/theme';
 
 export default function PortraitScreen({ chart }: { chart: Chart }) {
-  const { t, lang } = useLang();
+  const { t, b, lang } = useLang();
   const sections = useMemo(() => buildPortrait(chart, lang), [chart, lang]);
 
   return (
@@ -16,10 +18,28 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Title size={30}>{t('navPortrait')}</Title>
+      {/* This is the opening screen of the app, so it introduces him first. */}
+      <View style={styles.hero}>
+        <Eyebrow color={colors.gold}>{t('subtitle')}</Eyebrow>
+        <Title size={38} style={styles.name}>
+          {chart.birth.name}
+        </Title>
+        <Body muted italic size={15} style={styles.birthLine}>
+          {formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year)}
+          {'  ·  '}
+          {String(chart.birth.hour).padStart(2, '0')}:
+          {String(chart.birth.minute).padStart(2, '0')}
+        </Body>
+        <Body muted italic size={15}>
+          {b(chart.birth.place)}
+        </Body>
+      </View>
+
       <Body muted italic size={15} style={styles.intro}>
         {t('portraitIntro')}
       </Body>
+
+      <Explainer titleKey="letterWhat" bodyKey="letterBody" />
 
       <Divider />
 
@@ -43,6 +63,38 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
+      {/* This is the first tab, so it doubles as the way into the rest. */}
+      <Eyebrow color={colors.gold}>{b(GUIDE.whereNext)}</Eyebrow>
+      <View style={styles.nextList}>
+        {(
+          [
+            ['✧', 'navChart', GUIDE.nextChart],
+            ['☾', 'navSky', GUIDE.nextSky],
+            ['⌂', 'navHouses', GUIDE.nextHouses],
+            ['△', 'navAspects', GUIDE.nextAspects],
+          ] as const
+        ).map(([glyph, labelKey, note]) => (
+          <View key={labelKey} style={styles.nextRow}>
+            <Body size={15} style={styles.nextGlyph}>
+              {glyph}
+            </Body>
+            <Body size={14} muted style={styles.nextText}>
+              <Body size={14} style={{ fontFamily: fonts.medium }}>
+                {t(labelKey)}
+              </Body>
+              {' — '}
+              {b(note)}
+            </Body>
+          </View>
+        ))}
+      </View>
+
+      <Body size={12} muted italic style={styles.disclaimer}>
+        {b(GUIDE.notAScience)}
+      </Body>
+
+      <Divider />
+
       <Body size={13} muted italic style={styles.signature}>
         {t('madeWith')}
       </Body>
@@ -56,8 +108,22 @@ const styles = StyleSheet.create({
     paddingBottom: spacing(5),
     paddingTop: spacing(1),
   },
+  hero: {
+    alignItems: 'center',
+    gap: spacing(0.5),
+    marginBottom: spacing(2),
+  },
+  name: {
+    textAlign: 'center',
+    marginTop: spacing(1),
+  },
+  birthLine: {
+    marginTop: spacing(0.5),
+  },
   intro: {
     marginTop: spacing(1),
+    textAlign: 'center',
+    marginBottom: spacing(2),
   },
   section: {
     marginBottom: spacing(3.5),
@@ -70,6 +136,26 @@ const styles = StyleSheet.create({
   note: {
     marginTop: spacing(1.75),
     borderColor: colors.butter,
+  },
+  nextList: {
+    marginTop: spacing(1.5),
+    gap: spacing(1.25),
+  },
+  nextRow: {
+    flexDirection: 'row',
+    gap: spacing(1.25),
+  },
+  nextGlyph: {
+    color: colors.gold,
+    width: 18,
+  },
+  nextText: {
+    flex: 1,
+    lineHeight: 21,
+  },
+  disclaimer: {
+    marginTop: spacing(2.5),
+    lineHeight: 18,
   },
   signature: {
     textAlign: 'center',

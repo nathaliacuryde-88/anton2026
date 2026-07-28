@@ -3,8 +3,10 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ASPECTS, BODIES, BodyKey } from '../astro/constants';
 import { Aspect, Chart } from '../astro/engine';
+import Explainer from '../components/Explainer';
 import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
-import { ASPECT_MEANING } from '../content/interpretations';
+import { GUIDE } from '../content/guide';
+import { ASPECT_MEANING, BODY_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
 import { aspectColors, colors, fonts, radii, spacing } from '../theme/theme';
 
@@ -25,6 +27,18 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
   const glyphOf = (key: Aspect['a']) =>
     key === 'asc' ? 'ASC' : key === 'mc' ? 'MC' : BODIES[key as BodyKey].glyph;
 
+  /** What the point governs, phrased for someone reading their first chart. */
+  const meaningOf = (key: Aspect['a']) =>
+    key === 'asc'
+      ? lang === 'en'
+        ? 'the way he meets the world'
+        : 'o jeito como ele encontra o mundo'
+      : key === 'mc'
+        ? lang === 'en'
+          ? 'what the world will see'
+          : 'o que o mundo vai ver'
+        : b(BODY_MEANING[key as BodyKey]);
+
   return (
     <ScrollView
       contentContainerStyle={styles.content}
@@ -34,6 +48,17 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
       <Body muted italic size={15} style={styles.intro}>
         {t('aspectsIntro')}
       </Body>
+
+      <View style={styles.explainers}>
+        <Explainer titleKey="aspectsWhat" bodyKey="aspectsBody" />
+        <Explainer
+          titleKey="tensionWhat"
+          bodyKey="tensionBody"
+          tint={colors.butter + '55'}
+        />
+        <Explainer titleKey="orbWhat" bodyKey="orbBody" defaultOpen={false} />
+        <Explainer titleKey="applyingWhat" bodyKey="applyingBody" defaultOpen={false} />
+      </View>
 
       <Divider />
 
@@ -80,6 +105,18 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
                 {b(ASPECT_MEANING[aspect.key])}
               </Body>
 
+              {/* Spelled out, so the glyphs are not the only explanation. */}
+              <View style={styles.sentence}>
+                <Body size={13} muted style={styles.sentenceText}>
+                  {meaningOf(aspect.a)}
+                  {lang === 'en' ? ' meeting ' : ' encontrando '}
+                  {meaningOf(aspect.b)}
+                  {lang === 'en' ? ', at ' : ', a '}
+                  {def.angle}°
+                  {lang === 'en' ? ' apart.' : ' de distância.'}
+                </Body>
+              </View>
+
               {/* orb strength: full bar means exact */}
               <View style={styles.track}>
                 <View
@@ -96,6 +133,11 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
           );
         })}
       </View>
+
+      <Divider />
+      <Body size={12} muted italic style={styles.footer}>
+        {b(GUIDE.notAScience)}
+      </Body>
     </ScrollView>
   );
 }
@@ -109,8 +151,21 @@ const styles = StyleSheet.create({
   intro: {
     marginTop: spacing(1),
   },
+  explainers: {
+    marginTop: spacing(2),
+    gap: spacing(1),
+  },
   sectionLabel: {
     marginBottom: spacing(1.5),
+  },
+  sentence: {
+    backgroundColor: colors.paperDeep,
+    borderRadius: radii.md,
+    padding: spacing(1.25),
+    marginTop: spacing(0.25),
+  },
+  sentenceText: {
+    lineHeight: 20,
   },
   list: {
     gap: spacing(1.25),
@@ -156,5 +211,8 @@ const styles = StyleSheet.create({
   fill: {
     height: '100%',
     borderRadius: 2,
+  },
+  footer: {
+    textAlign: 'center',
   },
 });

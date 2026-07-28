@@ -219,6 +219,27 @@ export const BODIES: Record<BodyKey, BodyDef> = {
   },
 };
 
+/**
+ * Modern ruling planet of each sign.
+ *
+ * This is how a house holding no planets is traditionally read: you look at the
+ * sign on its cusp, find that sign's ruler, and see where *that* planet is.
+ */
+export const SIGN_RULER: Record<string, BodyKey> = {
+  aries: 'mars',
+  taurus: 'venus',
+  gemini: 'mercury',
+  cancer: 'moon',
+  leo: 'sun',
+  virgo: 'mercury',
+  libra: 'venus',
+  scorpio: 'pluto',
+  sagittarius: 'jupiter',
+  capricorn: 'saturn',
+  aquarius: 'uranus',
+  pisces: 'neptune',
+};
+
 export const ANGLE_NAMES = {
   asc: { en: 'Ascendant', pt: 'Ascendente' },
   mc: { en: 'Midheaven', pt: 'Meio do Céu' },
