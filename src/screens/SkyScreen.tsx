@@ -24,10 +24,10 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
       <PageTitle>{t('navSky')}</PageTitle>
 
       <View style={styles.explainers}>
-        <Explainer titleKey="skyWhat" bodyKey="skyBody" tint={colors.vividGreen} />
-        <Explainer titleKey="degreesWhat" bodyKey="degreesBody" defaultOpen={false} tint={colors.vividPeriwinkle} />
-        <Explainer titleKey="retrogradeWhat" bodyKey="retrogradeBody" defaultOpen={false} tint={colors.vividOlive} />
-        <Explainer titleKey="stationaryWhat" bodyKey="stationaryBody" defaultOpen={false} tint={colors.vividGreen} />
+        <Explainer titleKey="skyWhat" bodyKey="skyBody" />
+        <Explainer titleKey="degreesWhat" bodyKey="degreesBody" defaultOpen={false} />
+        <Explainer titleKey="retrogradeWhat" bodyKey="retrogradeBody" defaultOpen={false} />
+        <Explainer titleKey="stationaryWhat" bodyKey="stationaryBody" defaultOpen={false} />
       </View>
 
       <Divider />
@@ -118,7 +118,7 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
       </View>
 
       <View style={{ marginTop: spacing(2) }}>
-        <Explainer titleKey="pointsWhat" bodyKey="pointsBody" defaultOpen={false} tint={colors.vividPeriwinkle} />
+        <Explainer titleKey="pointsWhat" bodyKey="pointsBody" defaultOpen={false} />
       </View>
 
       <Divider />

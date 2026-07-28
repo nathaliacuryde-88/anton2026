@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    // Solid and yellow, always — no gradient.
+    // Solid and always the same periwinkle wash — no gradient.
     backgroundColor: colors.yellow,
   },
   loading: {

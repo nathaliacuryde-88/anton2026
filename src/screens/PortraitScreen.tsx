@@ -11,7 +11,7 @@ import { Body, Card, Divider, Eyebrow } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
-import { colors, fonts, spacing, typography, VIVID_ROTATION } from '../theme/theme';
+import { colors, fonts, spacing, typography } from '../theme/theme';
 
 export default function PortraitScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
@@ -92,7 +92,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
               </Body>
             ))}
             {section.note && (
-              <Card tint={VIVID_ROTATION[i % VIVID_ROTATION.length]} style={styles.note}>
+              <Card tint={colors.accent} style={styles.note}>
                 <Body size={14} style={styles.noteText}>
                   {section.note}
                 </Body>
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accentSoft,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: colors.card,
+    borderWidth: 4,
+    borderColor: colors.cyanBright,
   },
   ornamentTop: {
     position: 'absolute',

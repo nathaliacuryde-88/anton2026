@@ -10,7 +10,7 @@ import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
+import { colors, fonts, radii, spacing } from '../theme/theme';
 
 /** House numbers whose cusps are the four angles of the chart. */
 const ANGULAR = new Set([1, 4, 7, 10]);
@@ -32,9 +32,9 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       <PageTitle>{t('navHouses')}</PageTitle>
 
       <View style={styles.explainers}>
-        <Explainer titleKey="housesWhat" bodyKey="housesBody" tint={colors.vividGreen} />
-        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" tint={colors.vividPeriwinkle} />
-        <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} tint={colors.vividOlive} />
+        <Explainer titleKey="housesWhat" bodyKey="housesBody" />
+        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" />
+        <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} />
       </View>
 
       <Body size={13} muted style={styles.tally}>
@@ -67,13 +67,8 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
               style={[styles.card, angular && styles.angularCard]}
             >
               <View style={styles.cardHeader}>
-                <View
-                  style={[
-                    styles.numberBubble,
-                    { backgroundColor: elementColors[sign.element].soft },
-                  ]}
-                >
-                  <Body size={16} style={styles.bold}>
+                <View style={styles.numberBubble}>
+                  <Body size={16} style={[styles.bold, { color: colors.accent }]}>
                     {houseNumber}
                   </Body>
                 </View>
@@ -85,7 +80,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
                     </Body>
                     {angular && (
                       <View style={styles.angleTag}>
-                        <Body size={10} style={{ color: colors.accent, letterSpacing: 1 }}>
+                        <Body size={10} style={{ color: colors.accent, fontFamily: fonts.bold, letterSpacing: 1 }}>
                           {ANGLE_TAG[houseNumber]}
                         </Body>
                       </View>
@@ -137,7 +132,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       </View>
 
       <View style={{ marginTop: spacing(2) }}>
-        <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} tint={colors.vividGreen} />
+        <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} />
       </View>
     </ScrollView>
   );
@@ -188,9 +183,12 @@ const styles = StyleSheet.create({
     borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.cyanSoft,
   },
   angleTag: {
-    backgroundColor: colors.card,
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    borderWidth: 1,
+    borderColor: colors.periwinkleSoft,
     paddingHorizontal: spacing(0.75),
     paddingVertical: 1,
     borderRadius: radii.sm,

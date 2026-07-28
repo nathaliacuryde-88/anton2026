@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "scheme": "antonssky",
     "userInterfaceStyle": "light",
-    "backgroundColor": "#FDFCD5",
+    "backgroundColor": "#D5DAFD",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anton2026.antonssky"
@@ -15,7 +15,7 @@
     "android": {
       "package": "com.anton2026.antonssky",
       "adaptiveIcon": {
-        "backgroundColor": "#FDFCD5",
+        "backgroundColor": "#D5DAFD",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -33,7 +33,7 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#FDFCD5"
+          "backgroundColor": "#D5DAFD"
         }
       ],
       "expo-font"

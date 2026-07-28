@@ -68,7 +68,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       <PageHeader />
       <PageTitle>{t('navChart')}</PageTitle>
 
-      <Explainer titleKey="chartWhat" bodyKey="chartBody" tint={colors.vividGreen} />
+      <Explainer titleKey="chartWhat" bodyKey="chartBody" />
 
       {/* --- wheel --- */}
       <View style={styles.wheelWrap}>
@@ -108,15 +108,11 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       {/* --- big three --- */}
       <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('theBigThree')}</Eyebrow>
       <View style={styles.explainerGap}>
-        <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" tint={colors.vividPeriwinkle} />
+        <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" />
       </View>
       <View style={styles.bigThreeRow}>
         {bigThree.map((item) => (
-          <Card
-            key={item.key}
-            style={styles.bigThreeCard}
-            tint={elementColors[item.sign.element].soft}
-          >
+          <Card key={item.key} style={styles.bigThreeCard}>
             <Body size={13} muted style={styles.bigThreeLabel}>
               {item.label}
             </Body>
@@ -139,7 +135,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       {/* --- balance --- */}
       <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('balance')}</Eyebrow>
       <View style={styles.explainerGap}>
-        <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} tint={colors.vividOlive} />
+        <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} />
       </View>
       <Card>
         <Body size={12} muted style={{ letterSpacing: 1 }}>
@@ -170,7 +166,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               label={b(MODALITY_NAMES[m])}
               value={chart.modalityCounts[m]}
               total={11}
-              color={[colors.olive, colors.green, colors.periwinkle][i]}
+              color={[colors.accent, elementColors.water.strong, colors.periwinkle][i]}
               track={[
                 elementColors.fire.soft,
                 elementColors.water.soft,

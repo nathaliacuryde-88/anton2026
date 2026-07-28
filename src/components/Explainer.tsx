@@ -26,86 +26,84 @@ if (
  * A collapsible note that explains a piece of jargon in plain words.
  *
  * Closed by default: these are here for whoever wants them, not in the way
- * of whoever doesn't. The vivid blue marks it as a distinct kind of surface —
- * an aside, not a content card — so it reads the same everywhere it appears.
+ * of whoever doesn't. The header is always the app's own blue pill — every
+ * info surface speaks with the same voice — and the answer, once opened,
+ * is its own plain white card underneath, framed in the app's cyan.
  */
 export default function Explainer({
   titleKey,
   bodyKey,
-  tint = colors.vividGreen,
   defaultOpen = false,
 }: {
   titleKey: GuideKey;
   bodyKey: GuideKey;
-  tint?: string;
   defaultOpen?: boolean;
 }) {
   const { b } = useLang();
   const [open, setOpen] = useState(defaultOpen);
-  const spin = useRef(new Animated.Value(defaultOpen ? 1 : 0)).current;
+  const pop = useRef(new Animated.Value(1)).current;
 
   const toggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setOpen((o) => {
-      const next = !o;
-      Animated.timing(spin, {
-        toValue: next ? 1 : 0,
-        duration: 260,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }).start();
-      return next;
-    });
+    setOpen((o) => !o);
+    pop.setValue(0.8);
+    Animated.spring(pop, { toValue: 1, useNativeDriver: true, friction: 5 }).start();
   };
 
-  // A single "+" rotated 45° reads as "×" — one glyph doing both jobs.
-  const rotate = spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '45deg'] });
-
   return (
-    <View style={[styles.card, { backgroundColor: tint }]}>
+    <View>
       <Pressable
         onPress={toggle}
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        style={styles.header}
+        style={styles.pill}
       >
-        <View style={styles.mark}>
-          <Body size={12} style={styles.markText}>
-            i
+        <View style={styles.header}>
+          <View style={styles.mark}>
+            <Body size={13} style={styles.markText}>
+              i
+            </Body>
+          </View>
+          <Body size={15} style={styles.title}>
+            {b(GUIDE[titleKey])}
           </Body>
         </View>
-        <Body size={15} style={styles.title}>
-          {b(GUIDE[titleKey])}
-        </Body>
-        <Animated.Text style={[styles.toggle, { transform: [{ rotate }] }]}>
-          +
+        <Animated.Text style={[styles.toggle, { transform: [{ scale: pop }] }]}>
+          {open ? '−' : '+'}
         </Animated.Text>
       </Pressable>
 
       {open && (
-        <Body size={14} style={styles.body}>
-          {b(GUIDE[bodyKey])}
-        </Body>
+        <View style={styles.body}>
+          <Body size={14} style={styles.bodyText}>
+            {b(GUIDE[bodyKey])}
+          </Body>
+        </View>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: radii.lg,
+  pill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.accent,
+    borderRadius: radii.pill,
     paddingHorizontal: spacing(2),
     paddingVertical: spacing(1.5),
   },
   header: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing(1.25),
   },
   mark: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.onVividChip,
@@ -116,17 +114,24 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontFamily: fonts.bold,
+    fontFamily: fonts.medium,
     color: colors.onVivid,
   },
   toggle: {
     fontSize: 18,
     lineHeight: 18,
-    color: colors.onVividMuted,
+    color: colors.onVivid,
   },
   body: {
     marginTop: spacing(1.25),
+    backgroundColor: colors.card,
+    borderWidth: 2,
+    borderColor: colors.cyan,
+    borderRadius: radii.md,
+    padding: spacing(1.75),
+  },
+  bodyText: {
     lineHeight: 22,
-    color: colors.onVividMuted,
+    color: colors.ink,
   },
 });

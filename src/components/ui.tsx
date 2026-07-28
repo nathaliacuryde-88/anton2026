@@ -133,7 +133,7 @@ export function Card({
     <View
       style={[
         styles.card,
-        tint ? { backgroundColor: tint } : null,
+        tint ? { backgroundColor: tint, borderWidth: 0 } : null,
         softShadow,
         style,
       ]}
@@ -212,6 +212,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.card,
     borderRadius: radii.lg,
+    borderWidth: 2,
+    borderColor: colors.cyan,
     padding: spacing(2.5),
   },
   dividerRow: {
@@ -226,9 +228,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dividerLine,
   },
   dividerMark: {
-    color: colors.accent,
+    color: colors.periwinkle,
     fontSize: 10,
-    opacity: 0.8,
+    opacity: 0.9,
   },
   chip: {
     paddingHorizontal: spacing(1.25),

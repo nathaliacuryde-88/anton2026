@@ -24,7 +24,7 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
 
       {/* The framing comes before anything else: this page is about him, not
           about the two people raising him. */}
-      <Explainer titleKey="familyWhat" bodyKey="familyBody" tint={colors.vividGreen} />
+      <Explainer titleKey="familyWhat" bodyKey="familyBody" />
 
       <Divider />
 
