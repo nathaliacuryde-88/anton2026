@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
-import { SIGNS } from '../astro/constants';
 import { Chart } from '../astro/engine';
 import Constellation from '../components/Constellation';
 import { Breathe, Emphasis, Pop, Reveal } from '../components/motion';
@@ -20,7 +19,6 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
 
   const photoSize = Math.min(width - spacing(9), 260);
   const [firstName, ...restName] = chart.birth.name.split(' ');
-  const sunSign = SIGNS[chart.placements.sun.signIndex];
 
   const caption = [
     formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year),
@@ -58,7 +56,11 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
                 { width: photoSize, height: photoSize, borderRadius: photoSize / 2 },
               ]}
             >
-              <Constellation sign={sunSign.key} size={photoSize * 0.55} />
+              <Image
+                source={require('../../assets/anton-photo.png')}
+                resizeMode="cover"
+                style={{ width: photoSize, height: photoSize, borderRadius: photoSize / 2 }}
+              />
             </View>
           </Breathe>
         </Pop>
@@ -76,31 +78,49 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
-      {sections.map((section, i) => (
-        <View key={i}>
-          {i > 0 && <Divider />}
-          <View style={styles.section}>
-            <View style={styles.sectionHead}>
-              <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
-                {section.heading}
-              </Eyebrow>
-              {section.sign && <Constellation sign={section.sign} size={40} />}
-            </View>
-            {section.paragraphs.map((paragraph, j) => (
-              <Body key={j} size={17} style={styles.paragraph}>
-                {paragraph}
-              </Body>
-            ))}
-            {section.note && (
-              <Card tint={colors.accent} style={styles.note}>
-                <Body size={14} style={styles.noteText}>
-                  {section.note}
+      {sections.map((section, i) => {
+        const [firstParagraph, ...restParagraphs] = section.paragraphs;
+        const reverse = i % 2 === 1;
+        return (
+          <View key={i}>
+            {i > 0 && <Divider />}
+            <View style={styles.section}>
+              <View style={[styles.sectionHead, reverse && styles.sectionHeadReverse]}>
+                {section.sign && (
+                  <Constellation
+                    sign={section.sign}
+                    size={92}
+                    style={[
+                      styles.sectionIllu,
+                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                    ]}
+                  />
+                )}
+                <View style={styles.sectionHeadText}>
+                  <Eyebrow color={colors.accent}>{section.heading}</Eyebrow>
+                  {firstParagraph && (
+                    <Body size={17} style={styles.paragraph}>
+                      {firstParagraph}
+                    </Body>
+                  )}
+                </View>
+              </View>
+              {restParagraphs.map((paragraph, j) => (
+                <Body key={j} size={17} style={styles.paragraph}>
+                  {paragraph}
                 </Body>
-              </Card>
-            )}
+              ))}
+              {section.note && (
+                <Card tint={colors.accent} style={styles.note}>
+                  <Body size={14} style={styles.noteText}>
+                    {section.note}
+                  </Body>
+                </Card>
+              )}
+            </View>
           </View>
-        </View>
-      ))}
+        );
+      })}
 
       <Divider />
 
@@ -179,10 +199,17 @@ const styles = StyleSheet.create({
   },
   sectionHead: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: spacing(2),
   },
-  sectionEyebrow: {
+  sectionHeadReverse: {
+    flexDirection: 'row-reverse',
+  },
+  sectionIllu: {
+    flexShrink: 0,
+    marginTop: spacing(0.25),
+  },
+  sectionHeadText: {
     flex: 1,
   },
   paragraph: {

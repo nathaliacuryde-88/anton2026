@@ -83,9 +83,25 @@ const jsName = fs.readdirSync(jsDir).find((f) => f.endsWith('.js'));
 if (!jsName) throw new Error(`no bundle found in ${jsDir} — run expo export first`);
 
 // A literal </script> inside the bundle would close the tag early.
-const js = fs
+let js = fs
   .readFileSync(path.join(jsDir, jsName), 'utf8')
   .replace(/<\/script/gi, '<\\/script');
+
+// The bundle references local images (require()'d PNGs) as absolute paths
+// like /assets/assets/<name>.<hash>.png — Metro never inlines these for web,
+// no matter how small. Left as-is they'd 404 both in the single file (no
+// server to serve them from) and on GitHub Pages (rooted at a sub-path, not
+// domain root). Inlining them as data URIs, the same trick used for fonts
+// above, fixes both at once.
+const assetRefs = new Set(js.match(/\/assets\/assets\/[\w.-]+\.(?:png|jpe?g)/gi) ?? []);
+for (const ref of assetRefs) {
+  const file = path.join(WEB, ref.replace(/^\//, ''));
+  if (!fs.existsSync(file)) continue;
+  const ext = path.extname(file).slice(1).toLowerCase();
+  const mime = ext === 'jpg' ? 'jpeg' : ext;
+  const b64 = fs.readFileSync(file).toString('base64');
+  js = js.split(ref).join(`data:image/${mime};base64,${b64}`);
+}
 
 const favicon = fs.existsSync('assets/favicon.png')
   ? `<link rel="icon" href="data:image/png;base64,${fs.readFileSync('assets/favicon.png').toString('base64')}">`

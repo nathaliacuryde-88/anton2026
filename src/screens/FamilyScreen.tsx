@@ -28,29 +28,41 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
-      {sections.map((section, i) => (
-        <View key={i}>
-          {i > 0 && <Divider />}
-          <View style={styles.section}>
-            {section.kicker && (
-              <View style={styles.sectionHead}>
-                <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
-                  {section.kicker}
-                </Eyebrow>
-                {section.sign && <Constellation sign={section.sign} size={36} />}
+      {sections.map((section, i) => {
+        const reverse = i % 2 === 1;
+        return (
+          <View key={i}>
+            {i > 0 && <Divider />}
+            <View style={styles.section}>
+              <View style={[styles.sectionHead, reverse && styles.sectionHeadReverse]}>
+                {section.sign && (
+                  <Constellation
+                    sign={section.sign}
+                    size={88}
+                    style={[
+                      styles.sectionIllu,
+                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                    ]}
+                  />
+                )}
+                <View style={styles.sectionHeadText}>
+                  {section.kicker && (
+                    <Eyebrow color={colors.accent}>{section.kicker}</Eyebrow>
+                  )}
+                  <Title size={24} style={styles.heading}>
+                    {section.heading}
+                  </Title>
+                </View>
               </View>
-            )}
-            <Title size={24} style={styles.heading}>
-              {section.heading}
-            </Title>
-            {section.paragraphs.map((paragraph, j) => (
-              <Body key={j} size={16} style={styles.paragraph}>
-                {paragraph}
-              </Body>
-            ))}
+              {section.paragraphs.map((paragraph, j) => (
+                <Body key={j} size={16} style={styles.paragraph}>
+                  {paragraph}
+                </Body>
+              ))}
+            </View>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </ScrollView>
   );
 }
@@ -65,14 +77,21 @@ const styles = StyleSheet.create({
   },
   sectionHead: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: spacing(2),
   },
-  sectionEyebrow: {
+  sectionHeadReverse: {
+    flexDirection: 'row-reverse',
+  },
+  sectionIllu: {
+    flexShrink: 0,
+    marginTop: spacing(0.25),
+  },
+  sectionHeadText: {
     flex: 1,
   },
   heading: {
-    marginTop: spacing(0.75),
+    marginTop: spacing(0.25),
   },
   paragraph: {
     marginTop: spacing(1.5),

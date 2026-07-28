@@ -117,7 +117,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               {item.label}
             </Body>
             <View style={styles.bigThreeGlyph}>
-              <Constellation sign={item.sign.key} size={58} />
+              <Constellation sign={item.sign.key} size={64} />
             </View>
             <Emphasis size={15} color={colors.ink} style={styles.bigThreeSign}>
               {b(item.sign.name)}
