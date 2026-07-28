@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { useLang } from '../i18n/LanguageContext';
-import { colors, fonts, radii, softShadow, spacing } from '../theme/theme';
+import { colors, fonts, radii, softShadow, spacing, typography } from '../theme/theme';
 
 /** Serif body text. */
 export function Body({
@@ -32,7 +32,7 @@ export function Body({
         {
           fontFamily: italic ? fonts.italic : fonts.regular,
           fontSize: size,
-          lineHeight: size * 1.5,
+          lineHeight: size * typography.bodyLineHeight,
           color: muted ? colors.inkSoft : colors.ink,
         },
         style,
@@ -59,7 +59,8 @@ export function Title({
         {
           fontFamily: fonts.light,
           fontSize: size,
-          lineHeight: size * 1.2,
+          lineHeight: size * 1.14,
+          letterSpacing: typography.displayTracking,
           color: colors.ink,
         },
         style,
@@ -85,8 +86,8 @@ export function Eyebrow({
       style={[
         {
           fontFamily: fonts.semibold,
-          fontSize: 11,
-          letterSpacing: 2.2,
+          fontSize: 12,
+          letterSpacing: typography.eyebrowTracking,
           textTransform: 'uppercase',
           color,
         },
@@ -179,8 +180,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderRadius: radii.lg,
     padding: spacing(2.5),
-    borderWidth: 1,
-    borderColor: colors.hairline,
   },
   dividerRow: {
     flexDirection: 'row',
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.hairline,
   },
   dividerMark: {
-    color: colors.gold,
+    color: colors.accent,
     fontSize: 10,
     opacity: 0.8,
   },
@@ -212,8 +211,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.paperDeep,
     borderRadius: radii.sm,
     padding: 3,
-    borderWidth: 1,
-    borderColor: colors.hairline,
   },
   toggleItem: {
     paddingHorizontal: spacing(1.25),

@@ -22,7 +22,7 @@ if (
 export default function Explainer({
   titleKey,
   bodyKey,
-  tint = colors.cardTint,
+  tint = colors.cardCool,
   defaultOpen = true,
 }: {
   titleKey: GuideKey;
@@ -73,8 +73,6 @@ const styles = StyleSheet.create({
     borderRadius: radii.md,
     paddingHorizontal: spacing(2),
     paddingVertical: spacing(1.5),
-    borderWidth: 1,
-    borderColor: colors.hairline,
   },
   header: {
     flexDirection: 'row',
@@ -87,10 +85,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.butter,
+    backgroundColor: colors.accentSoft,
   },
   markText: {
-    color: colors.gold,
+    color: colors.accent,
     fontFamily: fonts.semibold,
   },
   title: {

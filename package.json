@@ -4,6 +4,7 @@
   "main": "index.ts",
   "dependencies": {
     "@expo-google-fonts/cormorant-garamond": "^0.4.1",
+    "@expo-google-fonts/instrument-serif": "^0.4.1",
     "astronomy-engine": "^2.1.19",
     "expo": "~57.0.8",
     "expo-font": "~57.0.1",

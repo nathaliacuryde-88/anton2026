@@ -64,7 +64,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
     >
       {/* --- hero --- */}
       <View style={styles.hero}>
-        <Eyebrow color={colors.gold}>{t('subtitle')}</Eyebrow>
+        <Eyebrow color={colors.accent}>{t('subtitle')}</Eyebrow>
         <Title size={40} style={styles.name}>
           {chart.birth.name}
         </Title>
@@ -95,7 +95,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
 
       {selectedPlacement ? (
         <Card style={styles.selectedCard} tint={colors.cardTint}>
-          <Eyebrow color={colors.gold}>
+          <Eyebrow color={colors.accent}>
             {b(BODIES[selectedPlacement.key].name)}
           </Eyebrow>
           <Title size={22} style={{ marginTop: spacing(0.5) }}>
@@ -181,8 +181,8 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               label={b(MODALITY_NAMES[m])}
               value={chart.modalityCounts[m]}
               total={11}
-              color={[colors.rose, colors.blue, colors.green][i]}
-              track={[colors.blush, colors.sky, colors.mint][i]}
+              color={[colors.salmonDeep, colors.greenDeep, colors.sandDeep][i]}
+              track={[colors.salmonSoft, colors.greenSoft, colors.sand + '66'][i]}
             />
           ))}
         </View>
@@ -282,7 +282,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing(2),
     paddingHorizontal: spacing(1),
-    borderColor: 'transparent',
   },
   bigThreeLabel: {
     letterSpacing: 1,

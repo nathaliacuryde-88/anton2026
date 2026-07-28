@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
-import Explainer from '../components/Explainer';
 import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
@@ -20,7 +19,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
     >
       {/* This is the opening screen of the app, so it introduces him first. */}
       <View style={styles.hero}>
-        <Eyebrow color={colors.gold}>{t('subtitle')}</Eyebrow>
+        <Eyebrow color={colors.accent}>{t('subtitle')}</Eyebrow>
         <Title size={38} style={styles.name}>
           {chart.birth.name}
         </Title>
@@ -39,20 +38,18 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
         {t('portraitIntro')}
       </Body>
 
-      <Explainer titleKey="letterWhat" bodyKey="letterBody" />
-
       <Divider />
 
       {sections.map((section, i) => (
         <View key={i} style={styles.section}>
-          <Eyebrow color={colors.gold}>{section.heading}</Eyebrow>
+          <Eyebrow color={colors.accent}>{section.heading}</Eyebrow>
           {section.paragraphs.map((paragraph, j) => (
             <Body key={j} size={17} style={styles.paragraph}>
               {paragraph}
             </Body>
           ))}
           {section.note && (
-            <Card tint={colors.cardTint} style={styles.note}>
+            <Card tint={colors.cardWarm} style={styles.note}>
               <Body size={14} italic muted>
                 {section.note}
               </Body>
@@ -64,7 +61,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
       <Divider />
 
       {/* This is the first tab, so it doubles as the way into the rest. */}
-      <Eyebrow color={colors.gold}>{b(GUIDE.whereNext)}</Eyebrow>
+      <Eyebrow color={colors.accent}>{b(GUIDE.whereNext)}</Eyebrow>
       <View style={styles.nextList}>
         {(
           [
@@ -88,10 +85,6 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
           </View>
         ))}
       </View>
-
-      <Body size={12} muted italic style={styles.disclaimer}>
-        {b(GUIDE.notAScience)}
-      </Body>
 
       <Divider />
 
@@ -135,7 +128,6 @@ const styles = StyleSheet.create({
   },
   note: {
     marginTop: spacing(1.75),
-    borderColor: colors.butter,
   },
   nextList: {
     marginTop: spacing(1.5),
@@ -146,16 +138,12 @@ const styles = StyleSheet.create({
     gap: spacing(1.25),
   },
   nextGlyph: {
-    color: colors.gold,
+    color: colors.accent,
     width: 18,
   },
   nextText: {
     flex: 1,
     lineHeight: 21,
-  },
-  disclaimer: {
-    marginTop: spacing(2.5),
-    lineHeight: 18,
   },
   signature: {
     textAlign: 'center',

@@ -1,12 +1,8 @@
 import {
-  CormorantGaramond_300Light,
-  CormorantGaramond_300Light_Italic,
-  CormorantGaramond_400Regular,
-  CormorantGaramond_400Regular_Italic,
-  CormorantGaramond_500Medium,
-  CormorantGaramond_600SemiBold,
+  InstrumentSerif_400Regular,
+  InstrumentSerif_400Regular_Italic,
   useFonts,
-} from '@expo-google-fonts/cormorant-garamond';
+} from '@expo-google-fonts/instrument-serif';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
@@ -58,12 +54,11 @@ function Shell() {
 
   return (
     <LinearGradient
-      colors={[colors.paper, '#FBF3F3', '#F4F1FA']}
-      locations={[0, 0.55, 1]}
+      colors={[colors.paper, '#F9EFE7', '#EDF2E7']}
+      locations={[0, 0.5, 1]}
       style={styles.flex}
     >
       <View style={[styles.header, { paddingTop: insets.top + spacing(1) }]}>
-        <Text style={styles.wordmark}>{t('appTitle')}</Text>
         <LanguageToggle />
       </View>
 
@@ -109,13 +104,11 @@ function Shell() {
 }
 
 export default function App() {
+  // Instrument Serif has exactly one weight and one italic, and every alias in
+  // `fonts` resolves to one of them.
   const [fontsLoaded, fontError] = useFonts({
-    [fonts.light]: CormorantGaramond_300Light,
-    [fonts.regular]: CormorantGaramond_400Regular,
-    [fonts.medium]: CormorantGaramond_500Medium,
-    [fonts.semibold]: CormorantGaramond_600SemiBold,
-    [fonts.italic]: CormorantGaramond_400Regular_Italic,
-    [fonts.lightItalic]: CormorantGaramond_300Light_Italic,
+    [fonts.regular]: InstrumentSerif_400Regular,
+    [fonts.italic]: InstrumentSerif_400Regular_Italic,
   });
 
   // Render on failure too: if the font files cannot be fetched the platform
@@ -149,26 +142,23 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingHorizontal: spacing(2.5),
-    paddingBottom: spacing(1.25),
-  },
-  wordmark: {
-    fontFamily: fonts.medium,
-    fontSize: 19,
-    letterSpacing: 0.6,
-    color: colors.ink,
+    paddingBottom: spacing(1),
   },
   tabBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: spacing(1.25),
     paddingHorizontal: spacing(1),
-    backgroundColor: 'rgba(255,255,255,0.82)',
-    borderTopWidth: 1,
-    borderTopColor: colors.hairline,
-    borderTopLeftRadius: radii.lg,
-    borderTopRightRadius: radii.lg,
+    backgroundColor: colors.card,
+    borderTopLeftRadius: radii.xl,
+    borderTopRightRadius: radii.xl,
+    shadowColor: '#6F6A55',
+    shadowOpacity: 0.08,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: -6 },
+    elevation: 8,
   },
   tabItem: {
     alignItems: 'center',
@@ -180,7 +170,7 @@ const styles = StyleSheet.create({
     color: colors.inkFaint,
   },
   tabGlyphActive: {
-    color: colors.gold,
+    color: colors.accent,
   },
   tabLabel: {
     fontFamily: fonts.regular,
@@ -199,6 +189,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabDotActive: {
-    backgroundColor: colors.gold,
+    backgroundColor: colors.accent,
   },
 });

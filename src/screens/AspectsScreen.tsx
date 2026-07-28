@@ -5,7 +5,6 @@ import { ASPECTS, BODIES, BodyKey } from '../astro/constants';
 import { Aspect, Chart } from '../astro/engine';
 import Explainer from '../components/Explainer';
 import { Body, Card, Divider, Eyebrow, Title } from '../components/ui';
-import { GUIDE } from '../content/guide';
 import { ASPECT_MEANING, BODY_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
 import { aspectColors, colors, fonts, radii, spacing } from '../theme/theme';
@@ -54,7 +53,7 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
         <Explainer
           titleKey="tensionWhat"
           bodyKey="tensionBody"
-          tint={colors.butter + '55'}
+          tint={colors.accentSoft + '55'}
         />
         <Explainer titleKey="orbWhat" bodyKey="orbBody" defaultOpen={false} />
         <Explainer titleKey="applyingWhat" bodyKey="applyingBody" defaultOpen={false} />
@@ -134,10 +133,6 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
         })}
       </View>
 
-      <Divider />
-      <Body size={12} muted italic style={styles.footer}>
-        {b(GUIDE.notAScience)}
-      </Body>
     </ScrollView>
   );
 }
@@ -211,8 +206,5 @@ const styles = StyleSheet.create({
   fill: {
     height: '100%',
     borderRadius: 2,
-  },
-  footer: {
-    textAlign: 'center',
   },
 });

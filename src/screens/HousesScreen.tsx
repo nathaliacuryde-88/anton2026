@@ -33,7 +33,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
 
       <View style={styles.explainers}>
         <Explainer titleKey="housesWhat" bodyKey="housesBody" />
-        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" tint={colors.butter + '55'} />
+        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" tint={colors.accentSoft + '55'} />
         <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} />
       </View>
 
@@ -85,7 +85,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
                     </Body>
                     {angular && (
                       <View style={styles.angleTag}>
-                        <Body size={10} style={{ color: colors.gold, letterSpacing: 1 }}>
+                        <Body size={10} style={{ color: colors.accent, letterSpacing: 1 }}>
                           {ANGLE_TAG[houseNumber]}
                         </Body>
                       </View>
@@ -140,10 +140,6 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
         <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} />
       </View>
 
-      <Divider />
-      <Body size={12} muted italic style={styles.footer}>
-        {b(GUIDE.notAScience)}
-      </Body>
     </ScrollView>
   );
 }
@@ -176,8 +172,7 @@ const styles = StyleSheet.create({
     gap: spacing(1.5),
   },
   angularCard: {
-    borderColor: colors.butter,
-    borderWidth: 1.5,
+    backgroundColor: colors.cardWarm,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -197,7 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   angleTag: {
-    backgroundColor: colors.butter,
+    backgroundColor: colors.card,
     paddingHorizontal: spacing(0.75),
     paddingVertical: 1,
     borderRadius: radii.sm,
@@ -231,8 +226,5 @@ const styles = StyleSheet.create({
   },
   rulerLine: {
     lineHeight: 20,
-  },
-  footer: {
-    textAlign: 'center',
   },
 });

@@ -214,9 +214,9 @@ export default function ChartWheel({
               y1={a.y}
               x2={b.x}
               y2={b.y}
-              stroke={isAngle ? colors.gold : colors.inkFaint}
-              strokeWidth={isAngle ? 1.6 : 0.8}
-              opacity={isAngle ? 0.85 : 0.45}
+              stroke={isAngle ? colors.accent : colors.inkFaint}
+              strokeWidth={isAngle ? 1.2 : 0.8}
+              opacity={isAngle ? 0.5 : 0.4}
               strokeDasharray={isAngle ? undefined : '3 4'}
             />
             <SvgText
@@ -292,7 +292,7 @@ export default function ChartWheel({
                 cx={glyphAt.x}
                 cy={glyphAt.y}
                 r={R * 0.062}
-                fill={colors.butter}
+                fill={colors.accentSoft}
                 opacity={0.85}
               />
             )}
@@ -339,7 +339,7 @@ export default function ChartWheel({
             y={at.y + R * 0.018}
             fontSize={R * 0.05}
             fontFamily={fonts.semibold}
-            fill={colors.gold}
+            fill={colors.accent}
             textAnchor="middle"
           >
             {name}
@@ -348,13 +348,13 @@ export default function ChartWheel({
       })}
 
       {/* centre ornament */}
-      <Circle cx={cx} cy={cy} r={R * 0.03} fill={colors.butter} />
+      <Circle cx={cx} cy={cy} r={R * 0.03} fill={colors.accentSoft} />
       <Circle
         cx={cx}
         cy={cy}
         r={R * 0.055}
         fill="none"
-        stroke={colors.gold}
+        stroke={colors.accent}
         strokeWidth={0.8}
         opacity={0.5}
       />

@@ -63,7 +63,7 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
                     )}
                     {p.stationary && (
                       <View style={styles.statBadge}>
-                        <Body size={11} style={{ color: colors.gold }}>
+                        <Body size={11} style={{ color: colors.accent }}>
                           {t('stationary')}
                         </Body>
                       </View>
@@ -124,7 +124,7 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
       <Divider />
 
       <Card tint={colors.cardTint}>
-        <Eyebrow color={colors.gold}>{t('aboutTitle')}</Eyebrow>
+        <Eyebrow color={colors.accent}>{t('aboutTitle')}</Eyebrow>
         <Body size={14} muted style={{ marginTop: spacing(1) }}>
           {t('aboutBody')}
         </Body>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: radii.sm,
   },
   statBadge: {
-    backgroundColor: colors.butter,
+    backgroundColor: colors.accentSoft,
     paddingHorizontal: spacing(0.75),
     paddingVertical: 1,
     borderRadius: radii.sm,

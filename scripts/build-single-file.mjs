@@ -23,18 +23,14 @@ const OUT = process.argv[3] ?? 'anton-sky.html';
 // document shell. The default is a complete, standalone page.
 const FRAGMENT = process.argv.includes('--fragment');
 
-// The six faces App.tsx registers, mapped to their source directory.
+// The faces App.tsx registers, mapped to their source directory.
 const FACES = [
-  ['Cormorant300', '300Light'],
-  ['Cormorant400', '400Regular'],
-  ['Cormorant500', '500Medium'],
-  ['Cormorant600', '600SemiBold'],
-  ['Cormorant400Italic', '400Regular_Italic'],
-  ['Cormorant300Italic', '300Light_Italic'],
+  ['InstrumentSerif', '400Regular'],
+  ['InstrumentSerifItalic', '400Regular_Italic'],
 ];
 
 // Latin plus the punctuation the copy actually uses. The astrological glyphs
-// are not in Cormorant and come from the platform's symbol font either way.
+// are not in Instrument Serif and come from the platform's symbol font either way.
 const UNICODES = [
   'U+0020-007E', 'U+00A0-00FF', 'U+0131', 'U+0152-0153',
   'U+2013-2014', 'U+2018-201D', 'U+2022', 'U+2026',
@@ -46,7 +42,7 @@ function buildFontCss() {
   const rules = [];
 
   for (const [family, dir] of FACES) {
-    const src = `node_modules/@expo-google-fonts/cormorant-garamond/${dir}/CormorantGaramond_${dir}.ttf`;
+    const src = `node_modules/@expo-google-fonts/instrument-serif/${dir}/InstrumentSerif_${dir}.ttf`;
     if (!fs.existsSync(src)) throw new Error(`missing font source: ${src}`);
     const out = path.join(tmp, `${family}.woff2`);
     execFileSync('pyftsubset', [
@@ -55,13 +51,12 @@ function buildFontCss() {
     ]);
     const b64 = fs.readFileSync(out).toString('base64');
 
-    // No font-weight/font-style descriptors on purpose. The family name already
-    // encodes the weight, and expo-font declares each of these families at the
-    // default weight 400 pointing at asset files that do not exist here. If we
-    // declared, say, weight 300 for Cormorant300, the browser would treat
-    // expo-font's broken weight-400 rule as the exact match for a normal-weight
-    // request and prefer it no matter the source order. Matching its descriptors
-    // means the later rule — ours — simply wins.
+    // No font-weight/font-style descriptors on purpose. expo-font declares each
+    // of these families at the default weight 400, pointing at asset files that
+    // do not exist here. Declaring a different weight would make its broken rule
+    // the exact match for a normal-weight request, and the browser would prefer
+    // it no matter the source order. Matching its descriptors means the later
+    // rule — ours — simply wins.
     rules.push(
       `@font-face{font-family:'${family}';font-display:swap;` +
         `src:url(data:font/woff2;base64,${b64}) format('woff2')}`,
@@ -103,7 +98,7 @@ const head = FRAGMENT
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FDF8F4">
+<meta name="theme-color" content="#FBF8F3">
 <meta name="description" content="The natal chart of Anton Duque Estrada — 26 July 2026, Filderstadt. EN/PT.">
 ${favicon}
 `;
@@ -117,7 +112,7 @@ ${fontCss}
 /* The app paints its own pastel gradient; the shell just gets out of the way
    and gives react-native-web the definite height its ScrollViews need. */
 html, body { height: 100%; margin: 0; padding: 0; }
-body { overflow: hidden; background: #FDF8F4; -webkit-font-smoothing: antialiased; }
+body { overflow: hidden; background: #FBF8F3; -webkit-font-smoothing: antialiased; }
 #root { display: flex; height: 100%; flex: 1; min-height: 0; }
 </style>
 ${FRAGMENT ? '' : '</head>\n<body>'}

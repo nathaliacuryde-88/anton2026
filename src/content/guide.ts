@@ -83,8 +83,8 @@ export const GUIDE = {
     pt: 'As quatro casas marcadas',
   },
   angularBody: {
-    en: 'Houses 1, 4, 7 and 10 begin at the four corners of the chart — the horizon and the meridian. They are the most visible parts of a chart, which is why they are outlined here. ASC is the eastern horizon, IC the point below, DSC the western horizon, MC the highest point overhead.',
-    pt: 'As casas 1, 4, 7 e 10 começam nos quatro cantos do mapa — o horizonte e o meridiano. São as partes mais visíveis de um mapa, e por isso estão destacadas aqui. ASC é o horizonte leste, IC o ponto abaixo, DSC o horizonte oeste, MC o ponto mais alto do céu.',
+    en: 'Houses 1, 4, 7 and 10 begin at the four corners of the chart — the horizon and the meridian. They are the most visible parts of a chart, which is why they are tinted here. ASC is the eastern horizon, IC the point below, DSC the western horizon, MC the highest point overhead.',
+    pt: 'As casas 1, 4, 7 e 10 começam nos quatro cantos do mapa — o horizonte e o meridiano. São as partes mais visíveis de um mapa, e por isso aparecem com um fundo diferente aqui. ASC é o horizonte leste, IC o ponto abaixo, DSC o horizonte oeste, MC o ponto mais alto do céu.',
   },
 
   // --- the sky list ------------------------------------------------------
@@ -156,14 +156,6 @@ export const GUIDE = {
   },
 
   // --- the letter --------------------------------------------------------
-  letterWhat: {
-    en: 'Start here',
-    pt: 'Comece por aqui',
-  },
-  letterBody: {
-    en: 'This letter is the whole chart said in plain words. Everything in it was worked out from the real positions of the sky over Filderstadt at 12:45 — nothing was chosen to be flattering. The other tabs show that same information in more detail, if you ever want to look.',
-    pt: 'Esta carta é o mapa inteiro dito em palavras simples. Tudo nela foi calculado a partir das posições reais do céu sobre Filderstadt às 12h45 — nada foi escolhido para agradar. As outras abas mostram essa mesma informação em mais detalhe, se você quiser olhar.',
-  },
   whereNext: {
     en: 'Where to go next',
     pt: 'Para onde ir depois',
@@ -186,10 +178,6 @@ export const GUIDE = {
   },
 
   // --- shared ------------------------------------------------------------
-  notAScience: {
-    en: 'None of this predicts anything. It is a keepsake of one particular minute, not a forecast — and no part of a chart is a verdict on a person.',
-    pt: 'Nada disto prevê coisa alguma. É a lembrança de um minuto muito particular, não uma previsão — e nenhuma parte de um mapa é um veredito sobre alguém.',
-  },
   tapToHide: { en: 'tap to hide', pt: 'toque para esconder' },
   tapToRead: { en: 'tap to read', pt: 'toque para ler' },
 } satisfies Guide;
