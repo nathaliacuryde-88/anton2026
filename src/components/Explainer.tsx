@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import { LayoutAnimation, Platform, Pressable, StyleSheet, UIManager, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  LayoutAnimation,
+  Platform,
+  Pressable,
+  StyleSheet,
+  UIManager,
+  View,
+} from 'react-native';
 
 import { GUIDE, GuideKey } from '../content/guide';
 import { useLang } from '../i18n/LanguageContext';
-import { colors, fonts, radii, spacing } from '../theme/theme';
+import { colors, radii, spacing } from '../theme/theme';
 import { Body } from './ui';
 
 if (
@@ -14,16 +23,17 @@ if (
 }
 
 /**
- * A soft, collapsible note that explains a piece of jargon in plain words.
+ * A collapsible note that explains a piece of jargon in plain words.
  *
- * Open by default: the whole point is that someone who has never read a chart
- * should not have to know to tap anything.
+ * Closed by default: these are here for whoever wants them, not in the way
+ * of whoever doesn't. The vivid blue marks it as a distinct kind of surface —
+ * an aside, not a content card — so it reads the same everywhere it appears.
  */
 export default function Explainer({
   titleKey,
   bodyKey,
-  tint = colors.cardCool,
-  defaultOpen = true,
+  tint = colors.vivid,
+  defaultOpen = false,
 }: {
   titleKey: GuideKey;
   bodyKey: GuideKey;
@@ -32,11 +42,24 @@ export default function Explainer({
 }) {
   const { b } = useLang();
   const [open, setOpen] = useState(defaultOpen);
+  const spin = useRef(new Animated.Value(defaultOpen ? 1 : 0)).current;
 
   const toggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setOpen((o) => !o);
+    setOpen((o) => {
+      const next = !o;
+      Animated.timing(spin, {
+        toValue: next ? 1 : 0,
+        duration: 260,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }).start();
+      return next;
+    });
   };
+
+  // A single "+" rotated 45° reads as "×" — one glyph doing both jobs.
+  const rotate = spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '45deg'] });
 
   return (
     <View style={[styles.card, { backgroundColor: tint }]}>
@@ -48,19 +71,19 @@ export default function Explainer({
       >
         <View style={styles.mark}>
           <Body size={12} style={styles.markText}>
-            ?
+            i
           </Body>
         </View>
         <Body size={15} style={styles.title}>
           {b(GUIDE[titleKey])}
         </Body>
-        <Body size={12} muted>
-          {open ? '−' : '+'}
-        </Body>
+        <Animated.Text style={[styles.toggle, { transform: [{ rotate }] }]}>
+          +
+        </Animated.Text>
       </Pressable>
 
       {open && (
-        <Body size={14} muted style={styles.body}>
+        <Body size={14} style={styles.body}>
           {b(GUIDE[bodyKey])}
         </Body>
       )}
@@ -85,18 +108,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.accentSoft,
+    backgroundColor: colors.onVividChip,
   },
   markText: {
-    color: colors.accent,
-    fontFamily: fonts.semibold,
+    color: colors.onVivid,
+    fontWeight: '700',
   },
   title: {
     flex: 1,
-    fontFamily: fonts.medium,
+    fontWeight: '700',
+    color: colors.onVivid,
+  },
+  toggle: {
+    fontSize: 18,
+    lineHeight: 18,
+    color: colors.onVividMuted,
   },
   body: {
     marginTop: spacing(1.25),
     lineHeight: 22,
+    color: colors.onVividMuted,
   },
 });

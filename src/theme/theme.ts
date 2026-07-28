@@ -54,6 +54,20 @@ export const colors = {
   // small marks
   rose: SECONDARY_BROWN,
   blush: '#F1E1C9',
+
+  /**
+   * The vivid card: full-strength primary blue, reserved for the handful of
+   * surfaces meant to read as a bold statement rather than a soft backdrop —
+   * the info cards, the hamburger panel, a tapped highlight. Everything else
+   * stays in the paper/pastel family below.
+   */
+  vivid: PRIMARY_BLUE,
+  onVivid: '#F7F6FF',
+  onVividMuted: 'rgba(247,246,255,0.78)',
+  onVividChip: 'rgba(255,255,255,0.16)',
+
+  /** The divider's line — blue, but a soft tint rather than the vivid fill. */
+  dividerLine: '#DEDCF7',
 };
 
 /**
@@ -108,11 +122,11 @@ export const radii = {
 
 export const spacing = (n: number) => n * 8;
 
-/** Wide, faint, and low — cards float rather than sit in a box. */
+/** Very soft and low — barely a shadow, just enough lift off the page. */
 export const softShadow = {
   shadowColor: '#4A5560',
-  shadowOpacity: 0.1,
-  shadowRadius: 22,
-  shadowOffset: { width: 0, height: 8 },
-  elevation: 2,
+  shadowOpacity: 0.06,
+  shadowRadius: 16,
+  shadowOffset: { width: 0, height: 5 },
+  elevation: 1,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Animated,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -11,6 +12,7 @@ import {
 
 import { useLang } from '../i18n/LanguageContext';
 import { colors, fonts, radii, softShadow, spacing, typography } from '../theme/theme';
+import { Reveal, SpinForever, useMountAnim } from './motion';
 
 /** Serif body text. */
 export function Body({
@@ -41,7 +43,7 @@ export function Body({
   );
 }
 
-/** Large display heading. */
+/** Large display heading. Settles in with a short fade and lift on mount. */
 export function Title({
   children,
   style,
@@ -51,8 +53,9 @@ export function Title({
   style?: TextStyle | TextStyle[];
   size?: number;
 }) {
+  const v = useMountAnim(0, 420);
   return (
-    <Text
+    <Animated.Text
       style={[
         {
           fontFamily: fonts.light,
@@ -60,22 +63,32 @@ export function Title({
           lineHeight: size * 1.14,
           letterSpacing: typography.displayTracking,
           color: colors.ink,
+          opacity: v,
+          transform: [
+            {
+              translateY: v.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }),
+            },
+          ],
         },
         style,
       ]}
     >
       {children}
-    </Text>
+    </Animated.Text>
   );
 }
 
 /**
  * The headline of a page. One per screen, always this size and always centred,
- * with nothing above it — so every page opens the same way.
+ * with nothing above it — so every page opens the same way. It fades and
+ * lifts into place, the same gesture repeated everywhere a page introduces
+ * itself.
  */
 export function PageTitle({ children }: { children: React.ReactNode }) {
   return (
-    <Text style={styles.pageTitle}>{children}</Text>
+    <Reveal distance={14}>
+      <Text style={styles.pageTitle}>{children}</Text>
+    </Reveal>
   );
 }
 
@@ -130,12 +143,14 @@ export function Card({
   );
 }
 
-/** A hairline rule with a small diamond in the middle. */
+/** A blue rule with a small star that turns, slowly and forever, in the middle. */
 export function Divider({ style }: { style?: ViewStyle }) {
   return (
     <View style={[styles.dividerRow, style]}>
       <View style={styles.dividerLine} />
-      <Text style={styles.dividerMark}>✦</Text>
+      <SpinForever>
+        <Text style={styles.dividerMark}>✦</Text>
+      </SpinForever>
       <View style={styles.dividerLine} />
     </View>
   );
@@ -208,7 +223,7 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: colors.hairline,
+    backgroundColor: colors.dividerLine,
   },
   dividerMark: {
     color: colors.accent,

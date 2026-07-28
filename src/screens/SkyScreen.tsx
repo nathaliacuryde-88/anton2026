@@ -3,19 +3,16 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { BODIES, BODY_KEYS, SIGNS } from '../astro/constants';
 import { Chart, formatDegree } from '../astro/engine';
-import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
+import { Emphasis } from '../components/motion';
+import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
-import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
+import { colors, elementColors, radii, spacing } from '../theme/theme';
 
-export default function SkyScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function SkyScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
 
   return (
@@ -23,6 +20,7 @@ export default function SkyScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
       <PageTitle>{t('navSky')}</PageTitle>
 
       <View style={styles.explainers}>
@@ -53,9 +51,9 @@ export default function SkyScreen({
 
                 <View style={styles.rowBody}>
                   <View style={styles.rowTop}>
-                    <Body size={17} style={{ fontFamily: fonts.medium }}>
+                    <Emphasis size={17} color={colors.ink}>
                       {b(def.name)}
-                    </Body>
+                    </Emphasis>
                     {p.retrograde && (
                       <View style={styles.rxBadge}>
                         <Body size={11} style={{ color: colors.rose }}>
@@ -84,15 +82,15 @@ export default function SkyScreen({
                   above actually mean something to a first-time reader. */}
               <View style={styles.sentence}>
                 <Body size={14} muted style={styles.sentenceText}>
-                  <Body size={14} style={{ fontFamily: fonts.medium }}>
+                  <Emphasis size={14} color={colors.ink} delay={0}>
                     {b(def.name)}
-                  </Body>
+                  </Emphasis>
                   {lang === 'en' ? ' looks after ' : ' cuida de '}
                   {b(BODY_MEANING[key])}
                   {lang === 'en' ? '. In ' : '. Em '}
-                  <Body size={14} style={{ fontFamily: fonts.medium }}>
+                  <Emphasis size={14} color={colors.ink} delay={0}>
                     {b(sign.name)}
-                  </Body>
+                  </Emphasis>
                   {lang === 'en' ? ' that happens in a ' : ' isso acontece de um jeito '}
                   {b(sign.keywords)}
                   {lang === 'en' ? ' way, and it plays out around: ' : ', e se desenrola em: '}
@@ -131,7 +129,6 @@ export default function SkyScreen({
           {t('aboutBody')}
         </Body>
       </Card>
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -139,8 +136,7 @@ export default function SkyScreen({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2),
-    paddingBottom: spacing(5),
-    paddingTop: spacing(1),
+    paddingBottom: spacing(14),
   },
   explainers: {
     marginTop: spacing(2),

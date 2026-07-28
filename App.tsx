@@ -2,7 +2,6 @@ import {
   InstrumentSerif_400Regular,
   useFonts,
 } from '@expo-google-fonts/instrument-serif';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
@@ -12,6 +11,7 @@ import {
 } from 'react-native-safe-area-context';
 
 import { computeChart } from './src/astro/engine';
+import TabBar from './src/components/TabBar';
 import { ANTON } from './src/data/birth';
 import { LanguageProvider } from './src/i18n/LanguageContext';
 import { TabKey } from './src/navigation';
@@ -26,28 +26,25 @@ import { colors, fonts } from './src/theme/theme';
 function Shell() {
   const [tab, setTab] = useState<TabKey>('portrait');
   const insets = useSafeAreaInsets();
-  const nav = { tab, onNavigate: setTab };
 
   // The chart depends only on the birth data, so it is computed once.
   const chart = useMemo(() => computeChart(ANTON), []);
 
   return (
-    <LinearGradient
-      colors={[colors.paper, '#FAF6DE', '#E9F4F3']}
-      locations={[0, 0.5, 1]}
-      style={styles.flex}
-    >
-      <View style={[styles.flex, { paddingTop: insets.top }]}>
-        {tab === 'portrait' && <PortraitScreen chart={chart} {...nav} />}
-        {tab === 'chart' && <ChartScreen chart={chart} {...nav} />}
-        {tab === 'sky' && <SkyScreen chart={chart} {...nav} />}
-        {tab === 'houses' && <HousesScreen chart={chart} {...nav} />}
-        {tab === 'aspects' && <AspectsScreen chart={chart} {...nav} />}
-        {tab === 'family' && <FamilyScreen chart={chart} {...nav} />}
+    <View style={styles.background}>
+      <View style={styles.flex}>
+        {tab === 'portrait' && <PortraitScreen chart={chart} />}
+        {tab === 'chart' && <ChartScreen chart={chart} />}
+        {tab === 'sky' && <SkyScreen chart={chart} />}
+        {tab === 'houses' && <HousesScreen chart={chart} />}
+        {tab === 'aspects' && <AspectsScreen chart={chart} />}
+        {tab === 'family' && <FamilyScreen chart={chart} />}
       </View>
 
+      <TabBar tab={tab} onNavigate={setTab} bottomInset={insets.bottom} />
+
       <StatusBar style="dark" />
-    </LinearGradient>
+    </View>
   );
 }
 
@@ -61,8 +58,8 @@ export default function App() {
   // serif is a perfectly good fallback, and hanging on a spinner forever is not.
   if (!fontsLoaded && !fontError) {
     return (
-      <View style={[styles.flex, styles.loading]}>
-        <ActivityIndicator color={colors.rose} />
+      <View style={[styles.background, styles.loading]}>
+        <ActivityIndicator color={colors.accent} />
       </View>
     );
   }
@@ -80,9 +77,13 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  background: {
+    flex: 1,
+    // Solid and yellow, always — no gradient.
+    backgroundColor: colors.yellow,
+  },
   loading: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.paper,
   },
 });

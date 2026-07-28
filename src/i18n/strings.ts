@@ -60,10 +60,6 @@ export const UI = {
     pt:
       'As posições são calculadas pelas teorias planetárias VSOP87 e ELP para o minuto e o lugar exatos do nascimento, no zodíaco tropical, com casas Placidus. Astrologia não é ciência — é um jeito muito antigo e muito bonito de dizer a alguém que ele é bem-vindo aqui.',
   },
-  madeWith: {
-    en: 'Made with love for Anton',
-    pt: 'Feito com amor para Anton',
-  },
 } satisfies Record<string, Bilingual>;
 
 export type UIKey = keyof typeof UI;

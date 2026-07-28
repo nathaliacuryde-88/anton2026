@@ -176,6 +176,10 @@ export const GUIDE = {
     en: 'the conversations between planets, closest first',
     pt: 'as conversas entre os planetas, das mais próximas às mais distantes',
   },
+  nextFamily: {
+    en: 'what care and authority will mean to him, and where that comes from in the chart',
+    pt: 'o que cuidado e autoridade vão significar para ele, e de onde isso vem no mapa',
+  },
 
   // --- family ------------------------------------------------------------
   familyWhat: {
@@ -185,6 +189,16 @@ export const GUIDE = {
   familyBody: {
     en: 'Honestly: not much about them. Anton\u2019s mother and father have charts of their own, and nothing here describes who they are. What this page reads is the shape of his need — what being looked after will have to feel like before it reaches him, what he will recognise as safety, and what he will read as authority. It is a page about him, written for the people who love him.',
     pt: 'Honestamente: pouca coisa sobre eles. A m\u00e3e e o pai do Anton t\u00eam mapas pr\u00f3prios, e nada aqui descreve quem eles s\u00e3o. O que esta p\u00e1gina l\u00ea \u00e9 o formato da necessidade dele — como o cuidado vai precisar ser para chegar nele, o que ele vai reconhecer como seguran\u00e7a, e o que vai ler como autoridade. \u00c9 uma p\u00e1gina sobre ele, escrita para quem o ama.',
+  },
+
+  // --- the header hamburger ------------------------------------------------
+  aboutHeading: {
+    en: 'About this gift',
+    pt: 'Sobre este presente',
+  },
+  aboutProjectBody: {
+    en: 'Anton’s Sky is a small, exact gift: the real positions of the sun, the moon and every planet at 12:45 on 26 July 2026 — the minute Anton arrived — turned into something a friend or a family member can actually sit down and read. Made with love for Anton, and written with love by Aunt Nath.',
+    pt: 'O Céu de Anton é um presente pequeno e exato: as posições reais do sol, da lua e de cada planeta às 12h45 de 26 de julho de 2026 — o minuto em que o Anton chegou — transformadas em algo que um amigo ou um familiar consegue realmente sentar e ler. Feito com amor para o Anton, e escrito com amor pela Tia Nath.',
   },
 
   // --- shared ------------------------------------------------------------

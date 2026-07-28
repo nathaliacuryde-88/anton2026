@@ -12,18 +12,15 @@ import {
 } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
 import ChartWheel from '../components/ChartWheel';
-import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
+import { Emphasis, Pop } from '../components/motion';
+import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
-import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
+import { colors, elementColors, radii, spacing } from '../theme/theme';
 
-export default function ChartScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function ChartScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
   const { width } = useWindowDimensions();
   const [selected, setSelected] = useState<BodyKey | null>(null);
@@ -67,31 +64,34 @@ export default function ChartScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
       <PageTitle>{t('navChart')}</PageTitle>
 
       <Explainer titleKey="chartWhat" bodyKey="chartBody" />
 
       {/* --- wheel --- */}
       <View style={styles.wheelWrap}>
-        <ChartWheel
-          chart={chart}
-          size={wheelSize}
-          selected={selected}
-          onSelectBody={(k) => setSelected((cur) => (cur === k ? null : k))}
-        />
+        <Pop>
+          <ChartWheel
+            chart={chart}
+            size={wheelSize}
+            selected={selected}
+            onSelectBody={(k) => setSelected((cur) => (cur === k ? null : k))}
+          />
+        </Pop>
       </View>
 
       {selectedPlacement ? (
-        <Card style={styles.selectedCard} tint={colors.cardTint}>
-          <Eyebrow color={colors.accent}>
+        <Card style={styles.selectedCard} tint={colors.vivid}>
+          <Eyebrow color={colors.onVividMuted}>
             {b(BODIES[selectedPlacement.key].name)}
           </Eyebrow>
-          <Title size={22} style={{ marginTop: spacing(0.5) }}>
+          <Title size={22} style={[styles.selectedTitle, { marginTop: spacing(0.5) }]}>
             {formatDegree(selectedPlacement.degreeInSign)}{' '}
             {SIGNS[selectedPlacement.signIndex].glyph}{' '}
             {b(SIGNS[selectedPlacement.signIndex].name)}
           </Title>
-          <Body muted size={14} style={{ marginTop: spacing(0.5) }}>
+          <Body size={14} style={[styles.selectedBody, { marginTop: spacing(0.5) }]}>
             {b(BODY_MEANING[selectedPlacement.key])} · {t('house')}{' '}
             {selectedPlacement.house} — {b(HOUSE_MEANING[selectedPlacement.house - 1])}
           </Body>
@@ -122,9 +122,9 @@ export default function ChartScreen({
             <Body size={26} style={styles.bigThreeGlyph}>
               {item.sign.glyph}
             </Body>
-            <Body size={15} style={styles.bigThreeSign}>
+            <Emphasis size={15} color={colors.ink} style={styles.bigThreeSign}>
               {b(item.sign.name)}
-            </Body>
+            </Emphasis>
             <Body size={12} muted>
               {item.degree}
             </Body>
@@ -180,8 +180,6 @@ export default function ChartScreen({
           {chart.dayChart ? t('dayChart') : t('nightChart')}
         </Body>
       </Card>
-
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -225,7 +223,7 @@ function BalanceBar({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2),
-    paddingBottom: spacing(5),
+    paddingBottom: spacing(14),
   },
   wheelWrap: {
     alignItems: 'center',
@@ -237,6 +235,12 @@ const styles = StyleSheet.create({
   },
   selectedCard: {
     marginTop: spacing(1.5),
+  },
+  selectedTitle: {
+    color: colors.onVivid,
+  },
+  selectedBody: {
+    color: colors.onVividMuted,
   },
   sectionLabel: {
     marginTop: spacing(3),
@@ -263,7 +267,6 @@ const styles = StyleSheet.create({
     marginTop: spacing(0.5),
   },
   bigThreeSign: {
-    fontFamily: fonts.medium,
     marginTop: spacing(0.25),
     textAlign: 'center',
   },

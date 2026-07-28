@@ -3,18 +3,15 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ASPECTS, BODIES, BodyKey } from '../astro/constants';
 import { Aspect, Chart } from '../astro/engine';
-import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
+import { Emphasis } from '../components/motion';
+import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { ASPECT_MEANING, BODY_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
-import { aspectColors, colors, fonts, radii, spacing } from '../theme/theme';
+import { aspectColors, colors, radii, spacing } from '../theme/theme';
 
-export default function AspectsScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function AspectsScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
 
   const nameOf = (key: Aspect['a']) =>
@@ -48,15 +45,12 @@ export default function AspectsScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
       <PageTitle>{t('navAspects')}</PageTitle>
 
       <View style={styles.explainers}>
         <Explainer titleKey="aspectsWhat" bodyKey="aspectsBody" />
-        <Explainer
-          titleKey="tensionWhat"
-          bodyKey="tensionBody"
-          tint={colors.accentSoft + '55'}
-        />
+        <Explainer titleKey="tensionWhat" bodyKey="tensionBody" />
         <Explainer titleKey="orbWhat" bodyKey="orbBody" defaultOpen={false} />
         <Explainer titleKey="applyingWhat" bodyKey="applyingBody" defaultOpen={false} />
       </View>
@@ -87,9 +81,9 @@ export default function AspectsScreen({
                 </Body>
               </View>
 
-              <Body size={15} style={styles.names}>
+              <Emphasis size={15} color={colors.ink}>
                 {nameOf(aspect.a)} {def.glyph} {nameOf(aspect.b)}
-              </Body>
+              </Emphasis>
 
               <View style={styles.metaRow}>
                 <View style={[styles.toneTag, { backgroundColor: tone + '2E' }]}>
@@ -134,8 +128,6 @@ export default function AspectsScreen({
           );
         })}
       </View>
-
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -143,8 +135,7 @@ export default function AspectsScreen({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2),
-    paddingBottom: spacing(5),
-    paddingTop: spacing(1),
+    paddingBottom: spacing(14),
   },
   explainers: {
     marginTop: spacing(2),
@@ -179,9 +170,6 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  names: {
-    fontFamily: fonts.medium,
   },
   metaRow: {
     flexDirection: 'row',

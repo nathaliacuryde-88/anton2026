@@ -2,18 +2,15 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
-import PageNav from '../components/PageNav';
+import { Emphasis } from '../components/motion';
+import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
-import { colors, fonts, spacing } from '../theme/theme';
+import { colors, spacing } from '../theme/theme';
 
-export default function PortraitScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function PortraitScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
   const sections = useMemo(() => buildPortrait(chart, lang), [chart, lang]);
 
@@ -22,6 +19,8 @@ export default function PortraitScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
+
       {/* The opening screen of the app, so it introduces him first. */}
       <PageTitle>{chart.birth.name}</PageTitle>
       <View style={styles.hero}>
@@ -47,8 +46,8 @@ export default function PortraitScreen({
             </Body>
           ))}
           {section.note && (
-            <Card tint={colors.cardWarm} style={styles.note}>
-              <Body size={14} muted>
+            <Card tint={colors.vivid} style={styles.note}>
+              <Body size={14} style={styles.noteText}>
                 {section.note}
               </Body>
             </Card>
@@ -67,6 +66,7 @@ export default function PortraitScreen({
             ['☾', 'navSky', GUIDE.nextSky],
             ['⌂', 'navHouses', GUIDE.nextHouses],
             ['△', 'navAspects', GUIDE.nextAspects],
+            ['♡', 'navFamily', GUIDE.nextFamily],
           ] as const
         ).map(([glyph, labelKey, note]) => (
           <View key={labelKey} style={styles.nextRow}>
@@ -74,17 +74,15 @@ export default function PortraitScreen({
               {glyph}
             </Body>
             <Body size={14} muted style={styles.nextText}>
-              <Body size={14} style={{ fontFamily: fonts.medium }}>
+              <Emphasis size={14} color={colors.ink} delay={0}>
                 {t(labelKey)}
-              </Body>
+              </Emphasis>
               {' — '}
               {b(note)}
             </Body>
           </View>
         ))}
       </View>
-
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -92,8 +90,7 @@ export default function PortraitScreen({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2.5),
-    paddingBottom: spacing(5),
-    paddingTop: spacing(1),
+    paddingBottom: spacing(14),
   },
   hero: {
     alignItems: 'center',
@@ -109,10 +106,12 @@ const styles = StyleSheet.create({
   paragraph: {
     marginTop: spacing(1.5),
     lineHeight: 28,
-    fontFamily: fonts.light,
   },
   note: {
     marginTop: spacing(1.75),
+  },
+  noteText: {
+    color: colors.onVividMuted,
   },
   nextList: {
     marginTop: spacing(1.5),

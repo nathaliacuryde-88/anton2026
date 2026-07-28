@@ -14,6 +14,7 @@
  */
 
 import {
+  ASPECTS,
   BODIES,
   BodyKey,
   Lang,
@@ -21,7 +22,7 @@ import {
   SIGN_RULER,
 } from '../astro/constants';
 import { Chart } from '../astro/engine';
-import { HOUSE_MEANING } from './interpretations';
+import { ASPECT_MEANING, BODY_MEANING, HOUSE_MEANING } from './interpretations';
 
 export type FamilySection = {
   heading: string;
@@ -257,41 +258,70 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
     .filter((a) => a.a === 'moon' || a.b === 'moon' || a.a === 'sun' || a.b === 'sun')
     .slice(0, 3);
 
+  const meaningOfPoint = (key: BodyKey | 'asc' | 'mc', l: Lang): string =>
+    key === 'asc'
+      ? l === 'en'
+        ? 'the way he meets the world'
+        : 'o jeito como ele encontra o mundo'
+      : key === 'mc'
+        ? l === 'en'
+          ? 'what the world will see'
+          : 'o que o mundo vai ver'
+        : BODY_MEANING[key][l];
+
   if (parental.length) {
     sections.push({
       heading:
         lang === 'en'
-          ? 'What the Sun and Moon were talking to'
-          : 'Com quem o Sol e a Lua conversavam',
-      paragraphs: parental.map((a) => {
-        const other = a.a === 'sun' || a.a === 'moon' ? a.b : a.a;
-        const anchor = a.a === 'sun' || a.a === 'moon' ? a.a : a.b;
-        const anchorName =
-          anchor === 'sun'
-            ? lang === 'en'
-              ? 'The Sun'
-              : 'O Sol'
-            : lang === 'en'
-              ? 'The Moon'
-              : 'A Lua';
-        const otherName =
-          other === 'asc'
-            ? lang === 'en'
-              ? 'the Ascendant'
-              : 'o Ascendente'
-            : other === 'mc'
+          ? 'What else the Sun and Moon touch'
+          : 'O que mais o Sol e a Lua tocam',
+      paragraphs: [
+        lang === 'en'
+          ? 'Care and authority rarely arrive on their own — they usually come mixed in with something else. Here is what else was close by:'
+          : 'Cuidado e autoridade raramente chegam sozinhos — costumam vir misturados com outra coisa. Eis o que mais estava por perto:',
+        ...parental.map((a) => {
+          const other = a.a === 'sun' || a.a === 'moon' ? a.b : a.a;
+          const anchor = a.a === 'sun' || a.a === 'moon' ? a.a : a.b;
+          const def = ASPECTS.find((x) => x.key === a.key)!;
+          const anchorName =
+            anchor === 'sun'
               ? lang === 'en'
-                ? 'the Midheaven'
-                : 'o Meio do Céu'
-              : label(other as BodyKey, lang);
-        return lang === 'en'
-          ? `${anchorName} and ${otherName}, ${a.orb.toFixed(1)}° from exact. Whatever ${otherName} carries will colour how he reads the grown-ups around him.`
-          : `${anchorName} e ${otherName}, a ${a.orb.toFixed(1)}° do exato. Aquilo que ${otherName} carrega vai colorir o jeito como ele lê os adultos ao redor.`;
-      }),
+                ? 'the Sun'
+                : 'o Sol'
+              : lang === 'en'
+                ? 'the Moon'
+                : 'a Lua';
+          const otherName =
+            other === 'asc'
+              ? lang === 'en'
+                ? 'the Ascendant'
+                : 'o Ascendente'
+              : other === 'mc'
+                ? lang === 'en'
+                  ? 'the Midheaven'
+                  : 'o Meio do Céu'
+                : label(other as BodyKey, lang);
+          const anchorRole =
+            anchor === 'sun'
+              ? lang === 'en'
+                ? 'what authority and warmth feel like'
+                : 'o que autoridade e calor vão parecer'
+              : lang === 'en'
+                ? 'what comfort and safety feel like'
+                : 'o que conforto e segurança vão parecer';
+          return lang === 'en'
+            ? `${capitalize(anchorName)} and ${otherName} sit in ${def.name.en.toLowerCase()} — ${a.orb.toFixed(1)}° from an exact ${def.angle}°, about as close as two planets get: ${ASPECT_MEANING[a.key].en}. Since ${otherName} carries ${meaningOfPoint(other, 'en')}, expect a little of that woven into ${anchorRole}.`
+            : `${capitalize(anchorName)} e ${otherName} estão em ${def.name.pt.toLowerCase()} — a ${a.orb.toFixed(1)}° de um ${def.angle}° exato, o mais perto que dois planetas costumam chegar: ${ASPECT_MEANING[a.key].pt}. Como ${otherName} carrega ${meaningOfPoint(other, 'pt')}, espere um pouco disso entrelaçado em ${anchorRole}.`;
+        }),
+      ],
     });
   }
 
   return sections;
+}
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function ordinal(n: number): string {

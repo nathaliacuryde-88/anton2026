@@ -3,23 +3,20 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { BODIES, BODY_KEYS, SIGNS, SIGN_RULER } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
-import PageNav from '../components/PageNav';
 import Explainer from '../components/Explainer';
+import { Emphasis } from '../components/motion';
+import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
-import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
+import { colors, elementColors, radii, spacing } from '../theme/theme';
 
 /** House numbers whose cusps are the four angles of the chart. */
 const ANGULAR = new Set([1, 4, 7, 10]);
 const ANGLE_TAG: Record<number, string> = { 1: 'ASC', 4: 'IC', 7: 'DSC', 10: 'MC' };
 
-export default function HousesScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function HousesScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
 
   const emptyCount = chart.cusps.filter(
@@ -31,11 +28,12 @@ export default function HousesScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
       <PageTitle>{t('navHouses')}</PageTitle>
 
       <View style={styles.explainers}>
         <Explainer titleKey="housesWhat" bodyKey="housesBody" />
-        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" tint={colors.accentSoft + '55'} />
+        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" />
         <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} />
       </View>
 
@@ -75,14 +73,14 @@ export default function HousesScreen({
                     { backgroundColor: elementColors[sign.element].soft },
                   ]}
                 >
-                  <Body size={16} style={{ fontFamily: fonts.medium }}>
+                  <Body size={16} style={styles.bold}>
                     {houseNumber}
                   </Body>
                 </View>
 
                 <View style={{ flex: 1 }}>
                   <View style={styles.headerTop}>
-                    <Body size={16} style={{ fontFamily: fonts.medium }}>
+                    <Body size={16} style={styles.bold}>
                       {formatDegree(degreeInSign)} {sign.glyph} {b(sign.name)}
                     </Body>
                     {angular && (
@@ -122,9 +120,9 @@ export default function HousesScreen({
                   </Body>
                   <Body size={13} muted style={styles.rulerLine}>
                     {b(GUIDE.rulerNote)}{' '}
-                    <Body size={13} style={{ fontFamily: fonts.medium }}>
+                    <Emphasis size={13} color={colors.ink}>
                       {BODIES[rulerKey].glyph} {b(BODIES[rulerKey].name)}
-                    </Body>
+                    </Emphasis>
                     {lang === 'en' ? ' in ' : ' em '}
                     {b(rulerSign.name)}
                     {lang === 'en'
@@ -141,8 +139,6 @@ export default function HousesScreen({
       <View style={{ marginTop: spacing(2) }}>
         <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} />
       </View>
-
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -150,8 +146,10 @@ export default function HousesScreen({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2),
-    paddingBottom: spacing(5),
-    paddingTop: spacing(1),
+    paddingBottom: spacing(14),
+  },
+  bold: {
+    fontWeight: '700',
   },
   explainers: {
     marginTop: spacing(2),

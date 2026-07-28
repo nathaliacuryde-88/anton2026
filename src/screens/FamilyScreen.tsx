@@ -3,17 +3,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
 import Explainer from '../components/Explainer';
-import PageNav from '../components/PageNav';
+import PageHeader from '../components/PageHeader';
 import { Body, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { buildFamily } from '../content/family';
 import { useLang } from '../i18n/LanguageContext';
-import { NavProps } from '../navigation';
 import { colors, spacing } from '../theme/theme';
 
-export default function FamilyScreen({
-  chart,
-  ...nav
-}: { chart: Chart } & NavProps) {
+export default function FamilyScreen({ chart }: { chart: Chart }) {
   const { t, lang } = useLang();
   const sections = useMemo(() => buildFamily(chart, lang), [chart, lang]);
 
@@ -22,6 +18,7 @@ export default function FamilyScreen({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <PageHeader />
       <PageTitle>{t('navFamily')}</PageTitle>
 
       {/* The framing comes before anything else: this page is about him, not
@@ -45,8 +42,6 @@ export default function FamilyScreen({
           ))}
         </View>
       ))}
-
-      <PageNav {...nav} />
     </ScrollView>
   );
 }
@@ -54,8 +49,7 @@ export default function FamilyScreen({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2.5),
-    paddingBottom: spacing(5),
-    paddingTop: spacing(1),
+    paddingBottom: spacing(14),
   },
   section: {
     marginBottom: spacing(3.5),
