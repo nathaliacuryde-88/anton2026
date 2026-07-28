@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { useLang } from '../i18n/LanguageContext';
 import { NavProps, TABS } from '../navigation';
+import TabIcon from './TabIcons';
 import { colors, fonts, radii, spacing } from '../theme/theme';
 import { Body } from './ui';
 
@@ -29,7 +30,11 @@ export default function TabBar({
             accessibilityState={{ selected: active }}
             style={styles.item}
           >
-            <Text style={[styles.glyph, active && styles.glyphActive]}>{item.glyph}</Text>
+            <TabIcon
+              kind={item.key}
+              filled={active}
+              color={active ? colors.accent : colors.inkFaint}
+            />
             <Body size={11} style={active ? styles.labelActive : styles.label}>
               {t(item.label)}
             </Body>
@@ -64,13 +69,6 @@ const styles = StyleSheet.create({
     gap: 2,
     paddingHorizontal: spacing(0.4),
     paddingBottom: spacing(0.5),
-  },
-  glyph: {
-    fontSize: 15,
-    color: colors.inkFaint,
-  },
-  glyphActive: {
-    color: colors.accent,
   },
   label: {
     color: colors.inkFaint,

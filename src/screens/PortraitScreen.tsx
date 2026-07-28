@@ -6,6 +6,7 @@ import Constellation from '../components/Constellation';
 import { Breathe, Emphasis, Pop, Reveal } from '../components/motion';
 import { MoonStarOrnament, SunburstOrnament } from '../components/Ornaments';
 import PageHeader from '../components/PageHeader';
+import ThemeIcon from '../components/ThemeIcons';
 import { Body, Card, Divider, Eyebrow } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
@@ -90,6 +91,16 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
                   <Constellation
                     sign={section.sign}
                     size={92}
+                    style={[
+                      styles.sectionIllu,
+                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                    ]}
+                  />
+                )}
+                {section.icon && (
+                  <ThemeIcon
+                    kind={section.icon}
+                    size={48}
                     style={[
                       styles.sectionIllu,
                       { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },

@@ -146,6 +146,10 @@ export const GUIDE = {
     en: 'Squares and oppositions get called "hard" aspects, and the word does them a disservice. They describe two parts of a person that want different things — which is where nearly all drive, humour and interesting character come from. A chart made only of easy angles would belong to someone with very little to push against. Nothing here is a warning.',
     pt: 'Quadraturas e oposições são chamadas de aspectos "tensos", e a palavra é injusta com elas. Elas descrevem duas partes de uma pessoa que querem coisas diferentes — e é daí que vem quase toda a garra, o humor e o caráter interessante. Um mapa feito só de ângulos fáceis seria de alguém com muito pouco contra o que se apoiar. Nada aqui é um aviso.',
   },
+  aspectLegend: {
+    en: 'Colour is the feel: teal for flowing, navy for tense, periwinkle for neutral. The bar is the strength — it fills in as the angle gets closer to exact.',
+    pt: 'A cor é o clima: verde-água para fluido, azul-marinho para tenso, periwinkle para neutro. A barra é a força — ela se enche conforme o ângulo fica mais exato.',
+  },
   applyingWhat: {
     en: 'Applying and separating',
     pt: 'Aplicativo e separativo',

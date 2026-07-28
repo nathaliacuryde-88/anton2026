@@ -7,6 +7,7 @@ import Explainer from '../components/Explainer';
 import { Emphasis } from '../components/motion';
 import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
+import { GUIDE } from '../content/guide';
 import { ASPECT_MEANING, BODY_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
 import { aspectColors, colors, radii, spacing } from '../theme/theme';
@@ -57,7 +58,10 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
-      <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('tightest')}</Eyebrow>
+      <Eyebrow color={colors.accent}>{t('tightest')}</Eyebrow>
+      <Body size={12} muted style={styles.legend}>
+        {b(GUIDE.aspectLegend)}
+      </Body>
 
       <View style={styles.list}>
         {chart.aspects.map((aspect, i) => {
@@ -141,8 +145,10 @@ const styles = StyleSheet.create({
     marginTop: spacing(2),
     gap: spacing(1),
   },
-  sectionLabel: {
-    marginBottom: spacing(1.5),
+  legend: {
+    marginTop: spacing(0.5),
+    marginBottom: spacing(1.75),
+    lineHeight: 17,
   },
   sentence: {
     backgroundColor: colors.paperDeep,

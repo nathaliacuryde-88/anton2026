@@ -214,8 +214,36 @@ export function Breathe({
 }
 
 /**
- * Spins its children slowly and forever. Used for the small star in the
- * page divider — the one piece of the app that never sits still.
+ * Pulses size and opacity, forever — a twinkle. Used for the small star in
+ * the page divider: a four-pointed star is symmetric enough that a slow
+ * rotation barely reads as movement at a glance, especially at small sizes
+ * on a phone screen. A twinkle is unmistakable regardless of the glyph's
+ * symmetry.
+ */
+export function Twinkle({
+  children,
+  periodMs = 1400,
+  minScale = 0.75,
+  minOpacity = 0.55,
+  style,
+}: {
+  children: React.ReactNode;
+  periodMs?: number;
+  minScale?: number;
+  minOpacity?: number;
+  style?: any;
+}) {
+  const v = useLoopAnim(periodMs);
+  const scale = v.interpolate({ inputRange: [0, 1], outputRange: [minScale, 1] });
+  const opacity = v.interpolate({ inputRange: [0, 1], outputRange: [minOpacity, 1] });
+  return (
+    <Animated.View style={[style, { opacity, transform: [{ scale }] }]}>{children}</Animated.View>
+  );
+}
+
+/**
+ * Spins its children slowly and forever. Used for the sunburst ornament on
+ * the Portrait photo.
  */
 export function SpinForever({
   children,

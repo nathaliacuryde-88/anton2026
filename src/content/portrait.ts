@@ -38,6 +38,8 @@ export type PortraitSection = {
   note?: string;
   /** Set on the Sun/Moon/Rising sections, for a small constellation ornament. */
   sign?: string;
+  /** Set on the sections that aren't about one sign, for a simple theme icon. */
+  icon?: 'sparkle' | 'summit' | 'heart';
 };
 
 const label = (key: BodyKey | 'asc' | 'mc', lang: Lang): string => {
@@ -171,6 +173,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
   sections.push({
     heading: lang === 'en' ? 'What stands out' : 'O que salta aos olhos',
     paragraphs: notes,
+    icon: 'sparkle',
   });
 
   // --- vocation -----------------------------------------------------------
@@ -181,6 +184,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
         ? `Directly overhead at your birth was ${mcSign.name.en} — the highest point of the chart, and the one that hints at what you might become known for. ${capitalise(mcSign.keywords.en)}. Whatever you end up doing, people are likely to meet that in you first.`
         : `Bem acima da sua cabeça, no nascimento, estava ${mcSign.name.pt} — o ponto mais alto do mapa, aquele que sugere aquilo pelo que você pode ser conhecido. ${capitalise(mcSign.keywords.pt)}. Faça o que fizer, é provável que as pessoas encontrem isso em você primeiro.`,
     ],
+    icon: 'summit',
   });
 
   // --- closing ------------------------------------------------------------
@@ -194,6 +198,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
         ? 'Welcome. You were very, very wanted.'
         : 'Seja bem-vindo. Você foi muito, muito esperado.',
     ],
+    icon: 'heart',
   });
 
   return sections;

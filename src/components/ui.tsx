@@ -12,7 +12,7 @@ import {
 
 import { useLang } from '../i18n/LanguageContext';
 import { colors, fonts, radii, softShadow, spacing, typography } from '../theme/theme';
-import { Reveal, SpinForever, useMountAnim } from './motion';
+import { Reveal, Twinkle, useMountAnim } from './motion';
 
 /** Serif body text. */
 export function Body({
@@ -143,14 +143,14 @@ export function Card({
   );
 }
 
-/** A blue rule with a small star that turns, slowly and forever, in the middle. */
+/** A blue rule with a small star that twinkles, forever, in the middle. */
 export function Divider({ style }: { style?: ViewStyle }) {
   return (
     <View style={[styles.dividerRow, style]}>
       <View style={styles.dividerLine} />
-      <SpinForever>
+      <Twinkle>
         <Text style={styles.dividerMark}>✦</Text>
-      </SpinForever>
+      </Twinkle>
       <View style={styles.dividerLine} />
     </View>
   );
