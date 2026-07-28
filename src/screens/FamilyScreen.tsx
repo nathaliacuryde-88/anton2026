@@ -29,23 +29,26 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
       <Divider />
 
       {sections.map((section, i) => (
-        <View key={i} style={styles.section}>
-          {section.kicker && (
-            <View style={styles.sectionHead}>
-              <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
-                {section.kicker}
-              </Eyebrow>
-              {section.sign && <Constellation sign={section.sign} size={36} />}
-            </View>
-          )}
-          <Title size={24} style={styles.heading}>
-            {section.heading}
-          </Title>
-          {section.paragraphs.map((paragraph, j) => (
-            <Body key={j} size={16} style={styles.paragraph}>
-              {paragraph}
-            </Body>
-          ))}
+        <View key={i}>
+          {i > 0 && <Divider />}
+          <View style={styles.section}>
+            {section.kicker && (
+              <View style={styles.sectionHead}>
+                <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
+                  {section.kicker}
+                </Eyebrow>
+                {section.sign && <Constellation sign={section.sign} size={36} />}
+              </View>
+            )}
+            <Title size={24} style={styles.heading}>
+              {section.heading}
+            </Title>
+            {section.paragraphs.map((paragraph, j) => (
+              <Body key={j} size={16} style={styles.paragraph}>
+                {paragraph}
+              </Body>
+            ))}
+          </View>
         </View>
       ))}
     </ScrollView>

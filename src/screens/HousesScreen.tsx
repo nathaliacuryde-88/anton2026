@@ -44,7 +44,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       </Body>
 
       <Divider />
-      <Eyebrow style={styles.systemLabel}>{t('housesSystem')}</Eyebrow>
+      <Eyebrow color={colors.accent} style={styles.systemLabel}>{t('housesSystem')}</Eyebrow>
 
       <View style={styles.list}>
         {chart.cusps.map((cusp, i) => {

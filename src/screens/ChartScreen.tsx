@@ -106,7 +106,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       )}
 
       {/* --- big three --- */}
-      <Eyebrow style={styles.sectionLabel}>{t('theBigThree')}</Eyebrow>
+      <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('theBigThree')}</Eyebrow>
       <View style={styles.explainerGap}>
         <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" tint={colors.vividPeriwinkle} />
       </View>
@@ -137,7 +137,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       </View>
 
       {/* --- balance --- */}
-      <Eyebrow style={styles.sectionLabel}>{t('balance')}</Eyebrow>
+      <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('balance')}</Eyebrow>
       <View style={styles.explainerGap}>
         <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} tint={colors.vividOlive} />
       </View>

@@ -62,7 +62,7 @@ export function Title({
           fontSize: size,
           lineHeight: size * 1.14,
           letterSpacing: typography.displayTracking,
-          color: colors.ink,
+          color: colors.accent,
           opacity: v,
           transform: [
             {
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize: typography.pageTitle,
     lineHeight: typography.pageTitle * 1.14,
     letterSpacing: typography.displayTracking,
-    color: colors.ink,
+    color: colors.accent,
     textAlign: 'center',
     marginTop: spacing(2),
     marginBottom: spacing(3),

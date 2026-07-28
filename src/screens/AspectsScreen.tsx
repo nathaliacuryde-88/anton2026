@@ -57,7 +57,7 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
 
       <Divider />
 
-      <Eyebrow style={styles.sectionLabel}>{t('tightest')}</Eyebrow>
+      <Eyebrow color={colors.accent} style={styles.sectionLabel}>{t('tightest')}</Eyebrow>
 
       <View style={styles.list}>
         {chart.aspects.map((aspect, i) => {

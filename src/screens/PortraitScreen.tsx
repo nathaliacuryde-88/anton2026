@@ -1,19 +1,32 @@
 import React, { useMemo } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
+import { SIGNS } from '../astro/constants';
 import { Chart } from '../astro/engine';
 import Constellation from '../components/Constellation';
-import { Emphasis } from '../components/motion';
+import { Breathe, Emphasis, Pop, Reveal } from '../components/motion';
+import { MoonStarOrnament, SunburstOrnament } from '../components/Ornaments';
 import PageHeader from '../components/PageHeader';
-import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
+import { Body, Card, Divider, Eyebrow } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
-import { colors, spacing, VIVID_ROTATION } from '../theme/theme';
+import { colors, fonts, spacing, typography, VIVID_ROTATION } from '../theme/theme';
 
 export default function PortraitScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
+  const { width } = useWindowDimensions();
   const sections = useMemo(() => buildPortrait(chart, lang), [chart, lang]);
+
+  const photoSize = Math.min(width - spacing(9), 260);
+  const [firstName, ...restName] = chart.birth.name.split(' ');
+  const sunSign = SIGNS[chart.placements.sun.signIndex];
+
+  const caption = [
+    formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year),
+    `${String(chart.birth.hour).padStart(2, '0')}:${String(chart.birth.minute).padStart(2, '0')}h`,
+    b(chart.birth.place),
+  ].join('  ·  ');
 
   return (
     <ScrollView
@@ -23,41 +36,69 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
       <PageHeader />
 
       {/* The opening screen of the app, so it introduces him first. */}
-      <PageTitle>{chart.birth.name}</PageTitle>
-      <View style={styles.hero}>
-        <Body muted size={15} style={styles.birthLine}>
-          {formatBirthDate(lang, chart.birth.day, chart.birth.month, chart.birth.year)}
-          {'  ·  '}
-          {String(chart.birth.hour).padStart(2, '0')}:
-          {String(chart.birth.minute).padStart(2, '0')}
-        </Body>
-        <Body muted size={15}>
-          {b(chart.birth.place)}
-        </Body>
+      <Reveal distance={14}>
+        <View style={styles.nameBlock}>
+          <Body size={typography.pageTitle} style={styles.nameLine}>
+            {firstName}
+          </Body>
+          {restName.length > 0 && (
+            <Body size={typography.pageTitle} style={styles.nameLine}>
+              {restName.join(' ')}
+            </Body>
+          )}
+        </View>
+      </Reveal>
+
+      <View style={styles.photoWrap}>
+        <Pop duration={760}>
+          <Breathe periodMs={4600} scale={1.025}>
+            <View
+              style={[
+                styles.photoCircle,
+                { width: photoSize, height: photoSize, borderRadius: photoSize / 2 },
+              ]}
+            >
+              <Constellation sign={sunSign.key} size={photoSize * 0.55} />
+            </View>
+          </Breathe>
+        </Pop>
+        <View style={[styles.ornamentTop, { right: photoSize * 0.04 }]}>
+          <SunburstOrnament size={Math.round(photoSize * 0.32)} />
+        </View>
+        <View style={[styles.ornamentBottom, { left: photoSize * 0.02 }]}>
+          <MoonStarOrnament size={Math.round(photoSize * 0.32)} />
+        </View>
       </View>
+
+      <Body muted size={14} style={styles.caption}>
+        {caption}
+      </Body>
 
       <Divider />
 
       {sections.map((section, i) => (
-        <View key={i} style={styles.section}>
-          <View style={styles.sectionHead}>
-            <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
-              {section.heading}
-            </Eyebrow>
-            {section.sign && <Constellation sign={section.sign} size={40} />}
-          </View>
-          {section.paragraphs.map((paragraph, j) => (
-            <Body key={j} size={17} style={styles.paragraph}>
-              {paragraph}
-            </Body>
-          ))}
-          {section.note && (
-            <Card tint={VIVID_ROTATION[i % VIVID_ROTATION.length]} style={styles.note}>
-              <Body size={14} style={styles.noteText}>
-                {section.note}
+        <View key={i}>
+          {i > 0 && <Divider />}
+          <View style={styles.section}>
+            <View style={styles.sectionHead}>
+              <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
+                {section.heading}
+              </Eyebrow>
+              {section.sign && <Constellation sign={section.sign} size={40} />}
+            </View>
+            {section.paragraphs.map((paragraph, j) => (
+              <Body key={j} size={17} style={styles.paragraph}>
+                {paragraph}
               </Body>
-            </Card>
-          )}
+            ))}
+            {section.note && (
+              <Card tint={VIVID_ROTATION[i % VIVID_ROTATION.length]} style={styles.note}>
+                <Body size={14} style={styles.noteText}>
+                  {section.note}
+                </Body>
+              </Card>
+            )}
+          </View>
         </View>
       ))}
 
@@ -98,13 +139,40 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing(2.5),
     paddingBottom: spacing(14),
   },
-  hero: {
+  nameBlock: {
     alignItems: 'center',
-    gap: spacing(0.5),
-    marginBottom: spacing(2),
+    marginTop: spacing(2),
   },
-  birthLine: {
-    marginTop: spacing(0.5),
+  nameLine: {
+    fontFamily: fonts.light,
+    lineHeight: typography.pageTitle * 1.14,
+    letterSpacing: typography.displayTracking,
+    color: colors.accent,
+    textAlign: 'center',
+  },
+  photoWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: spacing(3),
+  },
+  photoCircle: {
+    backgroundColor: colors.accentSoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: colors.card,
+  },
+  ornamentTop: {
+    position: 'absolute',
+    top: 0,
+  },
+  ornamentBottom: {
+    position: 'absolute',
+    bottom: 0,
+  },
+  caption: {
+    textAlign: 'center',
+    marginTop: spacing(2),
   },
   section: {
     marginBottom: spacing(3.5),

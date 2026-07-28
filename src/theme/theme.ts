@@ -11,7 +11,7 @@ import { Element } from '../astro/constants';
  * block. Ink is drawn straight from the olive swatch, so even the body text
  * belongs to this palette.
  */
-const PRIMARY_YELLOW = '#FCFABD';
+const PRIMARY_YELLOW = '#FDFCD5';
 const PRIMARY_BLUE = '#1F18C0';
 const OLIVE = '#2C2B02';
 const PERIWINKLE = '#6F73E2';

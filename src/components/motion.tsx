@@ -113,12 +113,14 @@ export function Pop({
   children,
   style,
   duration = 720,
+  delay = 0,
 }: {
   children: React.ReactNode;
   style?: any;
   duration?: number;
+  delay?: number;
 }) {
-  const v = useMountAnim(0, duration);
+  const v = useMountAnim(delay, duration);
   return (
     <Animated.View
       style={[
@@ -140,6 +142,75 @@ export function Pop({
       {children}
     </Animated.View>
   );
+}
+
+/** A value that oscillates 0→1→0 forever, eased like a slow breath. */
+function useLoopAnim(periodMs: number) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(v, {
+          toValue: 1,
+          duration: periodMs / 2,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+        Animated.timing(v, {
+          toValue: 0,
+          duration: periodMs / 2,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [v, periodMs]);
+  return v;
+}
+
+/**
+ * Bobs its children gently up and down, forever — used for the small
+ * illustrations that sit beside a photo, so they read as alive rather than
+ * static stickers.
+ */
+export function Float({
+  children,
+  periodMs = 3600,
+  distance = 5,
+  style,
+}: {
+  children: React.ReactNode;
+  periodMs?: number;
+  distance?: number;
+  style?: any;
+}) {
+  const v = useLoopAnim(periodMs);
+  const translateY = v.interpolate({ inputRange: [0, 1], outputRange: [0, -distance] });
+  return (
+    <Animated.View style={[style, { transform: [{ translateY }] }]}>{children}</Animated.View>
+  );
+}
+
+/**
+ * Swells its children very slightly, forever — a slow breath used on the
+ * photo, so the one real, still thing on the page never feels frozen.
+ */
+export function Breathe({
+  children,
+  periodMs = 4200,
+  scale = 1.03,
+  style,
+}: {
+  children: React.ReactNode;
+  periodMs?: number;
+  scale?: number;
+  style?: any;
+}) {
+  const v = useLoopAnim(periodMs);
+  const s = v.interpolate({ inputRange: [0, 1], outputRange: [1, scale] });
+  return <Animated.View style={[style, { transform: [{ scale: s }] }]}>{children}</Animated.View>;
 }
 
 /**
