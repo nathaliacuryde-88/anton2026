@@ -49,10 +49,10 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
       <PageTitle>{t('navAspects')}</PageTitle>
 
       <View style={styles.explainers}>
-        <Explainer titleKey="aspectsWhat" bodyKey="aspectsBody" />
-        <Explainer titleKey="tensionWhat" bodyKey="tensionBody" />
-        <Explainer titleKey="orbWhat" bodyKey="orbBody" defaultOpen={false} />
-        <Explainer titleKey="applyingWhat" bodyKey="applyingBody" defaultOpen={false} />
+        <Explainer titleKey="aspectsWhat" bodyKey="aspectsBody" tint={colors.vividGreen} />
+        <Explainer titleKey="tensionWhat" bodyKey="tensionBody" tint={colors.vividPeriwinkle} />
+        <Explainer titleKey="orbWhat" bodyKey="orbBody" defaultOpen={false} tint={colors.vividOlive} />
+        <Explainer titleKey="applyingWhat" bodyKey="applyingBody" defaultOpen={false} tint={colors.vividGreen} />
       </View>
 
       <Divider />

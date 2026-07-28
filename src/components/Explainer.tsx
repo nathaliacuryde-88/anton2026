@@ -12,7 +12,7 @@ import {
 
 import { GUIDE, GuideKey } from '../content/guide';
 import { useLang } from '../i18n/LanguageContext';
-import { colors, radii, spacing } from '../theme/theme';
+import { colors, fonts, radii, spacing } from '../theme/theme';
 import { Body } from './ui';
 
 if (
@@ -32,7 +32,7 @@ if (
 export default function Explainer({
   titleKey,
   bodyKey,
-  tint = colors.vivid,
+  tint = colors.vividGreen,
   defaultOpen = false,
 }: {
   titleKey: GuideKey;
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
   },
   markText: {
     color: colors.onVivid,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
   },
   title: {
     flex: 1,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
     color: colors.onVivid,
   },
   toggle: {

@@ -1,114 +1,110 @@
 import { Element } from '../astro/constants';
 
 /**
- * Palette.
+ * Palette — the five exact swatches, plus what has to be derived from them.
  *
- * Two primaries — a pale butter yellow and a deep blue — with brown, petrol
- * navy and pale aqua as secondaries. The five given colours are kept exact
- * where they carry weight; the softer tints and the darker, legible variants
- * are derived from them, because #FCFABD cannot hold text and #1F18C0 is too
- * loud to fill a card with.
+ * Yellow is the page itself. Blue is reserved for the app's own voice: eyebrows,
+ * headlines, the divider, the active tab, the constellation illustrations —
+ * anything that is the interface talking, rather than content. Green,
+ * periwinkle and olive are the three "vivid" card colours, rotated across the
+ * info asides so they read as a family of moments rather than one repeated
+ * block. Ink is drawn straight from the olive swatch, so even the body text
+ * belongs to this palette.
  */
 const PRIMARY_YELLOW = '#FCFABD';
 const PRIMARY_BLUE = '#1F18C0';
-const SECONDARY_BROWN = '#8A4C00';
-const SECONDARY_NAVY = '#0D354A';
-const SECONDARY_AQUA = '#B2E6E4';
+const OLIVE = '#2C2B02';
+const PERIWINKLE = '#6F73E2';
+const GREEN = '#359260';
 
 export const colors = {
-  // the palette, unaltered
+  // the five swatches, unaltered
   yellow: PRIMARY_YELLOW,
   blue: PRIMARY_BLUE,
-  brown: SECONDARY_BROWN,
-  navy: SECONDARY_NAVY,
-  aqua: SECONDARY_AQUA,
+  olive: OLIVE,
+  periwinkle: PERIWINKLE,
+  green: GREEN,
 
-  // derived tints — the yellow, opened up into a paper
-  paper: '#FDFCF1',
-  paperDeep: '#F4F1DB',
-  card: '#FFFEF8',
-  cardTint: '#F8F5E1',
-  cardWarm: '#FBF7DC', // yellow-tinted
-  cardCool: '#E7F4F3', // aqua-tinted
+  // paper — the yellow, opened up into surfaces
+  paper: PRIMARY_YELLOW,
+  paperDeep: '#F5EFA8',
+  card: '#FFFDF0',
+  cardTint: '#FBF6D9',
+  cardWarm: '#F7EFC0', // a touch deeper than `card`, for an angular house
 
-  // ink, taken from the navy so text belongs to the palette
-  ink: SECONDARY_NAVY,
-  inkSoft: '#4C6575',
-  inkFaint: '#8A9BA5',
-  hairline: '#E6E2CB',
+  // ink — taken straight from the olive swatch
+  ink: OLIVE,
+  inkSoft: '#5B5A2E',
+  inkFaint: '#93916A',
+  hairline: '#EDE6A6',
 
-  // derived working shades
-  yellowDeep: '#9A8420', // yellow dark enough to read on paper
-  blueSoft: '#DEDCF7',
-  blueDeep: '#1A14A0',
-  brownSoft: '#F1E1C9',
-  aquaDeep: '#3B8B89',
-  navySoft: '#D5E0E6',
-
-  /** The primary accent: eyebrows, angles, active states. */
+  /** The app's own voice: eyebrows, headlines, dividers, active states. */
   accent: PRIMARY_BLUE,
-  accentSoft: '#DEDCF7',
-  /** The warm counterweight, used sparingly. */
-  accentWarm: SECONDARY_BROWN,
+  accentSoft: '#DCDBF6',
 
   // small marks
-  rose: SECONDARY_BROWN,
-  blush: '#F1E1C9',
+  rose: OLIVE,
+  blush: '#E7E5A0',
 
   /**
-   * The vivid card: full-strength primary blue, reserved for the handful of
-   * surfaces meant to read as a bold statement rather than a soft backdrop —
-   * the info cards, the hamburger panel, a tapped highlight. Everything else
-   * stays in the paper/pastel family below.
+   * The three vivid card colours, rotated across Explainer and other
+   * "aside" surfaces so the app doesn't read as one colour repeated. All take
+   * the same near-white text.
    */
   vivid: PRIMARY_BLUE,
-  onVivid: '#F7F6FF',
-  onVividMuted: 'rgba(247,246,255,0.78)',
-  onVividChip: 'rgba(255,255,255,0.16)',
+  vividGreen: GREEN,
+  vividPeriwinkle: PERIWINKLE,
+  vividOlive: OLIVE,
+  onVivid: '#FCFBFF',
+  onVividMuted: 'rgba(252,251,255,0.85)',
+  onVividChip: 'rgba(255,255,255,0.18)',
 
-  /** The divider's line — blue, but a soft tint rather than the vivid fill. */
-  dividerLine: '#DEDCF7',
+  /** The divider's line — a pale wash of the accent blue. */
+  dividerLine: '#D6D4F4',
 };
 
+/** The rotation Explainer and other aside cards cycle through. */
+export const VIVID_ROTATION = [colors.vividGreen, colors.vividPeriwinkle, colors.vividOlive];
+
 /**
- * One element per palette colour: brown for fire, yellow for earth, aqua for
- * air, blue for water. The `soft` values are tints light enough to sit behind
- * a glyph; the `strong` values are dark enough to read on paper.
+ * One element per secondary swatch: olive for fire, yellow for earth,
+ * periwinkle for air, green for water. `soft` sits light enough behind a
+ * glyph; `strong` is dark enough to read on paper.
  */
 export const elementColors: Record<Element, { soft: string; strong: string }> = {
-  fire: { soft: '#F3E2CB', strong: '#8A4C00' },
-  earth: { soft: '#F6F2C4', strong: '#9A8420' },
-  air: { soft: '#DCEFEE', strong: '#3B8B89' },
-  water: { soft: '#DEDCF7', strong: '#1F18C0' },
+  fire: { soft: '#EDE9C4', strong: OLIVE },
+  earth: { soft: '#F7F0A0', strong: '#8A7A00' },
+  air: { soft: '#E1E0F8', strong: PERIWINKLE },
+  water: { soft: '#D9EDE1', strong: GREEN },
 };
 
 export const aspectColors = {
-  soft: '#3B8B89', // flowing — aqua
-  hard: '#8A4C00', // tense — brown
-  neutral: '#5A7A8A', // navy, lightened
+  soft: GREEN, // flowing
+  hard: OLIVE, // tense
+  neutral: PERIWINKLE,
 };
 
 /**
- * Instrument Serif, one weight. There is no italic anywhere in the app, so
- * every alias resolves to the single regular face; the names are kept so call
- * sites still read by intent.
+ * Fraunces — a real weight range, unlike the single-weight face it replaces.
+ * Headlines lean on the lighter end for an editorial feel; small labels and
+ * inline emphasis use the heavier end for genuine bold rather than a faked one.
  */
 export const fonts = {
-  light: 'InstrumentSerif',
-  regular: 'InstrumentSerif',
-  medium: 'InstrumentSerif',
-  semibold: 'InstrumentSerif',
+  light: 'Fraunces300',
+  regular: 'Fraunces400',
+  medium: 'Fraunces500',
+  semibold: 'Fraunces600',
+  bold: 'Fraunces700',
 };
 
 /**
- * Instrument Serif is a display face: it sets tight and a little large. Body
- * copy needs extra leading to stay comfortable, and display sizes want
- * slightly negative tracking to hold together.
+ * Fraunces sets a little more open than Instrument Serif did. Display sizes
+ * keep a light negative tracking; body copy keeps its generous leading.
  */
 export const typography = {
-  displayTracking: -0.6,
+  displayTracking: -0.4,
   bodyLineHeight: 1.55,
-  eyebrowTracking: 2.6,
+  eyebrowTracking: 2.4,
   /** Every page headline is this size, centred, with nothing above it. */
   pageTitle: 34,
 };
@@ -124,8 +120,8 @@ export const spacing = (n: number) => n * 8;
 
 /** Very soft and low — barely a shadow, just enough lift off the page. */
 export const softShadow = {
-  shadowColor: '#4A5560',
-  shadowOpacity: 0.06,
+  shadowColor: '#4A4408',
+  shadowOpacity: 0.07,
   shadowRadius: 16,
   shadowOffset: { width: 0, height: 5 },
   elevation: 1,

@@ -10,7 +10,7 @@ import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { HOUSE_MEANING } from '../content/interpretations';
 import { useLang } from '../i18n/LanguageContext';
-import { colors, elementColors, radii, spacing } from '../theme/theme';
+import { colors, elementColors, fonts, radii, spacing } from '../theme/theme';
 
 /** House numbers whose cusps are the four angles of the chart. */
 const ANGULAR = new Set([1, 4, 7, 10]);
@@ -32,9 +32,9 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       <PageTitle>{t('navHouses')}</PageTitle>
 
       <View style={styles.explainers}>
-        <Explainer titleKey="housesWhat" bodyKey="housesBody" />
-        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" />
-        <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} />
+        <Explainer titleKey="housesWhat" bodyKey="housesBody" tint={colors.vividGreen} />
+        <Explainer titleKey="emptyHouseWhat" bodyKey="emptyHouseBody" tint={colors.vividPeriwinkle} />
+        <Explainer titleKey="angularWhat" bodyKey="angularBody" defaultOpen={false} tint={colors.vividOlive} />
       </View>
 
       <Body size={13} muted style={styles.tally}>
@@ -137,7 +137,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       </View>
 
       <View style={{ marginTop: spacing(2) }}>
-        <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} />
+        <Explainer titleKey="rulerWhat" bodyKey="rulerHint" defaultOpen={false} tint={colors.vividGreen} />
       </View>
     </ScrollView>
   );
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing(14),
   },
   bold: {
-    fontWeight: '700',
+    fontFamily: fonts.bold,
   },
   explainers: {
     marginTop: spacing(2),

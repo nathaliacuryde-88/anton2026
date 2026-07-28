@@ -29,6 +29,8 @@ export type FamilySection = {
   /** Small label above the heading, e.g. "Moon in Sagittarius". */
   kicker?: string;
   paragraphs: string[];
+  /** The sign named in the kicker, for a small constellation ornament. */
+  sign?: string;
 };
 
 /** The Moon: what being cared for has to feel like before it lands. */
@@ -178,6 +180,7 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
         ? `Moon in ${SIGNS[moon.signIndex].name.en}, ${inHouse(moon.house)}`
         : `Lua em ${SIGNS[moon.signIndex].name.pt}, ${inHouse(moon.house)}`,
     heading: lang === 'en' ? 'Being looked after' : 'Ser cuidado',
+    sign: SIGNS[moon.signIndex].key,
     paragraphs: [
       CARE_IN_SIGN[moon.signIndex][lang],
       lang === 'en'
@@ -193,6 +196,7 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
         ? `Sun in ${SIGNS[sun.signIndex].name.en}, ${inHouse(sun.house)}`
         : `Sol em ${SIGNS[sun.signIndex].name.pt}, ${inHouse(sun.house)}`,
     heading: lang === 'en' ? 'What authority will mean' : 'O que a autoridade vai significar',
+    sign: SIGNS[sun.signIndex].key,
     paragraphs: [
       AUTHORITY_IN_SIGN[sun.signIndex][lang],
       lang === 'en'
@@ -208,6 +212,7 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
         ? `Fourth house in ${icSign.name.en}`
         : `Casa quatro em ${icSign.name.pt}`,
     heading: lang === 'en' ? 'Home and roots' : 'Casa e raízes',
+    sign: icSign.key,
     paragraphs: [
       lang === 'en'
         ? `The bottom of the chart — the point directly beneath him at birth — is where home lives. In ${icSign.name.en} it suggests ${HOME_IN_SIGN[Math.floor(((chart.mc + 180) % 360) / 30)].en}.`
@@ -226,6 +231,7 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
         : `Casa dez em ${mcSign.name.pt}`,
     heading:
       lang === 'en' ? 'What the family shows the world' : 'O que a família mostra ao mundo',
+    sign: mcSign.key,
     paragraphs: [
       lang === 'en'
         ? `Opposite home is the top of the chart: the public face of a family, and the parent he is most likely to associate with the world outside. In ${mcSign.name.en} — ${mcSign.keywords.en}.`
@@ -243,6 +249,7 @@ export function buildFamily(chart: Chart, lang: Lang): FamilySection[] {
         ? `Saturn in ${SIGNS[saturn.signIndex].name.en}, ${inHouse(saturn.house)}`
         : `Saturno em ${SIGNS[saturn.signIndex].name.pt}, ${inHouse(saturn.house)}`,
     heading: lang === 'en' ? 'The shape of rules' : 'O formato das regras',
+    sign: SIGNS[saturn.signIndex].key,
     paragraphs: [
       lang === 'en'
         ? `Saturn is the part of a chart that deals with limits — where a person learns that the world has edges, and who taught them. His is in ${SIGNS[saturn.signIndex].name.en}${saturn.stationary ? ', and it was almost perfectly still that day, which gives it real weight' : ''}.`

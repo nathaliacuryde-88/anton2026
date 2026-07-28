@@ -24,10 +24,16 @@ const OUT = process.argv[3] ?? 'anton-sky.html';
 const FRAGMENT = process.argv.includes('--fragment');
 
 // The faces App.tsx registers, mapped to their source directory.
-const FACES = [['InstrumentSerif', '400Regular']];
+const FACES = [
+  ['Fraunces300', '300Light'],
+  ['Fraunces400', '400Regular'],
+  ['Fraunces500', '500Medium'],
+  ['Fraunces600', '600SemiBold'],
+  ['Fraunces700', '700Bold'],
+];
 
 // Latin plus the punctuation the copy actually uses. The astrological glyphs
-// are not in Instrument Serif and come from the platform's symbol font either way.
+// are not in Fraunces and come from the platform's symbol font either way.
 const UNICODES = [
   'U+0020-007E', 'U+00A0-00FF', 'U+0131', 'U+0152-0153',
   'U+2013-2014', 'U+2018-201D', 'U+2022', 'U+2026',
@@ -39,7 +45,7 @@ function buildFontCss() {
   const rules = [];
 
   for (const [family, dir] of FACES) {
-    const src = `node_modules/@expo-google-fonts/instrument-serif/${dir}/InstrumentSerif_${dir}.ttf`;
+    const src = `node_modules/@expo-google-fonts/fraunces/${dir}/Fraunces_${dir}.ttf`;
     if (!fs.existsSync(src)) throw new Error(`missing font source: ${src}`);
     const out = path.join(tmp, `${family}.woff2`);
     execFileSync('pyftsubset', [
@@ -95,7 +101,7 @@ const head = FRAGMENT
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FBF8F3">
+<meta name="theme-color" content="#FCFABD">
 <meta name="description" content="The natal chart of Anton Duque Estrada — 26 July 2026, Filderstadt. EN/PT.">
 ${favicon}
 `;
@@ -106,10 +112,10 @@ const body = `<title>Anton's Sky · O Céu de Anton</title>
 <style id="anton-fonts">
 ${fontCss}
 
-/* The app paints its own pastel gradient; the shell just gets out of the way
+/* The app paints its own solid yellow; the shell just gets out of the way
    and gives react-native-web the definite height its ScrollViews need. */
 html, body { height: 100%; margin: 0; padding: 0; }
-body { overflow: hidden; background: #FBF8F3; -webkit-font-smoothing: antialiased; }
+body { overflow: hidden; background: #FCFABD; -webkit-font-smoothing: antialiased; }
 #root { display: flex; height: 100%; flex: 1; min-height: 0; }
 </style>
 ${FRAGMENT ? '' : '</head>\n<body>'}

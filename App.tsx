@@ -1,7 +1,11 @@
 import {
-  InstrumentSerif_400Regular,
+  Fraunces_300Light,
+  Fraunces_400Regular,
+  Fraunces_500Medium,
+  Fraunces_600SemiBold,
+  Fraunces_700Bold,
   useFonts,
-} from '@expo-google-fonts/instrument-serif';
+} from '@expo-google-fonts/fraunces';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
@@ -49,9 +53,14 @@ function Shell() {
 }
 
 export default function App() {
-  // One face, no italic: every alias in `fonts` resolves to it.
+  // Fraunces has a real weight range, so each alias gets its own file —
+  // no italics, matching the rest of the app.
   const [fontsLoaded, fontError] = useFonts({
-    [fonts.regular]: InstrumentSerif_400Regular,
+    [fonts.light]: Fraunces_300Light,
+    [fonts.regular]: Fraunces_400Regular,
+    [fonts.medium]: Fraunces_500Medium,
+    [fonts.semibold]: Fraunces_600SemiBold,
+    [fonts.bold]: Fraunces_700Bold,
   });
 
   // Render on failure too: if the font files cannot be fetched the platform

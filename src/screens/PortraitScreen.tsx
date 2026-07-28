@@ -2,13 +2,14 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
+import Constellation from '../components/Constellation';
 import { Emphasis } from '../components/motion';
 import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle } from '../components/ui';
 import { GUIDE } from '../content/guide';
 import { buildPortrait } from '../content/portrait';
 import { formatBirthDate, useLang } from '../i18n/LanguageContext';
-import { colors, spacing } from '../theme/theme';
+import { colors, spacing, VIVID_ROTATION } from '../theme/theme';
 
 export default function PortraitScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
@@ -39,14 +40,19 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
 
       {sections.map((section, i) => (
         <View key={i} style={styles.section}>
-          <Eyebrow color={colors.accent}>{section.heading}</Eyebrow>
+          <View style={styles.sectionHead}>
+            <Eyebrow color={colors.accent} style={styles.sectionEyebrow}>
+              {section.heading}
+            </Eyebrow>
+            {section.sign && <Constellation sign={section.sign} size={40} />}
+          </View>
           {section.paragraphs.map((paragraph, j) => (
             <Body key={j} size={17} style={styles.paragraph}>
               {paragraph}
             </Body>
           ))}
           {section.note && (
-            <Card tint={colors.vivid} style={styles.note}>
+            <Card tint={VIVID_ROTATION[i % VIVID_ROTATION.length]} style={styles.note}>
               <Body size={14} style={styles.noteText}>
                 {section.note}
               </Body>
@@ -102,6 +108,14 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: spacing(3.5),
+  },
+  sectionHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sectionEyebrow: {
+    flex: 1,
   },
   paragraph: {
     marginTop: spacing(1.5),

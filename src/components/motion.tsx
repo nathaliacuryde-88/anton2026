@@ -80,8 +80,7 @@ export function Emphasis({
 }) {
   const v = useMountAnim(delay, 420);
   const base: TextStyle = {
-    fontFamily: fonts.regular,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
     fontSize: size,
   };
   return (

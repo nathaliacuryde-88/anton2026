@@ -12,6 +12,7 @@ import {
 } from '../astro/constants';
 import { Chart, formatDegree, splitLongitude } from '../astro/engine';
 import ChartWheel from '../components/ChartWheel';
+import Constellation from '../components/Constellation';
 import Explainer from '../components/Explainer';
 import { Emphasis, Pop } from '../components/motion';
 import PageHeader from '../components/PageHeader';
@@ -67,7 +68,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       <PageHeader />
       <PageTitle>{t('navChart')}</PageTitle>
 
-      <Explainer titleKey="chartWhat" bodyKey="chartBody" />
+      <Explainer titleKey="chartWhat" bodyKey="chartBody" tint={colors.vividGreen} />
 
       {/* --- wheel --- */}
       <View style={styles.wheelWrap}>
@@ -107,7 +108,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       {/* --- big three --- */}
       <Eyebrow style={styles.sectionLabel}>{t('theBigThree')}</Eyebrow>
       <View style={styles.explainerGap}>
-        <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" />
+        <Explainer titleKey="bigThreeWhat" bodyKey="bigThreeBody" tint={colors.vividPeriwinkle} />
       </View>
       <View style={styles.bigThreeRow}>
         {bigThree.map((item) => (
@@ -119,9 +120,9 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
             <Body size={13} muted style={styles.bigThreeLabel}>
               {item.label}
             </Body>
-            <Body size={26} style={styles.bigThreeGlyph}>
-              {item.sign.glyph}
-            </Body>
+            <View style={styles.bigThreeGlyph}>
+              <Constellation sign={item.sign.key} size={58} />
+            </View>
             <Emphasis size={15} color={colors.ink} style={styles.bigThreeSign}>
               {b(item.sign.name)}
             </Emphasis>
@@ -138,7 +139,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
       {/* --- balance --- */}
       <Eyebrow style={styles.sectionLabel}>{t('balance')}</Eyebrow>
       <View style={styles.explainerGap}>
-        <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} />
+        <Explainer titleKey="balanceWhat" bodyKey="balanceBody" defaultOpen={false} tint={colors.vividOlive} />
       </View>
       <Card>
         <Body size={12} muted style={{ letterSpacing: 1 }}>
@@ -169,8 +170,12 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               label={b(MODALITY_NAMES[m])}
               value={chart.modalityCounts[m]}
               total={11}
-              color={[colors.blue, colors.brown, colors.aquaDeep][i]}
-              track={[colors.blueSoft, colors.brownSoft, '#DCEFEE'][i]}
+              color={[colors.olive, colors.green, colors.periwinkle][i]}
+              track={[
+                elementColors.fire.soft,
+                elementColors.water.soft,
+                elementColors.air.soft,
+              ][i]}
             />
           ))}
         </View>

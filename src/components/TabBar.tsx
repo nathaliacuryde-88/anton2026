@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useLang } from '../i18n/LanguageContext';
 import { NavProps, TABS } from '../navigation';
-import { colors, radii, spacing } from '../theme/theme';
+import { colors, fonts, radii, spacing } from '../theme/theme';
 import { Body } from './ui';
 
 /**
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderTopLeftRadius: radii.xl,
     borderTopRightRadius: radii.xl,
-    shadowColor: '#4A5560',
+    shadowColor: '#4A4408',
     shadowOpacity: 0.08,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: -4 },
@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
   },
   labelActive: {
     color: colors.accent,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
   },
 });

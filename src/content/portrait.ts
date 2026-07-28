@@ -36,6 +36,8 @@ export type PortraitSection = {
   paragraphs: string[];
   /** Optional emphasised line, shown in italic gold. */
   note?: string;
+  /** Set on the Sun/Moon/Rising sections, for a small constellation ornament. */
+  sign?: string;
 };
 
 const label = (key: BodyKey | 'asc' | 'mc', lang: Lang): string => {
@@ -80,6 +82,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
       lang === 'en'
         ? `In the ${ordinal(sun.house, 'en')} house — ${HOUSE_MEANING[sun.house - 1].en.toLowerCase()}.`
         : `Na casa ${sun.house} — ${HOUSE_MEANING[sun.house - 1].pt.toLowerCase()}.`,
+    sign: SIGNS[sun.signIndex].key,
   });
 
   sections.push({
@@ -92,6 +95,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
       lang === 'en'
         ? `In the ${ordinal(moon.house, 'en')} house — ${HOUSE_MEANING[moon.house - 1].en.toLowerCase()}.`
         : `Na casa ${moon.house} — ${HOUSE_MEANING[moon.house - 1].pt.toLowerCase()}.`,
+    sign: SIGNS[moon.signIndex].key,
   });
 
   const ascIndex = Math.floor(chart.asc / 30);
@@ -105,6 +109,7 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
       lang === 'en'
         ? `The eastern horizon at the minute you were born, and ${ascSign.ruler.en} is the planet that looks after it.`
         : `O horizonte leste no minuto em que você nasceu, e ${ascSign.ruler.pt} é o planeta que cuida dele.`,
+    sign: ascSign.key,
   });
 
   // --- what stands out ----------------------------------------------------
