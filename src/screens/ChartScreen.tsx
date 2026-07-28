@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import {
   BODIES,
@@ -14,7 +14,7 @@ import { Chart, formatDegree, splitLongitude } from '../astro/engine';
 import ChartWheel from '../components/ChartWheel';
 import Constellation from '../components/Constellation';
 import Explainer from '../components/Explainer';
-import { Emphasis, Pop } from '../components/motion';
+import { Emphasis, Parallax, Pop, useParallaxScroll } from '../components/motion';
 import PageHeader from '../components/PageHeader';
 import { Body, Card, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { BODY_MEANING, HOUSE_MEANING } from '../content/interpretations';
@@ -25,6 +25,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
   const { width } = useWindowDimensions();
   const [selected, setSelected] = useState<BodyKey | null>(null);
+  const { scrollY, onScroll } = useParallaxScroll();
 
   const wheelSize = Math.min(width - spacing(4), 420);
   const sun = chart.placements.sun;
@@ -61,9 +62,11 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
   const selectedPlacement = selected ? chart.placements[selected] : null;
 
   return (
-    <ScrollView
+    <Animated.ScrollView
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
     >
       <PageHeader />
       <PageTitle>{t('navChart')}</PageTitle>
@@ -119,7 +122,9 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
               {item.label}
             </Body>
             <View style={styles.bigThreeGlyph}>
-              <Constellation sign={item.sign.key} size={64} />
+              <Parallax scrollY={scrollY} factor={-0.04}>
+                <Constellation sign={item.sign.key} size={64} />
+              </Parallax>
             </View>
             <Emphasis size={15} color={colors.ink} style={styles.bigThreeSign}>
               {b(item.sign.name)}
@@ -183,7 +188,7 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
           {chart.dayChart ? t('dayChart') : t('nightChart')}
         </Body>
       </Card>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 }
 

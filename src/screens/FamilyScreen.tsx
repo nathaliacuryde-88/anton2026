@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
 import Constellation from '../components/Constellation';
 import Explainer from '../components/Explainer';
+import { Parallax, useParallaxScroll } from '../components/motion';
 import PageHeader from '../components/PageHeader';
 import { Body, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { buildFamily } from '../content/family';
@@ -13,11 +14,14 @@ import { colors, spacing } from '../theme/theme';
 export default function FamilyScreen({ chart }: { chart: Chart }) {
   const { t, lang } = useLang();
   const sections = useMemo(() => buildFamily(chart, lang), [chart, lang]);
+  const { scrollY, onScroll } = useParallaxScroll();
 
   return (
-    <ScrollView
+    <Animated.ScrollView
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
     >
       <PageHeader />
       <PageTitle>{t('navFamily')}</PageTitle>
@@ -36,14 +40,16 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
             <View style={styles.section}>
               <View style={[styles.sectionHead, reverse && styles.sectionHeadReverse]}>
                 {section.sign && (
-                  <Constellation
-                    sign={section.sign}
-                    size={88}
-                    style={[
-                      styles.sectionIllu,
-                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
-                    ]}
-                  />
+                  <Parallax scrollY={scrollY} factor={reverse ? -0.08 : -0.05}>
+                    <Constellation
+                      sign={section.sign}
+                      size={88}
+                      style={[
+                        styles.sectionIllu,
+                        { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                      ]}
+                    />
+                  </Parallax>
                 )}
                 <View style={styles.sectionHeadText}>
                   {section.kicker && (
@@ -63,7 +69,7 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
           </View>
         );
       })}
-    </ScrollView>
+    </Animated.ScrollView>
   );
 }
 

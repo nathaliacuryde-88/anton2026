@@ -273,3 +273,43 @@ export function SpinForever({
     <Animated.View style={[style, { transform: [{ rotate }] }]}>{children}</Animated.View>
   );
 }
+
+/**
+ * Feeds a page's scroll position into `Parallax` layers below it. Each screen
+ * that wants parallax illustrations creates one of these and hands `onScroll`
+ * to its `Animated.ScrollView`.
+ */
+export function useParallaxScroll() {
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+    { useNativeDriver: true },
+  );
+  return { scrollY, onScroll };
+}
+
+/**
+ * Drifts its children a fraction of the page's own scroll — slower than the
+ * text around it, the way a background layer trails a foreground one. A
+ * small illustration beside a paragraph, given this, reads as sitting at a
+ * different depth rather than printed flat on the page.
+ */
+export function Parallax({
+  scrollY,
+  factor = -0.06,
+  children,
+  style,
+}: {
+  scrollY: Animated.Value;
+  factor?: number;
+  children: React.ReactNode;
+  style?: any;
+}) {
+  return (
+    <Animated.View
+      style={[style, { transform: [{ translateY: Animated.multiply(scrollY, factor) }] }]}
+    >
+      {children}
+    </Animated.View>
+  );
+}

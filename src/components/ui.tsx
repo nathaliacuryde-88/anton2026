@@ -191,9 +191,11 @@ export function LanguageToggle() {
     }).start();
   }, [index, slide]);
 
+  // A touch narrower than a third, and inset from each third's own edges,
+  // so the pill never touches the track's white card, left or right.
   const left = slide.interpolate({
     inputRange: [0, 1, 2],
-    outputRange: ['0%', '33.3333%', '66.6666%'],
+    outputRange: ['1.6667%', '35%', '68.3333%'],
   });
 
   return (
@@ -267,16 +269,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.card,
     borderRadius: radii.sm,
-    padding: 3,
+    padding: 5,
     position: 'relative',
     overflow: 'hidden',
   },
   toggleIndicator: {
     position: 'absolute',
-    top: 3,
-    bottom: 3,
-    width: '33.3333%',
-    backgroundColor: colors.accent,
+    top: 5,
+    bottom: 5,
+    width: '30%',
+    backgroundColor: colors.cyanSoft,
     borderRadius: radii.sm - 3,
   },
   toggleItem: {
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
     color: colors.inkFaint,
   },
   toggleTextActive: {
-    color: colors.onVivid,
+    color: colors.accent,
     fontFamily: fonts.bold,
   },
 });

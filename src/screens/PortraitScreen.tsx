@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { Image, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Animated, Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
 import Constellation from '../components/Constellation';
-import { Breathe, Emphasis, Pop, Reveal } from '../components/motion';
+import { Breathe, Emphasis, Parallax, Pop, Reveal, useParallaxScroll } from '../components/motion';
 import { MoonStarOrnament, SunburstOrnament } from '../components/Ornaments';
 import PageHeader from '../components/PageHeader';
 import ThemeIcon from '../components/ThemeIcons';
@@ -17,6 +17,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
   const { t, b, lang } = useLang();
   const { width } = useWindowDimensions();
   const sections = useMemo(() => buildPortrait(chart, lang), [chart, lang]);
+  const { scrollY, onScroll } = useParallaxScroll();
 
   const photoSize = Math.min(width - spacing(9), 260);
   const [firstName, ...restName] = chart.birth.name.split(' ');
@@ -28,9 +29,11 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
   ].join('  ·  ');
 
   return (
-    <ScrollView
+    <Animated.ScrollView
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
     >
       <PageHeader />
 
@@ -66,10 +69,14 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
           </Breathe>
         </Pop>
         <View style={[styles.ornamentTop, { right: photoSize * 0.04 }]}>
-          <SunburstOrnament size={Math.round(photoSize * 0.32)} />
+          <Parallax scrollY={scrollY} factor={-0.1}>
+            <SunburstOrnament size={Math.round(photoSize * 0.32)} />
+          </Parallax>
         </View>
         <View style={[styles.ornamentBottom, { left: photoSize * 0.02 }]}>
-          <MoonStarOrnament size={Math.round(photoSize * 0.32)} />
+          <Parallax scrollY={scrollY} factor={-0.07}>
+            <MoonStarOrnament size={Math.round(photoSize * 0.32)} />
+          </Parallax>
         </View>
       </View>
 
@@ -88,24 +95,28 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
             <View style={styles.section}>
               <View style={[styles.sectionHead, reverse && styles.sectionHeadReverse]}>
                 {section.sign && (
-                  <Constellation
-                    sign={section.sign}
-                    size={92}
-                    style={[
-                      styles.sectionIllu,
-                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
-                    ]}
-                  />
+                  <Parallax scrollY={scrollY} factor={reverse ? -0.08 : -0.05}>
+                    <Constellation
+                      sign={section.sign}
+                      size={92}
+                      style={[
+                        styles.sectionIllu,
+                        { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                      ]}
+                    />
+                  </Parallax>
                 )}
                 {section.icon && (
-                  <ThemeIcon
-                    kind={section.icon}
-                    size={48}
-                    style={[
-                      styles.sectionIllu,
-                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
-                    ]}
-                  />
+                  <Parallax scrollY={scrollY} factor={reverse ? -0.08 : -0.05}>
+                    <ThemeIcon
+                      kind={section.icon}
+                      size={48}
+                      style={[
+                        styles.sectionIllu,
+                        { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                      ]}
+                    />
+                  </Parallax>
                 )}
                 <View style={styles.sectionHeadText}>
                   <Eyebrow color={colors.accent}>{section.heading}</Eyebrow>
@@ -161,7 +172,7 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
           </View>
         ))}
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 }
 
@@ -190,8 +201,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accentSoft,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 4,
-    borderColor: colors.cyanBright,
   },
   ornamentTop: {
     position: 'absolute',
