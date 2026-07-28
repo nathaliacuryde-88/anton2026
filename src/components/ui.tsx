@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Animated,
+  Easing,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import { Lang } from '../astro/constants';
 import { useLang } from '../i18n/LanguageContext';
 import { colors, fonts, radii, softShadow, spacing, typography } from '../theme/theme';
 import { Reveal, Twinkle, useMountAnim } from './motion';
@@ -172,12 +174,32 @@ export function Chip({
   );
 }
 
-/** EN / PT switch. */
+const LANGS: Lang[] = ['en', 'pt', 'de'];
+
+/** EN / PT / DE switch — a sliding blue pill over an equal three-way split. */
 export function LanguageToggle() {
   const { lang, setLang } = useLang();
+  const index = LANGS.indexOf(lang);
+  const slide = useRef(new Animated.Value(index)).current;
+
+  useEffect(() => {
+    Animated.timing(slide, {
+      toValue: index,
+      duration: 320,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false, // animating `left` as a percentage, not a transform
+    }).start();
+  }, [index, slide]);
+
+  const left = slide.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: ['0%', '33.3333%', '66.6666%'],
+  });
+
   return (
     <View style={styles.toggle}>
-      {(['en', 'pt'] as const).map((code) => {
+      <Animated.View style={[styles.toggleIndicator, { left }]} />
+      {LANGS.map((code) => {
         const active = lang === code;
         return (
           <Pressable
@@ -186,7 +208,7 @@ export function LanguageToggle() {
             hitSlop={6}
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
-            style={[styles.toggleItem, active && styles.toggleItemActive]}
+            style={styles.toggleItem}
           >
             <Text style={[styles.toggleText, active && styles.toggleTextActive]}>
               {code.toUpperCase()}
@@ -243,17 +265,25 @@ const styles = StyleSheet.create({
   },
   toggle: {
     flexDirection: 'row',
-    backgroundColor: colors.paperDeep,
+    backgroundColor: colors.card,
     borderRadius: radii.sm,
     padding: 3,
+    position: 'relative',
+    overflow: 'hidden',
   },
-  toggleItem: {
-    paddingHorizontal: spacing(1.25),
-    paddingVertical: spacing(0.4),
+  toggleIndicator: {
+    position: 'absolute',
+    top: 3,
+    bottom: 3,
+    width: '33.3333%',
+    backgroundColor: colors.accent,
     borderRadius: radii.sm - 3,
   },
-  toggleItemActive: {
-    backgroundColor: colors.card,
+  toggleItem: {
+    flex: 1,
+    paddingVertical: spacing(0.4),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   toggleText: {
     fontFamily: fonts.medium,
@@ -262,6 +292,7 @@ const styles = StyleSheet.create({
     color: colors.inkFaint,
   },
   toggleTextActive: {
-    color: colors.ink,
+    color: colors.onVivid,
+    fontFamily: fonts.bold,
   },
 });

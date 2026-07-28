@@ -40,7 +40,9 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
       <Body size={13} muted style={styles.tally}>
         {lang === 'en'
           ? `${emptyCount} of the twelve are quiet in this chart — an ordinary number.`
-          : `${emptyCount} das doze estão tranquilas neste mapa — um número comum.`}
+          : lang === 'de'
+            ? `${emptyCount} von zwölf sind in dieser Karte still — eine gewöhnliche Zahl.`
+            : `${emptyCount} das doze estão tranquilas neste mapa — um número comum.`}
       </Body>
 
       <Divider />
@@ -95,7 +97,7 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
               {occupants.length ? (
                 <View>
                   <Body size={12} muted style={styles.sectionHint}>
-                    {lang === 'en' ? 'Living here' : 'Morando aqui'}
+                    {lang === 'en' ? 'Living here' : lang === 'de' ? 'Wohnt hier' : 'Morando aqui'}
                   </Body>
                   <View style={styles.occupants}>
                     {occupants.map((k) => (
@@ -118,11 +120,13 @@ export default function HousesScreen({ chart }: { chart: Chart }) {
                     <Emphasis size={13} color={colors.ink}>
                       {BODIES[rulerKey].glyph} {b(BODIES[rulerKey].name)}
                     </Emphasis>
-                    {lang === 'en' ? ' in ' : ' em '}
+                    {lang === 'en' ? ' in ' : lang === 'de' ? ' in ' : ' em '}
                     {b(rulerSign.name)}
                     {lang === 'en'
                       ? `, house ${ruler.house}`
-                      : `, casa ${ruler.house}`}
+                      : lang === 'de'
+                        ? `, Haus ${ruler.house}`
+                        : `, casa ${ruler.house}`}
                   </Body>
                 </View>
               )}

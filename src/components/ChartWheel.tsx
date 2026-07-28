@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { Animated, Easing } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -9,6 +10,8 @@ import Svg, {
   Stop,
   Text as SvgText,
 } from 'react-native-svg';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 import {
   ASPECTS,
@@ -135,6 +138,34 @@ export default function ChartWheel({
     const minGap = (13 / (R * RING.glyph)) * (180 / Math.PI);
     return spreadGlyphs(raw, minGap);
   }, [keys, chart.placements, R]);
+
+  // A one-time demo pulse on the Sun, shortly after the wheel appears — so a
+  // first-time visitor sees what a tap looks like before trying one.
+  const sunIdx = keys.indexOf('sun' as BodyKey);
+  const demoAt = point(placedLons[sunIdx >= 0 ? sunIdx : 0], R * RING.glyph);
+  const demoPulse = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const anim = Animated.loop(
+      Animated.sequence([
+        Animated.delay(1000),
+        Animated.timing(demoPulse, {
+          toValue: 1,
+          duration: 900,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: false,
+        }),
+        Animated.timing(demoPulse, { toValue: 0, duration: 0, useNativeDriver: false }),
+      ]),
+      { iterations: 2 },
+    );
+    anim.start();
+    return () => anim.stop();
+  }, [demoPulse]);
+  const demoRadius = demoPulse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [R * 0.062, R * 0.16],
+  });
+  const demoOpacity = demoPulse.interpolate({ inputRange: [0, 1], outputRange: [0.5, 0] });
 
   return (
     <Svg width={size} height={size}>
@@ -287,13 +318,15 @@ export default function ChartWheel({
               strokeWidth={0.7}
               opacity={0.5}
             />
-            {isSelected && (
+            {!def.point && (
               <Circle
                 cx={glyphAt.x}
                 cy={glyphAt.y}
-                r={R * 0.062}
-                fill={colors.accentSoft}
-                opacity={0.85}
+                r={R * 0.078}
+                fill={isSelected ? colors.accentSoft : colors.card}
+                stroke={colors.cyan}
+                strokeWidth={1}
+                opacity={isSelected ? 0.9 : 0.7}
               />
             )}
             <SvgText
@@ -321,6 +354,20 @@ export default function ChartWheel({
           </G>
         );
       })}
+
+      {/* A ring pulses outward from the Sun a couple of times on first
+          appearance, to demonstrate that the symbols are tappable. */}
+      {!selected && (
+        <AnimatedCircle
+          cx={demoAt.x}
+          cy={demoAt.y}
+          r={demoRadius}
+          fill="none"
+          stroke={colors.accent}
+          strokeWidth={1.4}
+          opacity={demoOpacity}
+        />
+      )}
 
       {/* --- angle labels --- */}
       {(

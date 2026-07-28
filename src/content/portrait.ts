@@ -43,14 +43,26 @@ export type PortraitSection = {
 };
 
 const label = (key: BodyKey | 'asc' | 'mc', lang: Lang): string => {
-  if (key === 'asc') return lang === 'en' ? 'the Ascendant' : 'o Ascendente';
-  if (key === 'mc') return lang === 'en' ? 'the Midheaven' : 'o Meio do Céu';
+  if (key === 'asc') {
+    return lang === 'en' ? 'the Ascendant' : lang === 'de' ? 'der Aszendent' : 'o Ascendente';
+  }
+  if (key === 'mc') {
+    return lang === 'en' ? 'the Midheaven' : lang === 'de' ? 'das Medium Coeli' : 'o Meio do Céu';
+  }
   return BODIES[key].name[lang];
 };
 
 const meaningOf = (key: BodyKey | 'asc' | 'mc', lang: Lang): string => {
-  if (key === 'asc') return lang === 'en' ? 'the way of meeting the world' : 'o jeito de encontrar o mundo';
-  if (key === 'mc') return lang === 'en' ? 'what the world sees' : 'o que o mundo vê';
+  if (key === 'asc') {
+    return lang === 'en'
+      ? 'the way of meeting the world'
+      : lang === 'de'
+        ? 'die Art, der Welt zu begegnen'
+        : 'o jeito de encontrar o mundo';
+  }
+  if (key === 'mc') {
+    return lang === 'en' ? 'what the world sees' : lang === 'de' ? 'was die Welt sieht' : 'o que o mundo vê';
+  }
   return BODY_MEANING[key][lang];
 };
 
@@ -63,13 +75,23 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
   const mcSign = SIGNS[Math.floor(chart.mc / 30)];
   const firstName = chart.birth.name.split(' ')[0];
 
+  // In the note under Sun/Moon: "In the 3rd house" / "Na casa 3" / "Im 3. Haus".
+  const inHouseNote = (n: number, meaning: string) =>
+    lang === 'en'
+      ? `In the ${ordinal(n, 'en')} house — ${meaning}.`
+      : lang === 'de'
+        ? `Im ${n}. Haus — ${meaning}.`
+        : `Na casa ${n} — ${meaning}.`;
+
   // --- opening ------------------------------------------------------------
   sections.push({
-    heading: lang === 'en' ? 'Dear Anton' : 'Querido Anton',
+    heading: lang === 'en' ? 'Dear Anton' : lang === 'de' ? 'Lieber Anton' : 'Querido Anton',
     paragraphs: [
       lang === 'en'
         ? `On a July afternoon in ${chart.birth.place.en}, at a quarter to one, the sky held still for a moment and you arrived under it. This is a picture of that exact minute — not a prediction, and not a promise. Just a record that the whole solar system happened to be arranged in one particular way on the day the world got you.`
-        : `Numa tarde de julho em ${chart.birth.place.pt}, quinze para a uma, o céu ficou parado por um instante e você chegou embaixo dele. Isto é um retrato desse minuto exato — não é previsão, nem promessa. É só um registro de que o sistema solar inteiro estava arrumado de um jeito muito particular no dia em que o mundo ganhou você.`,
+        : lang === 'de'
+          ? `An einem Julinachmittag in ${chart.birth.place.de}, um Viertel vor eins, hielt der Himmel für einen Moment inne, und du kamst darunter an. Das ist ein Bild dieser genauen Minute — keine Vorhersage, und kein Versprechen. Nur ein Beleg dafür, dass das ganze Sonnensystem an dem Tag, an dem die Welt dich bekam, zufällig auf eine ganz bestimmte Weise angeordnet war.`
+          : `Numa tarde de julho em ${chart.birth.place.pt}, quinze para a uma, o céu ficou parado por um instante e você chegou embaixo dele. Isto é um retrato desse minuto exato — não é previsão, nem promessa. É só um registro de que o sistema solar inteiro estava arrumado de um jeito muito particular no dia em que o mundo ganhou você.`,
     ],
   });
 
@@ -78,12 +100,11 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     heading:
       lang === 'en'
         ? `Your Sun in ${SIGNS[sun.signIndex].name.en}`
-        : `Seu Sol em ${SIGNS[sun.signIndex].name.pt}`,
+        : lang === 'de'
+          ? `Deine Sonne in ${SIGNS[sun.signIndex].name.de}`
+          : `Seu Sol em ${SIGNS[sun.signIndex].name.pt}`,
     paragraphs: [SUN_IN_SIGN[sun.signIndex][lang]],
-    note:
-      lang === 'en'
-        ? `In the ${ordinal(sun.house, 'en')} house — ${HOUSE_MEANING[sun.house - 1].en.toLowerCase()}.`
-        : `Na casa ${sun.house} — ${HOUSE_MEANING[sun.house - 1].pt.toLowerCase()}.`,
+    note: inHouseNote(sun.house, HOUSE_MEANING[sun.house - 1][lang].toLowerCase()),
     sign: SIGNS[sun.signIndex].key,
   });
 
@@ -91,12 +112,11 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     heading:
       lang === 'en'
         ? `Your Moon in ${SIGNS[moon.signIndex].name.en}`
-        : `Sua Lua em ${SIGNS[moon.signIndex].name.pt}`,
+        : lang === 'de'
+          ? `Dein Mond in ${SIGNS[moon.signIndex].name.de}`
+          : `Sua Lua em ${SIGNS[moon.signIndex].name.pt}`,
     paragraphs: [MOON_IN_SIGN[moon.signIndex][lang]],
-    note:
-      lang === 'en'
-        ? `In the ${ordinal(moon.house, 'en')} house — ${HOUSE_MEANING[moon.house - 1].en.toLowerCase()}.`
-        : `Na casa ${moon.house} — ${HOUSE_MEANING[moon.house - 1].pt.toLowerCase()}.`,
+    note: inHouseNote(moon.house, HOUSE_MEANING[moon.house - 1][lang].toLowerCase()),
     sign: SIGNS[moon.signIndex].key,
   });
 
@@ -105,12 +125,16 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     heading:
       lang === 'en'
         ? `${ascSign.name.en} rising`
-        : `Ascendente em ${ascSign.name.pt}`,
+        : lang === 'de'
+          ? `Aszendent in ${ascSign.name.de}`
+          : `Ascendente em ${ascSign.name.pt}`,
     paragraphs: [RISING_IN_SIGN[ascIndex][lang]],
     note:
       lang === 'en'
         ? `The eastern horizon at the minute you were born, and ${ascSign.ruler.en} is the planet that looks after it.`
-        : `O horizonte leste no minuto em que você nasceu, e ${ascSign.ruler.pt} é o planeta que cuida dele.`,
+        : lang === 'de'
+          ? `Der östliche Horizont in der Minute deiner Geburt, und ${ascSign.ruler.de} ist der Planet, der sich darum kümmert.`
+          : `O horizonte leste no minuto em que você nasceu, e ${ascSign.ruler.pt} é o planeta que cuida dele.`,
     sign: ascSign.key,
   });
 
@@ -123,7 +147,9 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
   notes.push(
     lang === 'en'
       ? `There is a lot of ${ELEMENT_NAMES[domElement].en.toLowerCase()} in you — ${ELEMENT_MEANING[domElement].en}. Mostly ${MODALITY_NAMES[domModality].en.toLowerCase()} too, which ${MODALITY_MEANING[domModality].en}.`
-      : `Há muito ${ELEMENT_NAMES[domElement].pt.toLowerCase()} em você — ${ELEMENT_MEANING[domElement].pt}. E bastante ${MODALITY_NAMES[domModality].pt.toLowerCase()}, o que ${MODALITY_MEANING[domModality].pt}.`,
+      : lang === 'de'
+        ? `Es steckt viel ${ELEMENT_NAMES[domElement].de.toLowerCase()} in dir — ${ELEMENT_MEANING[domElement].de}. Meist auch ${MODALITY_NAMES[domModality].de.toLowerCase()}, was ${MODALITY_MEANING[domModality].de}.`
+        : `Há muito ${ELEMENT_NAMES[domElement].pt.toLowerCase()} em você — ${ELEMENT_MEANING[domElement].pt}. E bastante ${MODALITY_NAMES[domModality].pt.toLowerCase()}, o que ${MODALITY_MEANING[domModality].pt}.`,
   );
 
   // Sect.
@@ -131,10 +157,14 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     chart.dayChart
       ? lang === 'en'
         ? 'You were born in daylight, with the Sun above the horizon — a day chart, warmed from the front.'
-        : 'Você nasceu à luz do dia, com o Sol acima do horizonte — um mapa diurno, aquecido de frente.'
+        : lang === 'de'
+          ? 'Du wurdest bei Tageslicht geboren, mit der Sonne über dem Horizont — ein Taghoroskop, von vorne gewärmt.'
+          : 'Você nasceu à luz do dia, com o Sol acima do horizonte — um mapa diurno, aquecido de frente.'
       : lang === 'en'
         ? 'You were born after dark, with the Sun below the horizon — a night chart, lit from within.'
-        : 'Você nasceu depois do escuro, com o Sol abaixo do horizonte — um mapa noturno, iluminado por dentro.',
+        : lang === 'de'
+          ? 'Du wurdest nach Einbruch der Dunkelheit geboren, mit der Sonne unter dem Horizont — ein Nachthoroskop, von innen erleuchtet.'
+          : 'Você nasceu depois do escuro, com o Sol abaixo do horizonte — um mapa noturno, iluminado por dentro.',
   );
 
   // The two closest aspects, described from their own parts.
@@ -143,7 +173,9 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     notes.push(
       lang === 'en'
         ? `${capitalise(label(aspect.a, 'en'))} and ${label(aspect.b, 'en')} sit at almost exactly ${def.angle}° — ${def.name.en.toLowerCase()}, ${ASPECT_MEANING[aspect.key].en}. That is ${meaningOf(aspect.a, 'en')} meeting ${meaningOf(aspect.b, 'en')}.`
-        : `${capitalise(label(aspect.a, 'pt'))} e ${label(aspect.b, 'pt')} estão a quase exatamente ${def.angle}° — ${def.name.pt.toLowerCase()}, ${ASPECT_MEANING[aspect.key].pt}. É ${meaningOf(aspect.a, 'pt')} encontrando ${meaningOf(aspect.b, 'pt')}.`,
+        : lang === 'de'
+          ? `${capitalise(label(aspect.a, 'de'))} und ${label(aspect.b, 'de')} stehen bei fast genau ${def.angle}° — ${def.name.de}, ${ASPECT_MEANING[aspect.key].de}. Das ist ${meaningOf(aspect.a, 'de')}, das auf ${meaningOf(aspect.b, 'de')} trifft.`
+          : `${capitalise(label(aspect.a, 'pt'))} e ${label(aspect.b, 'pt')} estão a quase exatamente ${def.angle}° — ${def.name.pt.toLowerCase()}, ${ASPECT_MEANING[aspect.key].pt}. É ${meaningOf(aspect.a, 'pt')} encontrando ${meaningOf(aspect.b, 'pt')}.`,
     );
   }
 
@@ -153,7 +185,9 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     notes.push(
       lang === 'en'
         ? `${BODIES[p.key].name.en} was standing almost perfectly still that day, turning around in ${SIGNS[p.signIndex].name.en}. Planets at a standstill press harder: ${BODY_MEANING[p.key].en} will be a slow, deliberate, lifelong piece of work for you.`
-        : `${BODIES[p.key].name.pt} estava quase parado naquele dia, mudando de direção em ${SIGNS[p.signIndex].name.pt}. Planetas estacionários pesam mais: ${BODY_MEANING[p.key].pt} vai ser um trabalho lento, consciente e de uma vida inteira.`,
+        : lang === 'de'
+          ? `${BODIES[p.key].name.de} stand an diesem Tag fast vollkommen still und wechselte die Richtung in ${SIGNS[p.signIndex].name.de}. Stillstehende Planeten drücken stärker: ${BODY_MEANING[p.key].de} wird für dich eine langsame, bewusste Lebensaufgabe sein.`
+          : `${BODIES[p.key].name.pt} estava quase parado naquele dia, mudando de direção em ${SIGNS[p.signIndex].name.pt}. Planetas estacionários pesam mais: ${BODY_MEANING[p.key].pt} vai ser um trabalho lento, consciente e de uma vida inteira.`,
     );
   }
 
@@ -166,37 +200,46 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     notes.push(
       lang === 'en'
         ? `${listOf(names, 'en')} ${retro.length === 1 ? 'was' : 'were'} retrograde — moving backwards from where you stood. Those parts of you work inwards first, and show themselves later.`
-        : `${listOf(names, 'pt')} ${retro.length === 1 ? 'estava' : 'estavam'} retrógrado${retro.length === 1 ? '' : 's'} — andando para trás visto daqui. Essas partes de você trabalham por dentro primeiro, e aparecem depois.`,
+        : lang === 'de'
+          ? `${listOf(names, 'de')} ${retro.length === 1 ? 'war' : 'waren'} rückläufig — von dort aus gesehen rückwärts wandernd, wo du standst. Diese Teile von dir arbeiten zuerst nach innen, und zeigen sich später.`
+          : `${listOf(names, 'pt')} ${retro.length === 1 ? 'estava' : 'estavam'} retrógrado${retro.length === 1 ? '' : 's'} — andando para trás visto daqui. Essas partes de você trabalham por dentro primeiro, e aparecem depois.`,
     );
   }
 
   sections.push({
-    heading: lang === 'en' ? 'What stands out' : 'O que salta aos olhos',
+    heading: lang === 'en' ? 'What stands out' : lang === 'de' ? 'Was auffällt' : 'O que salta aos olhos',
     paragraphs: notes,
     icon: 'sparkle',
   });
 
   // --- vocation -----------------------------------------------------------
   sections.push({
-    heading: lang === 'en' ? 'The top of your sky' : 'O topo do seu céu',
+    heading:
+      lang === 'en' ? 'The top of your sky' : lang === 'de' ? 'Der Gipfel deines Himmels' : 'O topo do seu céu',
     paragraphs: [
       lang === 'en'
         ? `Directly overhead at your birth was ${mcSign.name.en} — the highest point of the chart, and the one that hints at what you might become known for. ${capitalise(mcSign.keywords.en)}. Whatever you end up doing, people are likely to meet that in you first.`
-        : `Bem acima da sua cabeça, no nascimento, estava ${mcSign.name.pt} — o ponto mais alto do mapa, aquele que sugere aquilo pelo que você pode ser conhecido. ${capitalise(mcSign.keywords.pt)}. Faça o que fizer, é provável que as pessoas encontrem isso em você primeiro.`,
+        : lang === 'de'
+          ? `Direkt über dir bei deiner Geburt stand ${mcSign.name.de} — der höchste Punkt der Karte, und derjenige, der andeutet, wofür du einmal bekannt sein könntest. ${capitalise(mcSign.keywords.de)}. Was auch immer du am Ende tust, die Menschen werden das wahrscheinlich zuerst in dir erkennen.`
+          : `Bem acima da sua cabeça, no nascimento, estava ${mcSign.name.pt} — o ponto mais alto do mapa, aquele que sugere aquilo pelo que você pode ser conhecido. ${capitalise(mcSign.keywords.pt)}. Faça o que fizer, é provável que as pessoas encontrem isso em você primeiro.`,
     ],
     icon: 'summit',
   });
 
   // --- closing ------------------------------------------------------------
   sections.push({
-    heading: lang === 'en' ? 'And then' : 'E então',
+    heading: lang === 'en' ? 'And then' : lang === 'de' ? 'Und dann' : 'E então',
     paragraphs: [
       lang === 'en'
         ? `None of this is an instruction manual, ${firstName}. The sky does not tell you who to be — it only says that on the 26th of July, 2026, at 12:45 in the afternoon, there was a particular arrangement of light above a particular town, and you were underneath it, brand new and entirely yourself.`
-        : `Nada disso é um manual de instruções, ${firstName}. O céu não diz quem você deve ser — ele só conta que, no dia 26 de julho de 2026, às 12h45 da tarde, havia um arranjo muito particular de luz acima de uma cidade muito particular, e você estava embaixo dele, novinho e inteiramente você.`,
+        : lang === 'de'
+          ? `Nichts davon ist eine Gebrauchsanweisung, ${firstName}. Der Himmel sagt dir nicht, wer du sein sollst — er sagt nur, dass am 26. Juli 2026, um 12:45 Uhr mittags, eine ganz bestimmte Anordnung von Licht über einer ganz bestimmten Stadt herrschte, und du warst darunter, brandneu und ganz du selbst.`
+          : `Nada disso é um manual de instruções, ${firstName}. O céu não diz quem você deve ser — ele só conta que, no dia 26 de julho de 2026, às 12h45 da tarde, havia um arranjo muito particular de luz acima de uma cidade muito particular, e você estava embaixo dele, novinho e inteiramente você.`,
       lang === 'en'
         ? 'Welcome. You were very, very wanted.'
-        : 'Seja bem-vindo. Você foi muito, muito esperado.',
+        : lang === 'de'
+          ? 'Willkommen. Du warst sehr, sehr erwünscht.'
+          : 'Seja bem-vindo. Você foi muito, muito esperado.',
     ],
     icon: 'heart',
   });
@@ -231,6 +274,6 @@ function ordinal(n: number, lang: Lang): string {
 
 function listOf(items: string[], lang: Lang): string {
   if (items.length === 1) return items[0];
-  const and = lang === 'en' ? 'and' : 'e';
+  const and = lang === 'en' ? 'and' : lang === 'de' ? 'und' : 'e';
   return `${items.slice(0, -1).join(', ')} ${and} ${items[items.length - 1]}`;
 }

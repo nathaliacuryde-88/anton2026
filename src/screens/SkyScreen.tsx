@@ -85,15 +85,23 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
                   <Emphasis size={14} color={colors.ink} delay={0}>
                     {b(def.name)}
                   </Emphasis>
-                  {lang === 'en' ? ' looks after ' : ' cuida de '}
+                  {lang === 'en' ? ' looks after ' : lang === 'de' ? ' kümmert sich um ' : ' cuida de '}
                   {b(BODY_MEANING[key])}
-                  {lang === 'en' ? '. In ' : '. Em '}
+                  {lang === 'en' ? '. In ' : lang === 'de' ? '. In ' : '. Em '}
                   <Emphasis size={14} color={colors.ink} delay={0}>
                     {b(sign.name)}
                   </Emphasis>
-                  {lang === 'en' ? ' that happens in a ' : ' isso acontece de um jeito '}
+                  {lang === 'en'
+                    ? ' that happens in a '
+                    : lang === 'de'
+                      ? ' passiert das auf eine '
+                      : ' isso acontece de um jeito '}
                   {b(sign.keywords)}
-                  {lang === 'en' ? ' way, and it plays out around: ' : ', e se desenrola em: '}
+                  {lang === 'en'
+                    ? ' way, and it plays out around: '
+                    : lang === 'de'
+                      ? ' Art, und es zeigt sich rund um: '
+                      : ', e se desenrola em: '}
                   {b(HOUSE_MEANING[p.house - 1]).toLowerCase()}.
                 </Body>
               </View>
@@ -102,14 +110,18 @@ export default function SkyScreen({ chart }: { chart: Chart }) {
                 <Body size={12} muted style={styles.stateNote}>
                   {lang === 'en'
                     ? 'Moving backwards from where we stand — turned inward, which is common and not a flaw.'
-                    : 'Andando para trás visto daqui — voltado para dentro, o que é comum e não é defeito.'}
+                    : lang === 'de'
+                      ? 'Von hier aus gesehen rückwärts wandernd — nach innen gewandt, was häufig vorkommt und kein Makel ist.'
+                      : 'Andando para trás visto daqui — voltado para dentro, o que é comum e não é defeito.'}
                 </Body>
               )}
               {p.stationary && (
                 <Body size={12} muted style={styles.stateNote}>
                   {lang === 'en'
                     ? 'Almost motionless that day, on the turn — rare, and it gives this planet extra weight.'
-                    : 'Quase imóvel naquele dia, virando de direção — raro, e dá um peso extra a este planeta.'}
+                    : lang === 'de'
+                      ? 'An diesem Tag fast bewegungslos, im Richtungswechsel — selten, und das gibt diesem Planeten zusätzliches Gewicht.'
+                      : 'Quase imóvel naquele dia, virando de direção — raro, e dá um peso extra a este planeta.'}
                 </Body>
               )}
             </Card>

@@ -28,5 +28,6 @@ export const ANTON: BirthData = {
   place: {
     en: 'Filderstadt, Germany',
     pt: 'Filderstadt, Alemanha',
+    de: 'Filderstadt, Deutschland',
   },
 };

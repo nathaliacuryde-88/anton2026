@@ -1,8 +1,8 @@
 /**
  * Zodiac, planet and aspect reference data.
  *
- * Every user-facing label carries both an English and a Portuguese form so the
- * UI can switch language without touching the astronomy layer.
+ * Every user-facing label carries an English, Portuguese and German form so
+ * the UI can switch language without touching the astronomy layer.
  */
 
 /**
@@ -11,8 +11,8 @@
  * images. Each is followed by U+FE0E (variation selector-15) to request the
  * monochrome text form instead. Platforms that lack the variant ignore it.
  */
-export type Lang = 'en' | 'pt';
-export type Bilingual = { en: string; pt: string };
+export type Lang = 'en' | 'pt' | 'de';
+export type Bilingual = { en: string; pt: string; de: string };
 
 export type Element = 'fire' | 'earth' | 'air' | 'water';
 export type Modality = 'cardinal' | 'fixed' | 'mutable';
@@ -31,125 +31,173 @@ export type SignDef = {
 export const SIGNS: SignDef[] = [
   {
     key: 'aries',
-    glyph: '♈\uFE0E',
-    name: { en: 'Aries', pt: 'Áries' },
+    glyph: '♈︎',
+    name: { en: 'Aries', pt: 'Áries', de: 'Widder' },
     element: 'fire',
     modality: 'cardinal',
-    ruler: { en: 'Mars', pt: 'Marte' },
-    keywords: { en: 'brave · direct · pioneering', pt: 'corajoso · direto · pioneiro' },
+    ruler: { en: 'Mars', pt: 'Marte', de: 'Mars' },
+    keywords: {
+      en: 'brave · direct · pioneering',
+      pt: 'corajoso · direto · pioneiro',
+      de: 'mutig · direkt · pionierhaft',
+    },
   },
   {
     key: 'taurus',
-    glyph: '♉\uFE0E',
-    name: { en: 'Taurus', pt: 'Touro' },
+    glyph: '♉︎',
+    name: { en: 'Taurus', pt: 'Touro', de: 'Stier' },
     element: 'earth',
     modality: 'fixed',
-    ruler: { en: 'Venus', pt: 'Vênus' },
-    keywords: { en: 'steady · sensory · loyal', pt: 'estável · sensorial · leal' },
+    ruler: { en: 'Venus', pt: 'Vênus', de: 'Venus' },
+    keywords: {
+      en: 'steady · sensory · loyal',
+      pt: 'estável · sensorial · leal',
+      de: 'beständig · sinnlich · treu',
+    },
   },
   {
     key: 'gemini',
-    glyph: '♊\uFE0E',
-    name: { en: 'Gemini', pt: 'Gêmeos' },
+    glyph: '♊︎',
+    name: { en: 'Gemini', pt: 'Gêmeos', de: 'Zwillinge' },
     element: 'air',
     modality: 'mutable',
-    ruler: { en: 'Mercury', pt: 'Mercúrio' },
-    keywords: { en: 'curious · quick · playful', pt: 'curioso · rápido · brincalhão' },
+    ruler: { en: 'Mercury', pt: 'Mercúrio', de: 'Merkur' },
+    keywords: {
+      en: 'curious · quick · playful',
+      pt: 'curioso · rápido · brincalhão',
+      de: 'neugierig · schnell · verspielt',
+    },
   },
   {
     key: 'cancer',
-    glyph: '♋\uFE0E',
-    name: { en: 'Cancer', pt: 'Câncer' },
+    glyph: '♋︎',
+    name: { en: 'Cancer', pt: 'Câncer', de: 'Krebs' },
     element: 'water',
     modality: 'cardinal',
-    ruler: { en: 'Moon', pt: 'Lua' },
-    keywords: { en: 'tender · protective · deep', pt: 'terno · protetor · profundo' },
+    ruler: { en: 'Moon', pt: 'Lua', de: 'Mond' },
+    keywords: {
+      en: 'tender · protective · deep',
+      pt: 'terno · protetor · profundo',
+      de: 'zärtlich · beschützend · tief',
+    },
   },
   {
     key: 'leo',
-    glyph: '♌\uFE0E',
-    name: { en: 'Leo', pt: 'Leão' },
+    glyph: '♌︎',
+    name: { en: 'Leo', pt: 'Leão', de: 'Löwe' },
     element: 'fire',
     modality: 'fixed',
-    ruler: { en: 'Sun', pt: 'Sol' },
-    keywords: { en: 'warm · radiant · generous', pt: 'caloroso · radiante · generoso' },
+    ruler: { en: 'Sun', pt: 'Sol', de: 'Sonne' },
+    keywords: {
+      en: 'warm · radiant · generous',
+      pt: 'caloroso · radiante · generoso',
+      de: 'warmherzig · strahlend · großzügig',
+    },
   },
   {
     key: 'virgo',
-    glyph: '♍\uFE0E',
-    name: { en: 'Virgo', pt: 'Virgem' },
+    glyph: '♍︎',
+    name: { en: 'Virgo', pt: 'Virgem', de: 'Jungfrau' },
     element: 'earth',
     modality: 'mutable',
-    ruler: { en: 'Mercury', pt: 'Mercúrio' },
-    keywords: { en: 'careful · helpful · precise', pt: 'cuidadoso · prestativo · preciso' },
+    ruler: { en: 'Mercury', pt: 'Mercúrio', de: 'Merkur' },
+    keywords: {
+      en: 'careful · helpful · precise',
+      pt: 'cuidadoso · prestativo · preciso',
+      de: 'sorgfältig · hilfsbereit · genau',
+    },
   },
   {
     key: 'libra',
-    glyph: '♎\uFE0E',
-    name: { en: 'Libra', pt: 'Libra' },
+    glyph: '♎︎',
+    name: { en: 'Libra', pt: 'Libra', de: 'Waage' },
     element: 'air',
     modality: 'cardinal',
-    ruler: { en: 'Venus', pt: 'Vênus' },
-    keywords: { en: 'gracious · fair · charming', pt: 'gentil · justo · encantador' },
+    ruler: { en: 'Venus', pt: 'Vênus', de: 'Venus' },
+    keywords: {
+      en: 'gracious · fair · charming',
+      pt: 'gentil · justo · encantador',
+      de: 'anmutig · gerecht · charmant',
+    },
   },
   {
     key: 'scorpio',
-    glyph: '♏\uFE0E',
-    name: { en: 'Scorpio', pt: 'Escorpião' },
+    glyph: '♏︎',
+    name: { en: 'Scorpio', pt: 'Escorpião', de: 'Skorpion' },
     element: 'water',
     modality: 'fixed',
-    ruler: { en: 'Pluto & Mars', pt: 'Plutão e Marte' },
-    keywords: { en: 'intense · loyal · perceptive', pt: 'intenso · leal · perceptivo' },
+    ruler: { en: 'Pluto & Mars', pt: 'Plutão e Marte', de: 'Pluto und Mars' },
+    keywords: {
+      en: 'intense · loyal · perceptive',
+      pt: 'intenso · leal · perceptivo',
+      de: 'intensiv · treu · scharfsinnig',
+    },
   },
   {
     key: 'sagittarius',
-    glyph: '♐\uFE0E',
-    name: { en: 'Sagittarius', pt: 'Sagitário' },
+    glyph: '♐︎',
+    name: { en: 'Sagittarius', pt: 'Sagitário', de: 'Schütze' },
     element: 'fire',
     modality: 'mutable',
-    ruler: { en: 'Jupiter', pt: 'Júpiter' },
-    keywords: { en: 'free · hopeful · adventurous', pt: 'livre · esperançoso · aventureiro' },
+    ruler: { en: 'Jupiter', pt: 'Júpiter', de: 'Jupiter' },
+    keywords: {
+      en: 'free · hopeful · adventurous',
+      pt: 'livre · esperançoso · aventureiro',
+      de: 'frei · hoffnungsvoll · abenteuerlustig',
+    },
   },
   {
     key: 'capricorn',
-    glyph: '♑\uFE0E',
-    name: { en: 'Capricorn', pt: 'Capricórnio' },
+    glyph: '♑︎',
+    name: { en: 'Capricorn', pt: 'Capricórnio', de: 'Steinbock' },
     element: 'earth',
     modality: 'cardinal',
-    ruler: { en: 'Saturn', pt: 'Saturno' },
-    keywords: { en: 'patient · capable · wise', pt: 'paciente · capaz · sábio' },
+    ruler: { en: 'Saturn', pt: 'Saturno', de: 'Saturn' },
+    keywords: {
+      en: 'patient · capable · wise',
+      pt: 'paciente · capaz · sábio',
+      de: 'geduldig · fähig · weise',
+    },
   },
   {
     key: 'aquarius',
-    glyph: '♒\uFE0E',
-    name: { en: 'Aquarius', pt: 'Aquário' },
+    glyph: '♒︎',
+    name: { en: 'Aquarius', pt: 'Aquário', de: 'Wassermann' },
     element: 'air',
     modality: 'fixed',
-    ruler: { en: 'Uranus & Saturn', pt: 'Urano e Saturno' },
-    keywords: { en: 'original · humane · free-thinking', pt: 'original · humano · livre-pensador' },
+    ruler: { en: 'Uranus & Saturn', pt: 'Urano e Saturno', de: 'Uranus und Saturn' },
+    keywords: {
+      en: 'original · humane · free-thinking',
+      pt: 'original · humano · livre-pensador',
+      de: 'originell · menschlich · freidenkend',
+    },
   },
   {
     key: 'pisces',
-    glyph: '♓\uFE0E',
-    name: { en: 'Pisces', pt: 'Peixes' },
+    glyph: '♓︎',
+    name: { en: 'Pisces', pt: 'Peixes', de: 'Fische' },
     element: 'water',
     modality: 'mutable',
-    ruler: { en: 'Neptune & Jupiter', pt: 'Netuno e Júpiter' },
-    keywords: { en: 'dreamy · gentle · compassionate', pt: 'sonhador · gentil · compassivo' },
+    ruler: { en: 'Neptune & Jupiter', pt: 'Netuno e Júpiter', de: 'Neptun und Jupiter' },
+    keywords: {
+      en: 'dreamy · gentle · compassionate',
+      pt: 'sonhador · gentil · compassivo',
+      de: 'verträumt · sanft · mitfühlend',
+    },
   },
 ];
 
 export const ELEMENT_NAMES: Record<Element, Bilingual> = {
-  fire: { en: 'Fire', pt: 'Fogo' },
-  earth: { en: 'Earth', pt: 'Terra' },
-  air: { en: 'Air', pt: 'Ar' },
-  water: { en: 'Water', pt: 'Água' },
+  fire: { en: 'Fire', pt: 'Fogo', de: 'Feuer' },
+  earth: { en: 'Earth', pt: 'Terra', de: 'Erde' },
+  air: { en: 'Air', pt: 'Ar', de: 'Luft' },
+  water: { en: 'Water', pt: 'Água', de: 'Wasser' },
 };
 
 export const MODALITY_NAMES: Record<Modality, Bilingual> = {
-  cardinal: { en: 'Cardinal', pt: 'Cardinal' },
-  fixed: { en: 'Fixed', pt: 'Fixo' },
-  mutable: { en: 'Mutable', pt: 'Mutável' },
+  cardinal: { en: 'Cardinal', pt: 'Cardinal', de: 'Kardinal' },
+  fixed: { en: 'Fixed', pt: 'Fixo', de: 'Fix' },
+  mutable: { en: 'Mutable', pt: 'Mutável', de: 'Veränderlich' },
 };
 
 /** Keys of every point the chart computes, in display order. */
@@ -183,38 +231,38 @@ export type BodyDef = {
 };
 
 export const BODIES: Record<BodyKey, BodyDef> = {
-  sun: { key: 'sun', glyph: '☉', name: { en: 'Sun', pt: 'Sol' }, luminary: true },
-  moon: { key: 'moon', glyph: '☽', name: { en: 'Moon', pt: 'Lua' }, luminary: true },
-  mercury: { key: 'mercury', glyph: '☿', name: { en: 'Mercury', pt: 'Mercúrio' } },
-  venus: { key: 'venus', glyph: '♀\uFE0E', name: { en: 'Venus', pt: 'Vênus' } },
-  mars: { key: 'mars', glyph: '♂\uFE0E', name: { en: 'Mars', pt: 'Marte' } },
-  jupiter: { key: 'jupiter', glyph: '♃', name: { en: 'Jupiter', pt: 'Júpiter' } },
-  saturn: { key: 'saturn', glyph: '♄', name: { en: 'Saturn', pt: 'Saturno' } },
-  uranus: { key: 'uranus', glyph: '♅', name: { en: 'Uranus', pt: 'Urano' } },
-  neptune: { key: 'neptune', glyph: '♆', name: { en: 'Neptune', pt: 'Netuno' } },
-  pluto: { key: 'pluto', glyph: '♇', name: { en: 'Pluto', pt: 'Plutão' } },
+  sun: { key: 'sun', glyph: '☉', name: { en: 'Sun', pt: 'Sol', de: 'Sonne' }, luminary: true },
+  moon: { key: 'moon', glyph: '☽', name: { en: 'Moon', pt: 'Lua', de: 'Mond' }, luminary: true },
+  mercury: { key: 'mercury', glyph: '☿', name: { en: 'Mercury', pt: 'Mercúrio', de: 'Merkur' } },
+  venus: { key: 'venus', glyph: '♀︎', name: { en: 'Venus', pt: 'Vênus', de: 'Venus' } },
+  mars: { key: 'mars', glyph: '♂︎', name: { en: 'Mars', pt: 'Marte', de: 'Mars' } },
+  jupiter: { key: 'jupiter', glyph: '♃', name: { en: 'Jupiter', pt: 'Júpiter', de: 'Jupiter' } },
+  saturn: { key: 'saturn', glyph: '♄', name: { en: 'Saturn', pt: 'Saturno', de: 'Saturn' } },
+  uranus: { key: 'uranus', glyph: '♅', name: { en: 'Uranus', pt: 'Urano', de: 'Uranus' } },
+  neptune: { key: 'neptune', glyph: '♆', name: { en: 'Neptune', pt: 'Netuno', de: 'Neptun' } },
+  pluto: { key: 'pluto', glyph: '♇', name: { en: 'Pluto', pt: 'Plutão', de: 'Pluto' } },
   northNode: {
     key: 'northNode',
     glyph: '☊',
-    name: { en: 'North Node', pt: 'Nodo Norte' },
+    name: { en: 'North Node', pt: 'Nodo Norte', de: 'Nordknoten' },
     point: true,
   },
   southNode: {
     key: 'southNode',
     glyph: '☋',
-    name: { en: 'South Node', pt: 'Nodo Sul' },
+    name: { en: 'South Node', pt: 'Nodo Sul', de: 'Südknoten' },
     point: true,
   },
   lilith: {
     key: 'lilith',
     glyph: '⚸',
-    name: { en: 'Lilith', pt: 'Lilith' },
+    name: { en: 'Lilith', pt: 'Lilith', de: 'Lilith' },
     point: true,
   },
   fortune: {
     key: 'fortune',
     glyph: '⊗',
-    name: { en: 'Part of Fortune', pt: 'Parte da Fortuna' },
+    name: { en: 'Part of Fortune', pt: 'Parte da Fortuna', de: 'Glückspunkt' },
     point: true,
   },
 };
@@ -241,10 +289,10 @@ export const SIGN_RULER: Record<string, BodyKey> = {
 };
 
 export const ANGLE_NAMES = {
-  asc: { en: 'Ascendant', pt: 'Ascendente' },
-  mc: { en: 'Midheaven', pt: 'Meio do Céu' },
-  dsc: { en: 'Descendant', pt: 'Descendente' },
-  ic: { en: 'Imum Coeli', pt: 'Fundo do Céu' },
+  asc: { en: 'Ascendant', pt: 'Ascendente', de: 'Aszendent' },
+  mc: { en: 'Midheaven', pt: 'Meio do Céu', de: 'Medium Coeli' },
+  dsc: { en: 'Descendant', pt: 'Descendente', de: 'Deszendent' },
+  ic: { en: 'Imum Coeli', pt: 'Fundo do Céu', de: 'Imum Coeli' },
 } as const;
 
 export type AspectKey =
@@ -271,7 +319,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'conjunction',
     angle: 0,
     glyph: '☌',
-    name: { en: 'Conjunction', pt: 'Conjunção' },
+    name: { en: 'Conjunction', pt: 'Conjunção', de: 'Konjunktion' },
     orb: 8,
     tone: 'neutral',
   },
@@ -279,7 +327,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'sextile',
     angle: 60,
     glyph: '⚹',
-    name: { en: 'Sextile', pt: 'Sextil' },
+    name: { en: 'Sextile', pt: 'Sextil', de: 'Sextil' },
     orb: 4,
     tone: 'soft',
   },
@@ -287,7 +335,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'square',
     angle: 90,
     glyph: '□',
-    name: { en: 'Square', pt: 'Quadratura' },
+    name: { en: 'Square', pt: 'Quadratura', de: 'Quadrat' },
     orb: 6,
     tone: 'hard',
   },
@@ -295,7 +343,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'trine',
     angle: 120,
     glyph: '△',
-    name: { en: 'Trine', pt: 'Trígono' },
+    name: { en: 'Trine', pt: 'Trígono', de: 'Trigon' },
     orb: 6,
     tone: 'soft',
   },
@@ -303,7 +351,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'opposition',
     angle: 180,
     glyph: '☍',
-    name: { en: 'Opposition', pt: 'Oposição' },
+    name: { en: 'Opposition', pt: 'Oposição', de: 'Opposition' },
     orb: 7,
     tone: 'hard',
   },
@@ -311,7 +359,7 @@ export const ASPECTS: AspectDef[] = [
     key: 'quincunx',
     angle: 150,
     glyph: '⚻',
-    name: { en: 'Quincunx', pt: 'Quincunce' },
+    name: { en: 'Quincunx', pt: 'Quincunce', de: 'Quinkunx' },
     orb: 2.5,
     tone: 'neutral',
   },

@@ -24,7 +24,10 @@ export function LanguageProvider({
 }) {
   const [lang, setLang] = useState<Lang>(initial);
 
-  const toggle = useCallback(() => setLang((l) => (l === 'en' ? 'pt' : 'en')), []);
+  const toggle = useCallback(
+    () => setLang((l) => (l === 'en' ? 'pt' : l === 'pt' ? 'de' : 'en')),
+    [],
+  );
 
   const value = useMemo<LanguageValue>(
     () => ({
@@ -46,7 +49,10 @@ export function useLang(): LanguageValue {
   return ctx;
 }
 
-/** Locale-aware date line, e.g. "26 July 2026" / "26 de julho de 2026". */
+/**
+ * Locale-aware date line, e.g. "26 July 2026" / "26 de julho de 2026" /
+ * "26. Juli 2026".
+ */
 export function formatBirthDate(
   lang: Lang,
   day: number,
@@ -61,7 +67,11 @@ export function formatBirthDate(
     'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
     'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
   ];
-  return lang === 'en'
-    ? `${day} ${en[month - 1]} ${year}`
-    : `${day} de ${pt[month - 1]} de ${year}`;
+  const de = [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
+  ];
+  if (lang === 'en') return `${day} ${en[month - 1]} ${year}`;
+  if (lang === 'de') return `${day}. ${de[month - 1]} ${year}`;
+  return `${day} de ${pt[month - 1]} de ${year}`;
 }

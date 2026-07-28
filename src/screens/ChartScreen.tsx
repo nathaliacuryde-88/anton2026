@@ -101,7 +101,9 @@ export default function ChartScreen({ chart }: { chart: Chart }) {
         <Body muted size={13} style={styles.hint}>
           {lang === 'en'
             ? 'Tap a symbol in the wheel'
-            : 'Toque em um símbolo na roda'}
+            : lang === 'de'
+              ? 'Tippe auf ein Symbol im Rad'
+              : 'Toque em um símbolo na roda'}
         </Body>
       )}
 

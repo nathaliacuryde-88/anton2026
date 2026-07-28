@@ -17,6 +17,7 @@ import * as Astronomy from 'astronomy-engine';
 import {
   ASPECTS,
   AspectKey,
+  Bilingual,
   BODIES,
   BODY_KEYS,
   BodyKey,
@@ -57,7 +58,7 @@ export type BirthData = {
   tzLabel: string;
   latitude: number; // north positive
   longitude: number; // east positive
-  place: { en: string; pt: string };
+  place: Bilingual;
 };
 
 // ---------------------------------------------------------------------------

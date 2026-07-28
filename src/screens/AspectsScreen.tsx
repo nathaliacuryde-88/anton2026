@@ -19,11 +19,15 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
     key === 'asc'
       ? lang === 'en'
         ? 'Ascendant'
-        : 'Ascendente'
+        : lang === 'de'
+          ? 'Aszendent'
+          : 'Ascendente'
       : key === 'mc'
         ? lang === 'en'
           ? 'Midheaven'
-          : 'Meio do Céu'
+          : lang === 'de'
+            ? 'Medium Coeli'
+            : 'Meio do Céu'
         : b(BODIES[key as BodyKey].name);
 
   const glyphOf = (key: Aspect['a']) =>
@@ -34,11 +38,15 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
     key === 'asc'
       ? lang === 'en'
         ? 'the way he meets the world'
-        : 'o jeito como ele encontra o mundo'
+        : lang === 'de'
+          ? 'wie er der Welt begegnet'
+          : 'o jeito como ele encontra o mundo'
       : key === 'mc'
         ? lang === 'en'
           ? 'what the world will see'
-          : 'o que o mundo vai ver'
+          : lang === 'de'
+            ? 'was die Welt sehen wird'
+            : 'o que o mundo vai ver'
         : b(BODY_MEANING[key as BodyKey]);
 
   return (
@@ -108,11 +116,11 @@ export default function AspectsScreen({ chart }: { chart: Chart }) {
               <View style={styles.sentence}>
                 <Body size={13} muted style={styles.sentenceText}>
                   {meaningOf(aspect.a)}
-                  {lang === 'en' ? ' meeting ' : ' encontrando '}
+                  {lang === 'en' ? ' meeting ' : lang === 'de' ? ' trifft auf ' : ' encontrando '}
                   {meaningOf(aspect.b)}
-                  {lang === 'en' ? ', at ' : ', a '}
+                  {lang === 'en' ? ', at ' : lang === 'de' ? ', bei ' : ', a '}
                   {def.angle}°
-                  {lang === 'en' ? ' apart.' : ' de distância.'}
+                  {lang === 'en' ? ' apart.' : lang === 'de' ? ' Abstand.' : ' de distância.'}
                 </Body>
               </View>
 
