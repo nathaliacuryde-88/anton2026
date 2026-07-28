@@ -27,7 +27,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "chart": "tsc -p tsconfig.scripts.json && node .scripts-build/scripts/print-chart.js"
+    "chart": "tsc -p tsconfig.scripts.json && node .scripts-build/scripts/print-chart.js",
+    "single": "expo export --platform web --output-dir dist --clear && node scripts/build-single-file.mjs dist anton-sky.html"
   },
   "private": true
 }

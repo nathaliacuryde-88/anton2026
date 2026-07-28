@@ -39,7 +39,16 @@ Other scripts:
 ```bash
 npm run chart      # print the computed chart to the terminal
 npm run typecheck  # tsc --noEmit
+npm run single     # bundle the web build into one shareable .html file
 ```
+
+### Sharing it as a link
+
+`npm run single` produces a single self-contained `anton-sky.html` — the whole
+app, fonts and all, in one file that needs no server and no network. Open it
+anywhere, or send it to someone. It needs Python fontTools for the font
+subsetting step (`pip install fonttools brotli`); without it the page still
+works and falls back to the platform serif.
 
 ## How the chart is computed
 

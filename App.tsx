@@ -107,7 +107,7 @@ function Shell() {
 }
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     [fonts.light]: CormorantGaramond_300Light,
     [fonts.regular]: CormorantGaramond_400Regular,
     [fonts.medium]: CormorantGaramond_500Medium,
@@ -116,7 +116,9 @@ export default function App() {
     [fonts.lightItalic]: CormorantGaramond_300Light_Italic,
   });
 
-  if (!fontsLoaded) {
+  // Render on failure too: if the font files cannot be fetched the platform
+  // serif is a perfectly good fallback, and hanging on a spinner forever is not.
+  if (!fontsLoaded && !fontError) {
     return (
       <View style={[styles.flex, styles.loading]}>
         <ActivityIndicator color={colors.rose} />
