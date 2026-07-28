@@ -1,5 +1,10 @@
 # Anton's Sky · O Céu de Anton
 
+### → **https://nathaliacuryde-88.github.io/anton2026/**
+
+Open it on a phone, or send the link to anyone. Nothing to install, and it
+works offline once loaded.
+
 A small bilingual (EN/PT) mobile app holding the natal chart of
 
 **Anton Duque Estrada** — 26 July 2026, 12:45 CEST, Filderstadt, Germany.
@@ -8,11 +13,18 @@ Soft pastel palette, Cormorant Garamond throughout, five screens:
 
 | Screen | |
 |---|---|
+| **Portrait · Retrato** | A letter to Anton, assembled from his own chart. The way in — it opens the app. |
 | **Chart · Mapa** | The wheel, the big three, and the element/modality balance. Tap any symbol. |
 | **Sky · Céu** | Every body with its sign, degree, house, and retrograde or stationary state. |
 | **Houses · Casas** | The twelve Placidus cusps and who is living in each one. |
 | **Aspects · Aspectos** | Every aspect, sorted by how exact it is. |
-| **Portrait · Retrato** | A letter to Anton, assembled from his own chart. |
+
+Every screen carries collapsible plain-language notes, because a chart is
+mostly jargon until someone explains it. Two of them exist specifically to stop
+a neutral fact reading as bad news: **empty houses** (there are twelve houses
+and ten planets, so several are always empty — the screen says so, counts them,
+and follows the ruler of the sign on the cusp to wherever that planet actually
+landed) and **squares and oppositions**, which the word "hard" does no favours.
 
 Tap **EN / PT** in the header to switch language; everything, including the
 letter, is translated.
