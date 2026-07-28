@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Anton's Sky",
+    "slug": "anton2026",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "antonssky",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FDF8F4",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anton2026.antonssky"
+    },
+    "android": {
+      "package": "com.anton2026.antonssky",
+      "adaptiveIcon": {
+        "backgroundColor": "#F6EFE8",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#FDF8F4"
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}
