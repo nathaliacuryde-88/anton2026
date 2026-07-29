@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { Chart } from '../astro/engine';
 import Constellation from '../components/Constellation';
 import Explainer from '../components/Explainer';
 import { Parallax, useParallaxScroll } from '../components/motion';
 import PageHeader from '../components/PageHeader';
+import PhotoStack from '../components/PhotoStack';
 import { Body, Divider, Eyebrow, PageTitle, Title } from '../components/ui';
 import { buildFamily } from '../content/family';
 import { useLang } from '../i18n/LanguageContext';
@@ -13,8 +14,10 @@ import { colors, spacing } from '../theme/theme';
 
 export default function FamilyScreen({ chart }: { chart: Chart }) {
   const { t, lang } = useLang();
+  const { width } = useWindowDimensions();
   const sections = useMemo(() => buildFamily(chart, lang), [chart, lang]);
   const { scrollY, onScroll } = useParallaxScroll();
+  const stackSize = Math.min(width - spacing(9), 240);
 
   return (
     <Animated.ScrollView
@@ -25,6 +28,17 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
     >
       <PageHeader />
       <PageTitle>{t('navFamily')}</PageTitle>
+
+      <View style={styles.stackWrap}>
+        <PhotoStack size={stackSize} />
+        <Body muted size={12} style={styles.stackHint}>
+          {lang === 'en'
+            ? 'Tap through, or swipe'
+            : lang === 'de'
+              ? 'Durchtippen oder wischen'
+              : 'Toque para passar, ou deslize'}
+        </Body>
+      </View>
 
       {/* The framing comes before anything else: this page is about him, not
           about the two people raising him. */}
@@ -77,6 +91,15 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing(2.5),
     paddingBottom: spacing(14),
+  },
+  stackWrap: {
+    alignItems: 'center',
+    marginTop: spacing(1.5),
+    marginBottom: spacing(3),
+  },
+  stackHint: {
+    marginTop: spacing(1.5),
+    letterSpacing: 0.5,
   },
   section: {
     marginBottom: spacing(3.5),
