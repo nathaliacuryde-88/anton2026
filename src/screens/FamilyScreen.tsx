@@ -17,7 +17,7 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
   const { width } = useWindowDimensions();
   const sections = useMemo(() => buildFamily(chart, lang), [chart, lang]);
   const { scrollY, onScroll } = useParallaxScroll();
-  const stackSize = Math.min(width - spacing(9), 240);
+  const stackSize = Math.min(width - spacing(6), 288);
 
   return (
     <Animated.ScrollView
