@@ -36,16 +36,18 @@ function Shell() {
 
   return (
     <View style={styles.background}>
-      <View style={styles.flex}>
-        {tab === 'portrait' && <PortraitScreen chart={chart} />}
-        {tab === 'chart' && <ChartScreen chart={chart} />}
-        {tab === 'sky' && <SkyScreen chart={chart} />}
-        {tab === 'houses' && <HousesScreen chart={chart} />}
-        {tab === 'aspects' && <AspectsScreen chart={chart} />}
-        {tab === 'family' && <FamilyScreen chart={chart} />}
-      </View>
+      <View style={styles.frame}>
+        <View style={styles.flex}>
+          {tab === 'portrait' && <PortraitScreen chart={chart} />}
+          {tab === 'chart' && <ChartScreen chart={chart} />}
+          {tab === 'sky' && <SkyScreen chart={chart} />}
+          {tab === 'houses' && <HousesScreen chart={chart} />}
+          {tab === 'aspects' && <AspectsScreen chart={chart} />}
+          {tab === 'family' && <FamilyScreen chart={chart} />}
+        </View>
 
-      <TabBar tab={tab} onNavigate={setTab} bottomInset={insets.bottom} />
+        <TabBar tab={tab} onNavigate={setTab} bottomInset={insets.bottom} />
+      </View>
 
       <StatusBar style="dark" />
     </View>
@@ -88,8 +90,19 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    // Solid and always the same periwinkle wash — no gradient.
+    // Solid and always the same periwinkle wash — no gradient. It shows
+    // either side of `frame` on anything wider than a phone.
     backgroundColor: colors.yellow,
+  },
+  // This app is designed at phone width. On a tablet or a notebook browser
+  // a full-width layout would stretch every card and line of text absurdly
+  // wide, so the whole shell — screens and tab bar together — is capped and
+  // centred instead of letting it fill the window.
+  frame: {
+    flex: 1,
+    width: '100%',
+    maxWidth: 520,
+    alignSelf: 'center',
   },
   loading: {
     alignItems: 'center',
