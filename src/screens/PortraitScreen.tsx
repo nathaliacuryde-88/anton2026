@@ -107,14 +107,16 @@ export default function PortraitScreen({ chart }: { chart: Chart }) {
                   </Parallax>
                 )}
                 {section.icon && (
-                  <ThemeIcon
-                    kind={section.icon}
-                    size={48}
-                    style={[
-                      styles.sectionIllu,
-                      { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
-                    ]}
-                  />
+                  <Breathe periodMs={2400} scale={1.1}>
+                    <ThemeIcon
+                      kind={section.icon}
+                      size={48}
+                      style={[
+                        styles.sectionIllu,
+                        { transform: [{ rotate: reverse ? '6deg' : '-6deg' }] },
+                      ]}
+                    />
+                  </Breathe>
                 )}
                 <View style={styles.sectionHeadText}>
                   <Eyebrow color={colors.accent}>{section.heading}</Eyebrow>
