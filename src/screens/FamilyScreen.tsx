@@ -31,13 +31,6 @@ export default function FamilyScreen({ chart }: { chart: Chart }) {
 
       <View style={styles.stackWrap}>
         <PhotoStack size={stackSize} />
-        <Body muted size={12} style={styles.stackHint}>
-          {lang === 'en'
-            ? 'Tap through, or swipe'
-            : lang === 'de'
-              ? 'Durchtippen oder wischen'
-              : 'Toque para passar, ou deslize'}
-        </Body>
       </View>
 
       {/* The framing comes before anything else: this page is about him, not
@@ -96,10 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing(1.5),
     marginBottom: spacing(3),
-  },
-  stackHint: {
-    marginTop: spacing(1.5),
-    letterSpacing: 0.5,
   },
   section: {
     marginBottom: spacing(3.5),

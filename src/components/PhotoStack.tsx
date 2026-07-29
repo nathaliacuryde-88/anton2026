@@ -27,35 +27,84 @@ const FRAME_PAD_BOTTOM = spacing(2);
 
 /**
  * A small pile of real photos — the parents with Anton — that advances on
- * its own every few seconds, and can also be swiped through by hand. Only
- * the front card is ever draggable; the rest sit still underneath at a
- * fixed tilt until their turn comes to the top.
+ * its own every few seconds, and can also be tapped or swiped through by
+ * hand. A tap (or the automatic advance) tucks the front print under the
+ * pile; only a deliberate sideways drag sends it flying off in that
+ * direction. Only the front card is ever draggable — the rest sit still
+ * underneath at a fixed tilt until their turn comes to the top.
  */
 export default function PhotoStack({ size = 280 }: { size?: number }) {
   const [order, setOrder] = useState(() => PHOTOS.map((_, i) => i));
+  const [dropping, setDropping] = useState(false);
   const pan = useRef(new Animated.ValueXY()).current;
+  const dropScale = useRef(new Animated.Value(1)).current;
   const paused = useRef(false);
   const height = size * 1.2;
 
-  const advance = (direction: 1 | -1) => {
+  const cycle = () => {
+    pan.setValue({ x: 0, y: 0 });
+    dropScale.setValue(1);
+    setDropping(false);
+    setOrder((o) => [...o.slice(1), o[0]]);
+  };
+
+  /** Tucks the front print down and behind the pile — the tap gesture, and
+   * the automatic advance. */
+  const dropUnder = () => {
+    setDropping(true);
+    Animated.parallel([
+      Animated.timing(pan, {
+        toValue: { x: 0, y: size * 0.24 },
+        duration: 280,
+        easing: Easing.in(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.timing(dropScale, {
+        toValue: 0.86,
+        duration: 280,
+        easing: Easing.in(Easing.cubic),
+        useNativeDriver: true,
+      }),
+    ]).start(cycle);
+  };
+
+  /** Sends the front print flying sideways — a deliberate swipe only. */
+  const flingAway = (direction: 1 | -1) => {
     Animated.timing(pan, {
       toValue: { x: direction * size * 1.6, y: 50 },
       duration: 300,
       easing: Easing.in(Easing.cubic),
       useNativeDriver: true,
-    }).start(() => {
-      pan.setValue({ x: 0, y: 0 });
-      setOrder((o) => [...o.slice(1), o[0]]);
-    });
+    }).start(cycle);
   };
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (!paused.current) advance(-1);
+      if (!paused.current) dropUnder();
     }, 3800);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // A little unprompted wiggle shortly after the stack appears, so a tap
+  // reads as available without a word of explanation.
+  const hint = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.delay(1100),
+        Animated.timing(hint, { toValue: 1, duration: 160, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+        Animated.timing(hint, { toValue: 0, duration: 220, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+        Animated.delay(160),
+        Animated.timing(hint, { toValue: 1, duration: 160, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+        Animated.timing(hint, { toValue: 0, duration: 220, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      ]),
+      { iterations: 2 },
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [hint]);
+  const hintScale = hint.interpolate({ inputRange: [0, 1], outputRange: [1, 0.95] });
 
   const panResponder = useRef(
     PanResponder.create({
@@ -70,8 +119,10 @@ export default function PhotoStack({ size = 280 }: { size?: number }) {
       onPanResponderRelease: (_, g) => {
         paused.current = false;
         const isTap = Math.abs(g.dx) < 5 && Math.abs(g.dy) < 5;
-        if (isTap || Math.abs(g.dx) > size * 0.25) {
-          advance(isTap || g.dx < 0 ? -1 : 1);
+        if (isTap) {
+          dropUnder();
+        } else if (Math.abs(g.dx) > size * 0.25) {
+          flingAway(g.dx > 0 ? 1 : -1);
         } else {
           Animated.spring(pan, {
             toValue: { x: 0, y: 0 },
@@ -103,9 +154,15 @@ export default function PhotoStack({ size = 280 }: { size?: number }) {
               {
                 width: size,
                 height,
-                zIndex: SLOTS.length - slot,
+                // While dropping under, the front card sinks behind the
+                // other two instead of staying on top of them.
+                zIndex: isFront && dropping ? 0 : SLOTS.length - slot,
                 transform: isFront
-                  ? [...pan.getTranslateTransform(), { rotate: dragRotate }]
+                  ? [
+                      ...pan.getTranslateTransform(),
+                      { rotate: dragRotate },
+                      { scale: Animated.multiply(dropScale, hintScale) },
+                    ]
                   : [
                       { translateY: base.translateY },
                       { rotate: base.rotate },
