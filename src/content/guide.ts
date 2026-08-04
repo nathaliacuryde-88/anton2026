@@ -18,9 +18,9 @@ export const GUIDE = {
     de: 'Was sehe ich hier?',
   },
   chartBody: {
-    en: 'This circle is the sky over Filderstadt at 12:45 on the day Anton was born, flattened onto paper. The outer ring is the twelve zodiac signs. The symbols inside are the Sun, the Moon and the planets, each sitting where it actually stood in the sky at that minute. The faint lines across the middle join planets that were at meaningful angles to each other.',
-    pt: 'Este círculo é o céu sobre Filderstadt às 12h45 do dia em que Anton nasceu, achatado no papel. O anel de fora são os doze signos. Os símbolos de dentro são o Sol, a Lua e os planetas, cada um no lugar onde realmente estava naquele minuto. As linhas finas no meio ligam planetas que formavam ângulos significativos entre si.',
-    de: 'Dieser Kreis ist der Himmel über Filderstadt um 12:45 Uhr am Tag von Antons Geburt, flach auf Papier gebracht. Der äußere Ring sind die zwölf Tierkreiszeichen. Die Symbole darin sind die Sonne, der Mond und die Planeten, jeder genau dort, wo er in diesem Moment am Himmel stand. Die feinen Linien in der Mitte verbinden Planeten, die in einem bedeutsamen Winkel zueinander standen.',
+    en: 'This circle is the sky over Filderstadt at 12:48 on the day Anton was born, flattened onto paper. The outer ring is the twelve zodiac signs. The symbols inside are the Sun, the Moon and the planets, each sitting where it actually stood in the sky at that minute. The faint lines across the middle join planets that were at meaningful angles to each other.',
+    pt: 'Este círculo é o céu sobre Filderstadt às 12h48 do dia em que Anton nasceu, achatado no papel. O anel de fora são os doze signos. Os símbolos de dentro são o Sol, a Lua e os planetas, cada um no lugar onde realmente estava naquele minuto. As linhas finas no meio ligam planetas que formavam ângulos significativos entre si.',
+    de: 'Dieser Kreis ist der Himmel über Filderstadt um 12:48 Uhr am Tag von Antons Geburt, flach auf Papier gebracht. Der äußere Ring sind die zwölf Tierkreiszeichen. Die Symbole darin sind die Sonne, der Mond und die Planeten, jeder genau dort, wo er in diesem Moment am Himmel stand. Die feinen Linien in der Mitte verbinden Planeten, die in einem bedeutsamen Winkel zueinander standen.',
   },
   degreesWhat: {
     en: 'Why "17° 56′ Libra"?',
@@ -245,9 +245,9 @@ export const GUIDE = {
     de: 'Über dieses Geschenk',
   },
   aboutProjectBody: {
-    en: 'Anton’s Sky is a small, exact gift: the real positions of the sun, the moon and every planet at 12:45 on 26 July 2026 — the minute Anton arrived — turned into something Re, Pippo and the whole family can sit down and read. Made and developed with love by Aunt Nath.',
-    pt: 'O Céu de Anton é um presente pequeno e exato: as posições reais do sol, da lua e de cada planeta às 12h45 de 26 de julho de 2026 — o minuto em que o Anton chegou — transformadas em algo que a Re, o Pippo e toda a família conseguem sentar e ler. Feito e desenvolvido com amor pela Tia Nath.',
-    de: 'Antons Himmel ist ein kleines, exaktes Geschenk: die echten Positionen von Sonne, Mond und jedem Planeten um 12:45 Uhr am 26. Juli 2026 — der Minute, in der Anton ankam — verwandelt in etwas, das Re, Pippo und die ganze Familie sich hinsetzen und lesen können. Mit Liebe gemacht und entwickelt von Tante Nath.',
+    en: 'Anton’s Sky is a small, exact gift: the real positions of the sun, the moon and every planet at 12:48 on 26 July 2026 — the minute Anton arrived — turned into something Re, Pippo and the whole family can sit down and read. Made and developed with love by Aunt Nath.',
+    pt: 'O Céu de Anton é um presente pequeno e exato: as posições reais do sol, da lua e de cada planeta às 12h48 de 26 de julho de 2026 — o minuto em que o Anton chegou — transformadas em algo que a Re, o Pippo e toda a família conseguem sentar e ler. Feito e desenvolvido com amor pela Tia Nath.',
+    de: 'Antons Himmel ist ein kleines, exaktes Geschenk: die echten Positionen von Sonne, Mond und jedem Planeten um 12:48 Uhr am 26. Juli 2026 — der Minute, in der Anton ankam — verwandelt in etwas, das Re, Pippo und die ganze Familie sich hinsetzen und lesen können. Mit Liebe gemacht und entwickelt von Tante Nath.',
   },
 
   // --- shared ------------------------------------------------------------

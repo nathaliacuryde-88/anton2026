@@ -231,10 +231,10 @@ export function buildPortrait(chart: Chart, lang: Lang): PortraitSection[] {
     heading: lang === 'en' ? 'And then' : lang === 'de' ? 'Und dann' : 'E então',
     paragraphs: [
       lang === 'en'
-        ? `None of this is an instruction manual, ${firstName}. The sky does not tell you who to be — it only says that on the 26th of July, 2026, at 12:45 in the afternoon, there was a particular arrangement of light above a particular town, and you were underneath it, brand new and entirely yourself.`
+        ? `None of this is an instruction manual, ${firstName}. The sky does not tell you who to be — it only says that on the 26th of July, 2026, at 12:48 in the afternoon, there was a particular arrangement of light above a particular town, and you were underneath it, brand new and entirely yourself.`
         : lang === 'de'
-          ? `Nichts davon ist eine Gebrauchsanweisung, ${firstName}. Der Himmel sagt dir nicht, wer du sein sollst — er sagt nur, dass am 26. Juli 2026, um 12:45 Uhr mittags, eine ganz bestimmte Anordnung von Licht über einer ganz bestimmten Stadt herrschte, und du warst darunter, brandneu und ganz du selbst.`
-          : `Nada disso é um manual de instruções, ${firstName}. O céu não diz quem você deve ser — ele só conta que, no dia 26 de julho de 2026, às 12h45 da tarde, havia um arranjo muito particular de luz acima de uma cidade muito particular, e você estava embaixo dele, novinho e inteiramente você.`,
+          ? `Nichts davon ist eine Gebrauchsanweisung, ${firstName}. Der Himmel sagt dir nicht, wer du sein sollst — er sagt nur, dass am 26. Juli 2026, um 12:48 Uhr mittags, eine ganz bestimmte Anordnung von Licht über einer ganz bestimmten Stadt herrschte, und du warst darunter, brandneu und ganz du selbst.`
+          : `Nada disso é um manual de instruções, ${firstName}. O céu não diz quem você deve ser — ele só conta que, no dia 26 de julho de 2026, às 12h48 da tarde, havia um arranjo muito particular de luz acima de uma cidade muito particular, e você estava embaixo dele, novinho e inteiramente você.`,
       lang === 'en'
         ? 'Welcome. You were very, very wanted.'
         : lang === 'de'
